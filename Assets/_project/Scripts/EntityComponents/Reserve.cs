@@ -32,7 +32,7 @@ namespace EntityComponents
 
         public ReserveMark(IntReference intReference, UnityEvent onReachingEvent)
         {
-            intReference = intReference;
+            value = intReference;
             onReaching = onReachingEvent;
             InspectorName = intReference.Value.ToString();
         }
@@ -81,6 +81,10 @@ namespace EntityComponents
 
         private void OnValidate()
         {
+            if (marks == null)
+            {
+                return;
+            }
             foreach (var mark in marks)
             {
                 mark.InspectorName = mark.Value.ToString();
