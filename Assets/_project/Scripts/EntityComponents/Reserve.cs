@@ -91,24 +91,6 @@ namespace EntityComponents
             }
         }
 
-        private void DoAction(ReserveAction action)
-        {
-            switch (action)
-            {
-                case ReserveAction.None:
-                    break;
-                case ReserveAction.Empty:
-                    Empty();
-                    break;
-                case ReserveAction.Fill:
-                    Fill();
-                    break;
-                case ReserveAction.UseInitialValue:
-                    SetValue(_initialValue);
-                    break;
-            }
-        }
-
         public void LockOnCurrentValue() => LockOnValue(_currentValue);
 
         public void LockOnValue(int value)
@@ -217,6 +199,24 @@ namespace EntityComponents
             foreach (var mark in marks.Where(mark => newValue == mark.Value))
             {
                 mark.OnReaching.Invoke();
+            }
+        }
+
+        private void DoAction(ReserveAction action)
+        {
+            switch (action)
+            {
+                case ReserveAction.None:
+                    break;
+                case ReserveAction.Empty:
+                    Empty();
+                    break;
+                case ReserveAction.Fill:
+                    Fill();
+                    break;
+                case ReserveAction.UseInitialValue:
+                    SetValue(_initialValue);
+                    break;
             }
         }
     }
