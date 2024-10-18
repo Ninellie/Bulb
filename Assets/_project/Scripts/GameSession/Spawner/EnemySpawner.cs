@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
+using Core.Shapes;
 using Core.Variables.References;
-using EntityComponents.UnitComponents.EnemyComponents;
 using EntityComponents.UnitComponents.PlayerComponents;
 using UnityEngine;
 
@@ -15,7 +15,9 @@ namespace GameSession.Spawner
     public class EnemySpawner : MonoBehaviour
     {
         [SerializeField] private Vector2Reference _playerPosition;
+        [SerializeField] private GameObjectPlacer _gameObjectPlacer;
         [SerializeField] private EnemyPool _enemyPool;
+        [SerializeField] private bool _TryFindPoolAsChildObject;
         [Header("Spawn pattern settings")]
         [SerializeField] private SpawnDataPreset _spawnData;
         [SerializeField] private float _spawnInterval;
@@ -39,6 +41,10 @@ namespace GameSession.Spawner
 
         private void Awake()
         {
+            if (!_TryFindPoolAsChildObject)
+            {
+                return;
+            }
             _enemyPool = GetComponentInChildren<EnemyPool>();
         }
 
@@ -116,22 +122,23 @@ namespace GameSession.Spawner
         private void Spawn()
         {
             var enemy = _enemyPool.Get();
-            var radius = _circle.GetRadiusInscribedAroundTheCamera();
-            radius += enemy.GetComponent<CircleCollider2D>().radius;
-            var angle = _circle.GetRandomAngle();
-            var enemyPos = _circle.GetPointOn(radius, _playerPosition, angle);
-            enemy.EnemyTransform.position = enemyPos;
+            //var radius = _circle.GetRadiusInscribedAroundTheCamera();
+            //radius += enemy.GetComponent<CircleCollider2D>().radius;
+            //var angle = _circle.GetRandomAngle();
+            //var enemyPos = _circle.GetPointOn(radius, _playerPosition, angle);
+            _gameObjectPlacer.PlaceObject(enemy.EnemyTransform);
+            //enemy.EnemyTransform.position = enemyPos;
             _spawnQueueSize--;
-            if (enemy.EnemySpriteType.EnemyType != EnemyType.AboveView) return;
-            RotateRigidbody2DToTarget(_playerPosition, enemy.EnemyRigidbody2D);
+            //if (enemy.EnemySpriteType.EnemyType != EnemyType.AboveView) return;
+            //RotateRigidbody2DToTarget(_playerPosition, enemy.EnemyRigidbody2D);
         }
 
-        private void RotateRigidbody2DToTarget(Vector2 targetPosition, Rigidbody2D rb2D)
-        {
-            var direction = rb2D.position - targetPosition;
-            var angle = (Mathf.Atan2(direction.y, direction.x) + Mathf.PI / 2) * Mathf.Rad2Deg;
-            rb2D.rotation = angle;
-            rb2D.SetRotation(angle);
-        }
+        // private void RotateRigidbody2DToTarget(Vector2 targetPosition, Rigidbody2D rb2D)
+        // {
+        //     var direction = rb2D.position - targetPosition;
+        //     var angle = (Mathf.Atan2(direction.y, direction.x) + Mathf.PI / 2) * Mathf.Rad2Deg;
+        //     rb2D.rotation = angle;
+        //     rb2D.SetRotation(angle);
+        // }
     }
 }
