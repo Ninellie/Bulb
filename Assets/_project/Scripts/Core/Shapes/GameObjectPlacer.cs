@@ -14,6 +14,9 @@ namespace Core.Shapes
         [ContextMenuItem(nameof(CutRectangle),nameof(CutRectangle))]
         [SerializeReference] private List<IShape> cutShapes;
 
+        [Tooltip("How point generated")]
+        [SerializeField] private CheckMode checkMode;
+        
         public void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.green;
@@ -51,7 +54,7 @@ namespace Core.Shapes
         public void PlaceObject(Transform objectTransform)
         {
             // Получает случайную точку на фигуре c учётом вырезанных фигур
-            var point = RandomPointGenerator.GetRandomPoint(addShapes, cutShapes, CheckMode.On);
+            var point = RandomPointGenerator.GetRandomPoint(addShapes, cutShapes, checkMode);
             
             if (point == null)
             {
