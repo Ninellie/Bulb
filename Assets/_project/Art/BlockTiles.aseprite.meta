@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6035983d594dc114d8e6dc5d94a1f4ee
+guid: 0c4f3060282847349b353c7247203b75
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -32,7 +32,7 @@ ScriptedImporter:
     sRGBTexture: 1
     spriteMode: 2
     spriteExtrude: 1
-    spriteMeshType: 0
+    spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
     spritePixelsToUnits: 1
@@ -76,7 +76,7 @@ ScriptedImporter:
     layerImportMode: 1
     defaultPivotSpace: 0
     defaultPivotAlignment: 0
-    customPivotPosition: {x: 0.35, y: 0.5}
+    customPivotPosition: {x: 0.5, y: 0.5}
     mosaicPadding: 4
     spritePadding: 0
     generateModelPrefab: 1
@@ -89,7 +89,7 @@ ScriptedImporter:
     layerImportMode: 1
     defaultPivotSpace: 0
     defaultPivotAlignment: 0
-    customPivotPosition: {x: 0.35, y: 0.5}
+    customPivotPosition: {x: 0.5, y: 0.5}
     mosaicPadding: 4
     spritePadding: 0
     generateModelPrefab: 1
@@ -97,7 +97,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638650658770034597
+  platformSettingsDirtyTick: 638650658770024532
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -121,18 +121,18 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: Bulb 1_Frame_0
+  - name: BlockTiles_Frame_0
     originalName: 
-    pivot: {x: 0.516129, y: 0.53333336}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 31
-      height: 30
-    spriteID: 4151d2f547f82e14d9f8a0929a903377
+      width: 8
+      height: 8
+    spriteID: b4fcf5ca686efdb4fb7e22e7df7882ad
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -141,18 +141,18 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
-  - name: Bulb 1_Frame_1
+  - name: BlockTiles_Frame_1
     originalName: 
-    pivot: {x: 0.516129, y: 0.53333336}
+    pivot: {x: 0.5, y: 0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
-      y: 42
-      width: 31
-      height: 30
-    spriteID: 1405e0ca5afbe0b4bba74435cc64eb00
+      y: 20
+      width: 8
+      height: 8
+    spriteID: 66415ec1b3e401744bcf9695851671b9
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -160,34 +160,63 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 42}
+    uvTransform: {x: 4, y: 20}
+  - name: BlockTiles_Frame_2
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 20
+      y: 4
+      width: 8
+      height: 8
+    spriteID: c2309534b60ccbc4ca5185a22d3ce730
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 20, y: 4}
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 1925196626
-    name: Bulb 1
+    guid: -70677436
+    name: BlockTiles
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Bulb 1_Frame_0
+    - name: BlockTiles_Frame_0
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
         x: 0
         y: 0
-        width: 31
-        height: 30
-      spriteId: 4151d2f547f82e14d9f8a0929a903377
-    - name: Bulb 1_Frame_1
+        width: 8
+        height: 8
+      spriteId: b4fcf5ca686efdb4fb7e22e7df7882ad
+    - name: BlockTiles_Frame_1
       frameIndex: 1
       additiveSortOrder: 0
       cellRect:
         x: 0
         y: 0
-        width: 31
-        height: 30
-      spriteId: 1405e0ca5afbe0b4bba74435cc64eb00
+        width: 8
+        height: 8
+      spriteId: 66415ec1b3e401744bcf9695851671b9
+    - name: BlockTiles_Frame_2
+      frameIndex: 2
+      additiveSortOrder: 0
+      cellRect:
+        x: 0
+        y: 0
+        width: 8
+        height: 8
+      spriteId: c2309534b60ccbc4ca5185a22d3ce730
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -230,4 +259,4 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 32, y: 32}
+  canvasSize: {x: 8, y: 8}
