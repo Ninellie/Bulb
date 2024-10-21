@@ -13,26 +13,26 @@ MonoBehaviour:
   m_Name: New spawn data
   m_EditorClassIdentifier: 
   _description: 
-  _fulfillSeconds: 1
+  _fulfillSeconds: 4
   _intervalMultiplier: 1
-  _firstWaveSizeMultiplier: 3
+  _firstWaveSizeMultiplier: 1
   _maxEnemiesOnScreen:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 50
-      inSlope: 0.083333336
-      outSlope: 0.083333336
+      value: 3
+      inSlope: 0.045
+      outSlope: 0.045
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 600
-      value: 100
-      inSlope: 0.083333336
-      outSlope: 0.083333336
+      value: 30
+      inSlope: 0.045
+      outSlope: 0.045
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
