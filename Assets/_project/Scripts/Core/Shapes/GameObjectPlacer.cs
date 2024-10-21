@@ -17,6 +17,7 @@ namespace Core.Shapes
         [Tooltip("How point generated")]
         [SerializeField] private CheckMode checkMode;
         
+        
         public void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.green;
@@ -76,12 +77,12 @@ namespace Core.Shapes
         
         private void AddCircle()
         {
-            AddShape(new Circle(0, 0, 0));
+            AddShape(new Circle(0, Vector2.zero));
         }
         
         private void CutCircle()
         {
-            CutShape(new Circle(0, 0, 0));
+            CutShape(new Circle(0, Vector2.zero));
         }
         
         private void AddRectangle()
