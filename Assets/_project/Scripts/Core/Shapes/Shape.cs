@@ -11,22 +11,19 @@ namespace Core.Shapes
     [Serializable]
     public class Circle : IShape
     {
+        [HideInInspector] public string name;
+        
         [SerializeField] private float radius;
         [SerializeField] private Vector2 center;
 
         public Vector2 Center => center;
         public float Radius => radius;
-
-        public Circle(float radius, float centerX, float centerY)
-        {
-            this.radius = radius;
-            center = new Vector2(centerX, centerY);
-        }
-
+        
         public Circle(float radius, Vector2 center)
         {
             this.radius = radius;
             this.center = center;
+            name = nameof(Circle);
         }
 
         public virtual bool Contains(Vector2 point)
@@ -40,10 +37,6 @@ namespace Core.Shapes
 
     public class Circumference : Circle
     {
-        public Circumference(float radius, float centerX, float centerY) : base(radius, centerX, centerY)
-        {
-        }
-
         public Circumference(float radius, Vector2 center) : base(radius, center)
         {
         }
@@ -60,13 +53,16 @@ namespace Core.Shapes
     [Serializable]
     public class Rectangle : IShape
     {
+        [HideInInspector] public string name;
+        
         [SerializeField] private Rect rect;
-
+        
         public Rect Rect => rect;
 
         public Rectangle(Rect rect)
         {
             this.rect = rect;
+            name = nameof(Rectangle);
         }
 
         public bool Contains(Vector2 point)
