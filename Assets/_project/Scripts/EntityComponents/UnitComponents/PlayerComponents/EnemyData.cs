@@ -1,9 +1,11 @@
-using System;
 using EntityComponents.UnitComponents.EnemyComponents;
 using UnityEngine;
 
 namespace EntityComponents.UnitComponents.PlayerComponents
 {
+    /// <summary>
+    /// This class must be attached to root enemy's gameobject
+    /// </summary>
     public class EnemyData : MonoBehaviour
     {
         [SerializeField] private Transform enemyTransform;
@@ -14,18 +16,25 @@ namespace EntityComponents.UnitComponents.PlayerComponents
         public Rigidbody2D EnemyRigidbody2D => enemyRigidbody2D;
         public SpriteType EnemySpriteType => enemySpriteType;
         
-        private void Awake()
+        private void Awake() => GetDependencies();
+
+        private void OnValidate() => GetDependencies();
+
+        private void GetDependencies()
         {
-            if (enemyTransform == null) enemyTransform = gameObject.transform;
-            if (enemyRigidbody2D == null) enemyRigidbody2D = GetComponent<Rigidbody2D>();
-            if (enemySpriteType == null) enemySpriteType = GetComponent<SpriteType>();
+            if (enemyTransform == null) enemyTransform = GetComponentTypeInChildren<Transform>();
+            if (enemyRigidbody2D == null) enemyRigidbody2D = GetComponentTypeInChildren<Rigidbody2D>();
+            if (enemySpriteType == null) enemySpriteType = GetComponentTypeInChildren<SpriteType>();
         }
         
-        private void OnValidate()
+        private T GetComponentTypeInChildren<T>()
         {
-            if (enemyTransform == null) enemyTransform = gameObject.transform;
-            if (enemyRigidbody2D == null) enemyRigidbody2D = GetComponent<Rigidbody2D>();
-            if (enemySpriteType == null) enemySpriteType = GetComponent<SpriteType>();
+            if (!TryGetComponent(out T componentType))
+            {
+                componentType = GetComponentInChildren<T>();
+            }
+            
+            return componentType;
         }
     }
 }
