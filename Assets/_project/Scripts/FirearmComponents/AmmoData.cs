@@ -1,4 +1,5 @@
 using System;
+using Core.Variables.References;
 using EntityComponents.UnitComponents.PlayerComponents;
 
 namespace FirearmComponents
@@ -9,7 +10,7 @@ namespace FirearmComponents
     [Serializable]
     public class AmmoData
     {
-        public ProjectilePool ammoPool;
+        public ProjectilePoolReference ammoPool;
         public int weight;
     }
 }

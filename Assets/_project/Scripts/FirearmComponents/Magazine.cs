@@ -22,7 +22,7 @@ namespace FirearmComponents
             {
                 limit += data.weight;
                 if (limit < rand) continue;
-                return data.ammoPool.Get();
+                return data.ammoPool.Value.Get();
             }
 
             return null;
