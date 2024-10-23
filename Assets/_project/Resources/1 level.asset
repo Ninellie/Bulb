@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a3431ac4d384f1daefaf8628d9b0375, type: 3}
-  m_Name: New spawn data
+  m_Name: 1 level
   m_EditorClassIdentifier: 
   _description: 
   _fulfillSeconds: 4
