@@ -6,6 +6,7 @@ namespace Core.Variables.References.Editor
 {
     [CustomPropertyDrawer(typeof(GameObjectReference))]
     [CustomPropertyDrawer(typeof(TransformPoolReference))]
+    [CustomPropertyDrawer(typeof(ProjectilePoolReference))]
     public class GameObjectReferenceDrawer : PropertyDrawer
     {
         /// <summary>
