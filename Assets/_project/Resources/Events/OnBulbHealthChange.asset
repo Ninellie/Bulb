@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c93ff24f4f442769037ec54d1e42af6, type: 3}
-  m_Name: ObBulbHealthChange
+  m_Name: OnBulbHealthChange
   m_EditorClassIdentifier: 
