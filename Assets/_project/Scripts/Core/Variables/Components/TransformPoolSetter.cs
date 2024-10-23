@@ -12,14 +12,4 @@ namespace Core.Variables.Components
             _variable.value = GetComponent<TransformPool>();
         }
     }
-    
-    public class ProjectilePoolSetter : MonoBehaviour
-    {
-        [SerializeField] private ProjectilePoolVariable _variable;
-
-        private void Awake()
-        {
-            _variable.value = GetComponent<ProjectilePool>();
-        }
-    }
 }
