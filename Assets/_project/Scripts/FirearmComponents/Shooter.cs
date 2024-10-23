@@ -11,17 +11,20 @@ namespace FirearmComponents
     public class Shooter : MonoBehaviour
     {
         [Header("Ammo")]
-        [SerializeField] private Magazine _magazine;
+        [SerializeField] private Magazine magazine;
 
         [Header("Aim")]
-        [SerializeField] private Aim _aim;
+        [SerializeField] private Aim aim;
 
         [Space]
         [Header("Stats")]
-        [SerializeField] private FloatReference _projectilesPerAttack;
-        [SerializeField] private FloatReference _projectileSpread;
-        [SerializeField] private bool _roundShoot;
-        [SerializeField] private bool _randomAimDirection;
+        [SerializeField] private FloatReference projectilesPerAttack;
+        [Tooltip("Possible deviation of the projectile's direction from the target in degrees")]
+        [SerializeField] private FloatReference projectileSpread;
+        [Tooltip("When fired, projectiles will be distributed in a circle with equal intervals in degrees. The Spread stat no longer has any effect.")]
+        [SerializeField] private bool roundShoot;
+        [Tooltip("The direction of the shot will always be random. The Spread stat still has an effect.")]
+        [SerializeField] private bool randomAimDirection;
 
         private Transform Transform
         {
@@ -36,35 +39,33 @@ namespace FirearmComponents
         {
             get
             {
-                if(_aim != null) return _aim;
-                _aim = GetComponent<Aim>();
-                return _aim;
+                if(aim != null) return aim;
+                aim = GetComponent<Aim>();
+                return aim;
             }
         }
-
         private Magazine Magazine
         {
             get
             {
-                if(_magazine != null) return _magazine;
-                _magazine = GetComponent<Magazine>();
-                return _magazine;
+                if(magazine != null) return magazine;
+                magazine = GetComponent<Magazine>();
+                return magazine;
             }
         }
-        private Transform _transform;
         
-
         private Vector2 _shootDirection;
+        private Transform _transform;
 
         public void Shoot(int projectileNumber)
         {
-            _shootDirection = _randomAimDirection ? Random.onUnitSphere : Aim.GetDirection();
-            var projSpread = _roundShoot ? 360f : _projectileSpread.Value;
+            _shootDirection = randomAimDirection ? Random.onUnitSphere : Aim.GetDirection();
+            var projSpread = roundShoot ? 360f : projectileSpread.Value;
             var fireAngle = projSpread * (projectileNumber - 1);
             var halfFireAngleRad = fireAngle * 0.5f * Mathf.Deg2Rad;
             var leftDirection = MathFirearm.Rotate(_shootDirection, -halfFireAngleRad);
             var actualShotDirection = leftDirection;
-            var launchAngle = _roundShoot ? 360f / projectileNumber : _projectileSpread;
+            var launchAngle = roundShoot ? 360f / projectileNumber : projectileSpread;
             launchAngle *= Mathf.Deg2Rad;
 
             for (int i = 0; i < projectileNumber; i++)
@@ -83,7 +84,7 @@ namespace FirearmComponents
 
         public void Shoot()
         {
-            Shoot(_projectilesPerAttack);
+            Shoot(projectilesPerAttack);
         }
     }
 }

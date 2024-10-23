@@ -14,7 +14,7 @@ namespace FirearmComponents
         [Space]
         [Header("Stats")]
         [SerializeField] private FloatReference radius;
-        [SerializeField] private bool inCamBounds;
+        [SerializeField] private bool infiniteRadius; // previously "inCamBounds"
         
         private Transform Transform
         {
@@ -36,12 +36,7 @@ namespace FirearmComponents
 
         private void OnDrawGizmos()
         {
-            if (radius == null)
-            {
-                return;
-            }
-
-            if (radius.variable == null)
+            if (!radius.useConstant && radius.variable == null)
             {
                 return;
             }
@@ -77,7 +72,7 @@ namespace FirearmComponents
                 return;
             }
 
-            var nearestTarget = inCamBounds ?
+            var nearestTarget = infiniteRadius ?
                 targets.GetNearestToPosition(Transform.position) :
                 targets.GetNearestToCenterInCircle(Transform.position, radius);
 

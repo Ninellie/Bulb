@@ -72,7 +72,7 @@ namespace EntityComponents.UnitComponents.EnemyComponents
 
         private void CollideWithProjectile(Collision2D collision2D, int damage, float knockbackPower)
         {
-            _health.TakeDamage(damage);
+            _health.Decrease(damage);
             var dropPosition = GetClosestPointOnCircle(collision2D.transform.position);
             DropDamagePopup(damage, dropPosition);
 

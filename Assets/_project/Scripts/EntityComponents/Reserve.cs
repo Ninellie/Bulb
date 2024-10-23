@@ -123,7 +123,7 @@ namespace EntityComponents
             SetValue(nextValue);
         }
 
-        public void TakeDamage(int amount)
+        public void Decrease(int amount)
         {
             if (IsEmpty)
             {

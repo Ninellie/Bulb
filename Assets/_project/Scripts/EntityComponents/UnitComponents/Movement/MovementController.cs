@@ -73,10 +73,24 @@ namespace EntityComponents.UnitComponents.Movement
 
         protected void OnDrawGizmos()
         {
+            if (!speed.useConstant && speed.variable == null)
+            {
+                return;
+            }
+            if (!_maxSpeed.useConstant && _maxSpeed.variable == null)
+            { 
+                return;   
+            }
+            if (!minSpeed.useConstant && minSpeed.variable == null)
+            {
+                return;
+            }
+            
             Gizmos.color = Color.red;
-            Gizmos.DrawLine(_transform.position, Velocity + (Vector2)_transform.position);
+            var position = transform.position;
+            Gizmos.DrawLine(position, Velocity + (Vector2)position);
             Gizmos.color = Color.magenta;
-            Gizmos.DrawLine(_transform.position, MovementVelocity + (Vector2)_transform.position);
+            Gizmos.DrawLine(position, MovementVelocity + (Vector2)position);
         }
 
         public Vector2 GetRawMovementDirection() => RawMovementDirection;

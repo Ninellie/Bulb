@@ -165,7 +165,7 @@ namespace EntityComponents.UnitComponents.EnemyComponents
 
         private void TakeDamage(int damageAmount)
         {
-            _reserve.TakeDamage(damageAmount);
+            _reserve.Decrease(damageAmount);
             if (!_reserve.IsEmpty) return;
             Death();
         }
