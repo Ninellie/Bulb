@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Core.Variables
 {
-    [CreateAssetMenu(fileName = "New Transform Pool Variable", menuName = "Variables/Transform Pool", order = 51)]
+    [CreateAssetMenu(fileName = "New Projectile Pool Variable", menuName = "Variables/Projectile Pool", order = 51)]
     public class ProjectilePoolVariable : ScriptableObject
     {
 #if UNITY_EDITOR
