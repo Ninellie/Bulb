@@ -8,34 +8,35 @@ using UnityEngine;
 
 namespace FirearmComponents
 {
-    public class PlayerFirearm : MonoBehaviour
+    public class Firearm : MonoBehaviour
     {
         [Space] [Header("Inner components")]
-        [SerializeField] private Transform _myTransform;
-        [SerializeField] private MagazineReserve _magazineReserve;
+        [SerializeField] private MagazineReserve magazineReserve;
         [Space] [Header("Settings")]
-        [SerializeField] private StackPool _ammoPool;
-        [SerializeField] private AimMode _aimMode;
-        [SerializeField] private Vector2Reference _selfAimDirection;
-        [SerializeField] private PlayerTargetRuntimeSet _visibleEnemies;
+        [SerializeField] private StackPool ammoPool;
+        [SerializeField] private AimMode aimMode;
+        [SerializeField] private Vector2Reference selfAimDirection;
+        [SerializeField] private TargetRuntimeSet visibleEnemies;
         [Space] [Header("Stats")]
-        [SerializeField] private FloatReference _attackSpeed;
-        [SerializeField] private FloatReference _projectilesPerAttack;
-        [SerializeField] private FloatReference _maxShootDeflectionAngle;
+        [SerializeField] private FloatReference attackSpeed;
+        [SerializeField] private FloatReference projectilesPerAttack;
+        [SerializeField] private FloatReference maxShootDeflectionAngle;
         [Space] [Header("Events")]
-        [SerializeField] private GameEvent _onShoot;
+        [SerializeField] private GameEvent onShoot;
 
         public bool OnCoolDown => _coolDownTimer > 0;
         public bool CanShoot => _coolDownTimer <= 0
-                                && _magazineReserve.Value > 0
-                                && !_magazineReserve.OnReload;
+                                && magazineReserve.Value > 0
+                                && !magazineReserve.OnReload;
         private float _coolDownTimer;
-        private PlayerTarget _currentTarget;
+        private Target _currentTarget;
+        
+        private Transform _transform;
 
         private void Awake()
         {
-            if (_myTransform == null) _myTransform = transform;
-            if (_magazineReserve == null) _magazineReserve = GetComponent<MagazineReserve>();
+            if (_transform == null) _transform = transform;
+            if (magazineReserve == null) magazineReserve = GetComponent<MagazineReserve>();
         }
 
         private void FixedUpdate()
@@ -55,23 +56,23 @@ namespace FirearmComponents
 
         public void ChangeAimMode()
         {
-            if (_aimMode == AimMode.AutoAim)
+            if (aimMode == AimMode.AutoAim)
             {
-                _aimMode = AimMode.SelfAim;
+                aimMode = AimMode.SelfAim;
             }
             else
             {
-                _aimMode = AimMode.AutoAim;
+                aimMode = AimMode.AutoAim;
             }
         }
 
         private void Shoot()
         {
-            _magazineReserve.Pop();
+            magazineReserve.Pop();
 
             var direction = GetShotDirection();
-            var projSpread = _maxShootDeflectionAngle;
-            var projCount = (int)_projectilesPerAttack;
+            var projSpread = maxShootDeflectionAngle;
+            var projCount = (int)projectilesPerAttack;
             var fireAngle = projSpread * (projCount - 1);
             var halfFireAngleRad = fireAngle * 0.5f * Mathf.Deg2Rad;
             var leftDirection = MathFirearm.Rotate(direction, -halfFireAngleRad);
@@ -79,40 +80,40 @@ namespace FirearmComponents
 
             for (int i = 0; i < projCount; i++)
             {
-                var projectile = _ammoPool.Get();
-                projectile.transform.SetPositionAndRotation(_myTransform.position, _myTransform.rotation);
+                var projectile = ammoPool.Get();
+                projectile.transform.SetPositionAndRotation(_transform.position, _transform.rotation);
                 var projectileMovementController = projectile.GetComponent<ProjectileMovementController>();
                 projectileMovementController.SetDirection(actualShotDirection);
-                var launchAngle = _maxShootDeflectionAngle * Mathf.Deg2Rad;
+                var launchAngle = maxShootDeflectionAngle * Mathf.Deg2Rad;
                 actualShotDirection = MathFirearm.Rotate(actualShotDirection, launchAngle);
             }
 
-            _coolDownTimer = 1f / _attackSpeed;
+            _coolDownTimer = 1f / attackSpeed;
         }
 
         private Vector2 GetShotDirection()
         {
-            if (_aimMode == AimMode.SelfAim)
+            if (aimMode == AimMode.SelfAim)
             {
-                return _selfAimDirection.Value;
+                return selfAimDirection.Value;
             }
 
             if (_currentTarget == null) return Random.insideUnitCircle;
-            Vector2 direction = _currentTarget.Transform.position - _myTransform.position;
+            Vector2 direction = _currentTarget.Transform.position - _transform.position;
             direction.Normalize();
             return direction;
         }
 
         private void UpdateTarget()
         {
-            if (_aimMode == AimMode.SelfAim)
+            if (aimMode == AimMode.SelfAim)
             {
                 if (_currentTarget == null) return;
-                _currentTarget.RemoveFromTarget();
+                _currentTarget.RemoveFromCurrent();
                 _currentTarget = null;
                 return;
             }
-            var nearestTarget = _visibleEnemies.GetNearestToPosition(_myTransform.position);
+            var nearestTarget = visibleEnemies.GetNearestToPosition(_transform.position);
             if (nearestTarget == null)
             {
                 _currentTarget = null;
@@ -121,10 +122,10 @@ namespace FirearmComponents
             if (_currentTarget != null)
             {
                 if (_currentTarget == nearestTarget) return;
-                _currentTarget.RemoveFromTarget();
+                _currentTarget.RemoveFromCurrent();
             }
             _currentTarget = nearestTarget;
-            _currentTarget.TakeAsTarget();
+            _currentTarget.TakeAsCurrent();
         }
     }
 }

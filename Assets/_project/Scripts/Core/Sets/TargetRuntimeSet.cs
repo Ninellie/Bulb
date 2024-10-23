@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Core.Sets
 {
-    [CreateAssetMenu(fileName = "New Player Target Set", menuName = "Sets/Player target", order = 51)]
-    public class PlayerTargetRuntimeSet : RuntimeSet<PlayerTarget>
+    [CreateAssetMenu(fileName = "New Target Set", menuName = "Sets/Target", order = 51)]
+    public class TargetRuntimeSet : RuntimeSet<Target>
     {
-        public PlayerTarget GetNearestToCenterInCircle(Vector2 center, float radius)
+        public Target GetNearestToCenterInCircle(Vector2 center, float radius)
         {
             var distanceToNearestTarget = Mathf.Infinity;
-            PlayerTarget nearestTarget = null;
+            Target nearestTarget = null;
             foreach (var target in items)
             {
                 var distance = Vector2.Distance(center, target.transform.position);
@@ -21,7 +21,7 @@ namespace Core.Sets
             return nearestTarget;
         }
 
-        public PlayerTarget GetNearestToPosition(Vector2 position)
+        public Target GetNearestToPosition(Vector2 position)
         {
             return GetNearestToCenterInCircle(position, Mathf.Infinity);
         }

@@ -7,18 +7,15 @@ namespace FirearmComponents
 {
     public class Aim : MonoBehaviour
     {
-        [SerializeField] private PlayerTargetRuntimeSet _targets; // TODO заменить на что-то нейтральное
-        [SerializeField] private bool _displayTarget;
-        [SerializeField] private AimMode _mode;
-        [SerializeField] private Vector2Reference _selfAimDirection;
+        [SerializeField] private TargetRuntimeSet targets;
+        [SerializeField] private bool displayTarget;
+        [SerializeField] private AimMode mode;
+        [SerializeField] private Vector2Reference selfAimDirection;
         [Space]
         [Header("Stats")]
-        [SerializeField] private FloatReference _radius;
-        [SerializeField] private bool _inCamBounds;
-
-        private Vector2 _direction;
-
-        private Transform _transform;
+        [SerializeField] private FloatReference radius;
+        [SerializeField] private bool inCamBounds;
+        
         private Transform Transform
         {
             get
@@ -28,8 +25,9 @@ namespace FirearmComponents
                 return _transform;
             }
         }
-
-        private PlayerTarget _target;
+        private Transform _transform;
+        private Vector2 _direction;
+        private Target _target;
 
         private void FixedUpdate()
         {
@@ -38,17 +36,27 @@ namespace FirearmComponents
 
         private void OnDrawGizmos()
         {
+            if (radius == null)
+            {
+                return;
+            }
+
+            if (radius.variable == null)
+            {
+                return;
+            }
+            
             Gizmos.DrawRay(Transform.position, _direction);
             Gizmos.color = Color.yellow;
-            Gizmos.DrawRay(_transform.position, Vector2.up * _radius);
-            Gizmos.DrawRay(_transform.position, Vector2.left * _radius);
-            Gizmos.DrawRay(_transform.position, Vector2.right * _radius);
-            Gizmos.DrawRay(_transform.position, Vector2.down * _radius);
+            Gizmos.DrawRay(_transform.position, Vector2.up * radius);
+            Gizmos.DrawRay(_transform.position, Vector2.left * radius);
+            Gizmos.DrawRay(_transform.position, Vector2.right * radius);
+            Gizmos.DrawRay(_transform.position, Vector2.down * radius);
         }
 
         public Vector2 GetDirection()
         {
-            if (_mode == AimMode.SelfAim) return _selfAimDirection.Value;
+            if (mode == AimMode.SelfAim) return selfAimDirection.Value;
             if (_target == null)
             {
                 _direction = Random.onUnitSphere;
@@ -60,18 +68,18 @@ namespace FirearmComponents
 
         private void UpdateTarget()
         {
-            if (_mode == AimMode.SelfAim)
+            if (mode == AimMode.SelfAim)
             {
                 if (_target == null) return;
                 
-                if (_displayTarget) _target.RemoveFromTarget();
+                if (displayTarget) _target.RemoveFromCurrent();
                 _target = null;
                 return;
             }
 
-            var nearestTarget = _inCamBounds ?
-                _targets.GetNearestToPosition(Transform.position) :
-                _targets.GetNearestToCenterInCircle(Transform.position, _radius);
+            var nearestTarget = inCamBounds ?
+                targets.GetNearestToPosition(Transform.position) :
+                targets.GetNearestToCenterInCircle(Transform.position, radius);
 
             if (nearestTarget == null)
             {
@@ -81,21 +89,21 @@ namespace FirearmComponents
             if (_target != null)
             {
                 if (_target == nearestTarget) return;
-                if (_displayTarget) _target.RemoveFromTarget();
+                if (displayTarget) _target.RemoveFromCurrent();
             }
             _target = nearestTarget;
-            if (_displayTarget) _target.TakeAsTarget();
+            if (displayTarget) _target.TakeAsCurrent();
         }
 
 
         public void ToggleMode()
         {
-            _mode = _mode == AimMode.AutoAim ? AimMode.SelfAim : AimMode.AutoAim;
+            mode = mode == AimMode.AutoAim ? AimMode.SelfAim : AimMode.AutoAim;
         }
 
         public void SetAutoMode(bool autoAim)
         {
-            _mode = autoAim ? AimMode.AutoAim : AimMode.SelfAim;
+            mode = autoAim ? AimMode.AutoAim : AimMode.SelfAim;
         }
     }
 }
