@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3762718968560434059}
   - component: {fileID: 355923174913735040}
+  - component: {fileID: 4574533703639804011}
   m_Layer: 0
   m_Name: View
   m_TagString: Untagged
@@ -85,6 +86,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4574533703639804011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990456286098183618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69161568a33f4f24be564335642a3079, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineColor: {fileID: 0}
+  runtimeSet: {fileID: 11400000, guid: a9e779dd927e56b45bc7ad090725991f, type: 2}
+  isCurrent: 0
 --- !u!1 &1929052959525092384
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +150,7 @@ MonoBehaviour:
     useConstant: 1
     constantValue: {fileID: 7083427802911091239}
     variable: {fileID: 0}
-  _startAction: 2
+  _startAction: 3
   _enableAction: 2
   _currentValue:
     useConstant: 1
@@ -199,9 +215,10 @@ GameObject:
   - component: {fileID: 6802506248150877320}
   - component: {fileID: 8365793198440870192}
   - component: {fileID: 8478787164976788216}
-  - component: {fileID: 4077713976265277074}
   - component: {fileID: 5168224361827347331}
   - component: {fileID: 4781642648414829457}
+  - component: {fileID: 4014634069294503614}
+  - component: {fileID: 2514036098665868714}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -327,48 +344,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 16
---- !u!114 &4077713976265277074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7083427802911091239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 175625d552c6486786fb44aa8b06f2b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _transform: {fileID: 4517694520203289234}
-  _tag: Player
-  _distanceLength:
-    useConstant: 1
-    constantValue: 0
-    variable: {fileID: 0}
-  _useSeparatePosition: 0
-  _position:
-    useConstant: 1
-    constantValue: {x: 0, y: 0}
-    variable: {fileID: 0}
-  _inverseDirection: 0
-  _onCollisionEnter2D:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5745416431248539046}
-        m_TargetAssemblyTypeName: EntityComponents.Reserve, Assembly-CSharp
-        m_MethodName: Empty
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _onCollisionStay2D:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &5168224361827347331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,6 +372,80 @@ MonoBehaviour:
   enemyTransform: {fileID: 4517694520203289234}
   enemyRigidbody2D: {fileID: 8365793198440870192}
   enemySpriteType: {fileID: 5168224361827347331}
+--- !u!114 &4014634069294503614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083427802911091239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf3c417e962f4b639bbf99deed9700ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _otherTag: Player
+  _invokeOnCollisionEnter2D: 1
+  _onCollisionEnter2D:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5745416431248539046}
+        m_TargetAssemblyTypeName: EntityComponents.Reserve, Assembly-CSharp
+        m_MethodName: Empty
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _invokeOnCollisionExit2D: 0
+  _onCollisionExit2D:
+    m_PersistentCalls:
+      m_Calls: []
+  _invokeOnCollisionStay2D: 0
+  _onCollisionStay2D:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2514036098665868714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7083427802911091239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf3c417e962f4b639bbf99deed9700ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _otherTag: SimpleBullet
+  _invokeOnCollisionEnter2D: 1
+  _onCollisionEnter2D:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5745416431248539046}
+        m_TargetAssemblyTypeName: EntityComponents.Reserve, Assembly-CSharp
+        m_MethodName: Decrease
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _invokeOnCollisionExit2D: 0
+  _onCollisionExit2D:
+    m_PersistentCalls:
+      m_Calls: []
+  _invokeOnCollisionStay2D: 0
+  _onCollisionStay2D:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7094236595912507334
 GameObject:
   m_ObjectHideFlags: 0

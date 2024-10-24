@@ -203,7 +203,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7574881556890877075}
         m_TargetAssemblyTypeName: EntityComponents.Reserve, Assembly-CSharp
-        m_MethodName: TakeDamage
+        m_MethodName: Decrease
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -275,7 +275,7 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 4.13}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 12
 --- !u!114 &3515403354961164315
