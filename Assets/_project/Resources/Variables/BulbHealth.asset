@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e666405040846e59de8ed4bbcb67bb3, type: 3}
-  m_Name: Bulb health
+  m_Name: BulbHealth
   m_EditorClassIdentifier: 
   developerDescription: 
   value: 100
