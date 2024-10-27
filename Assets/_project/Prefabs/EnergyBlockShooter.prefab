@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   magazine: {fileID: 176498815248891871}
   aim: {fileID: 8363039377303100617}
+  skipShootIfZeroDirection: 1
   projectilesPerAttack:
     useConstant: 1
     constantValue: 1
@@ -60,6 +61,7 @@ MonoBehaviour:
     variable: {fileID: 0}
   roundShoot: 0
   randomAimDirection: 0
+  onShoot: {fileID: 11400000, guid: be280fb18e2746744acfb92bc131ac28, type: 2}
 --- !u!114 &8363039377303100617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,6 +81,7 @@ MonoBehaviour:
     useConstant: 1
     constantValue: {x: 0, y: 0}
     variable: {fileID: 0}
+  zeroDirectionIfNoTargets: 1
   radius:
     useConstant: 1
     constantValue: 0
@@ -130,7 +133,7 @@ MonoBehaviour:
   <Suspended>k__BackingField: 0
   _castsPerSecond:
     useConstant: 1
-    constantValue: 0.5
+    constantValue: 0.2
     variable: {fileID: 0}
   _mode: 1
   _conditions: []
@@ -146,6 +149,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: cdded4bacabfdfd409b86ea9e7a537be, type: 2}
+        m_TargetAssemblyTypeName: Core.Variables.IntVariable, Assembly-CSharp
+        m_MethodName: ApplyChange
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: -1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
