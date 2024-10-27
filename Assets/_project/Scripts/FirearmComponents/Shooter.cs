@@ -1,4 +1,5 @@
 using System;
+using Core.Events;
 using Core.Variables.References;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -15,16 +16,20 @@ namespace FirearmComponents
 
         [Header("Aim")]
         [SerializeField] private Aim aim;
+        [SerializeField] private bool skipShootIfZeroDirection;
 
         [Space]
         [Header("Stats")]
         [SerializeField] private FloatReference projectilesPerAttack;
-        [Tooltip("Possible deviation of the projectile's direction from the target in degrees")]
+        [Tooltip("The distance between projectiles if there is more than one projectile")]
         [SerializeField] private FloatReference projectileSpread;
-        [Tooltip("When fired, projectiles will be distributed in a circle with equal intervals in degrees. The Spread stat no longer has any effect.")]
+        [Tooltip("When fired, the projectiles will be distributed around the circle at equal intervals in degrees." +
+                 " The first projectile will be aimed straight in the direction. The Spread stat no longer has any effect.")]
         [SerializeField] private bool roundShoot;
         [Tooltip("The direction of the shot will always be random. The Spread stat still has an effect.")]
         [SerializeField] private bool randomAimDirection;
+        [Space]
+        [SerializeField] private GameEvent onShoot;
 
         private Transform Transform
         {
@@ -60,6 +65,13 @@ namespace FirearmComponents
         public void Shoot(int projectileNumber)
         {
             _shootDirection = randomAimDirection ? Random.onUnitSphere : Aim.GetDirection();
+            if (_shootDirection == Vector2.zero)
+            {
+                if (skipShootIfZeroDirection)
+                {
+                    return;
+                }
+            }
             var projSpread = roundShoot ? 360f : projectileSpread.Value;
             var fireAngle = projSpread * (projectileNumber - 1);
             var halfFireAngleRad = fireAngle * 0.5f * Mathf.Deg2Rad;
@@ -79,6 +91,7 @@ namespace FirearmComponents
                 projectile.Trail.Clear();
                 projectile.SetDirection(actualShotDirection);
                 actualShotDirection = MathFirearm.Rotate(actualShotDirection, launchAngle);
+                onShoot.Raise();
             }
         }
 

@@ -11,6 +11,7 @@ namespace FirearmComponents
         [SerializeField] private bool displayTarget;
         [SerializeField] private AimMode mode;
         [SerializeField] private Vector2Reference selfAimDirection;
+        [SerializeField] private bool zeroDirectionIfNoTargets; // previously "inCamBounds"
         [Space]
         [Header("Stats")]
         [SerializeField] private FloatReference radius;
@@ -54,6 +55,10 @@ namespace FirearmComponents
             if (mode == AimMode.SelfAim) return selfAimDirection.Value;
             if (_target == null)
             {
+                if (zeroDirectionIfNoTargets)
+                {
+                    return Vector2.zero;
+                }
                 _direction = Random.onUnitSphere;
                 return _direction.normalized;
             }
