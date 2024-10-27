@@ -235,10 +235,10 @@ GameObject:
   - component: {fileID: 3154263688390426799}
   - component: {fileID: 7574881556890877075}
   - component: {fileID: 7237275366211070467}
-  - component: {fileID: 4803784940418778065}
   - component: {fileID: 4377705094974766143}
   - component: {fileID: 7827236913222008329}
   - component: {fileID: 3515403354961164315}
+  - component: {fileID: 8850034847608479949}
   m_Layer: 0
   m_Name: Bulb
   m_TagString: Player
@@ -398,48 +398,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _variable: {fileID: 11400000, guid: db1da9e3e213f364eb9d5d3b9a58c94c, type: 2}
   _transform: {fileID: 5858409844564707516}
---- !u!114 &4803784940418778065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6747070217415875695}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 175625d552c6486786fb44aa8b06f2b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _transform: {fileID: 5858409844564707516}
-  _tag: Enemy
-  _distanceLength:
-    useConstant: 1
-    constantValue: 0
-    variable: {fileID: 0}
-  _useSeparatePosition: 0
-  _position:
-    useConstant: 1
-    constantValue: {x: 0, y: 0}
-    variable: {fileID: 0}
-  _inverseDirection: 0
-  _onCollisionEnter2D:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7574881556890877075}
-        m_TargetAssemblyTypeName: EntityComponents.Reserve, Assembly-CSharp
-        m_MethodName: Decrease
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _onCollisionStay2D:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!50 &4377705094974766143
 Rigidbody2D:
   serializedVersion: 4
@@ -552,3 +510,40 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &8850034847608479949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6747070217415875695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf3c417e962f4b639bbf99deed9700ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _otherTag: Enemy
+  _invokeOnCollisionEnter2D: 1
+  _onCollisionEnter2D:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7574881556890877075}
+        m_TargetAssemblyTypeName: EntityComponents.Reserve, Assembly-CSharp
+        m_MethodName: Decrease
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _invokeOnCollisionExit2D: 0
+  _onCollisionExit2D:
+    m_PersistentCalls:
+      m_Calls: []
+  _invokeOnCollisionStay2D: 0
+  _onCollisionStay2D:
+    m_PersistentCalls:
+      m_Calls: []
