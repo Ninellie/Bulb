@@ -1,14 +1,10 @@
-using _project.Scripts.ECS.Components;
+using _project.Scripts.ECS.Features.ObjectDestroyer;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
-using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
-namespace _project.Scripts.ECS.Systems
+namespace _project.Scripts.ECS.Features.Health
 {
-    [Il2CppSetOption(Option.NullChecks, false)]
-    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(HealthSystem))]
     public sealed class HealthSystem : FixedUpdateSystem
     {
@@ -25,13 +21,12 @@ namespace _project.Scripts.ECS.Systems
         {
             foreach (var entity in _filter)
             {
-                ref var healthComponent = ref entity.GetComponent<Health>();
+                ref var healthComponent = ref _healthStash.Get(entity);
                 if (healthComponent.HealthPoints > 0)
                 {
                     continue;
                 }
-                entity.Dispose();
-                
+                entity.AddComponent<DestroyRequest>();
             }
         }
     }
