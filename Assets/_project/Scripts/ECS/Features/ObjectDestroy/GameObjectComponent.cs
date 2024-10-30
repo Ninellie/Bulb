@@ -2,7 +2,7 @@
 using Scellecs.Morpeh;
 using UnityEngine;
 
-namespace _project.Scripts.ECS.Features.ObjectDestroyer
+namespace _project.Scripts.ECS.Features.ObjectDestroy
 {
     [Serializable]
     public struct GameObjectComponent : IComponent

@@ -1,7 +1,6 @@
 ﻿using Scellecs.Morpeh.Providers;
-using Unity.IL2CPP.CompilerServices;
 
-namespace _project.Scripts.ECS.Features.ObjectDestroyer
+namespace _project.Scripts.ECS.Features.ObjectDestroy
 {
     public sealed class GameObjectProvider : MonoProvider<GameObjectComponent>
     {

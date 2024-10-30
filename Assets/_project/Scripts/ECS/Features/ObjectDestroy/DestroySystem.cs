@@ -3,7 +3,7 @@ using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
-namespace _project.Scripts.ECS.Features.ObjectDestroyer
+namespace _project.Scripts.ECS.Features.ObjectDestroy
 {
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
