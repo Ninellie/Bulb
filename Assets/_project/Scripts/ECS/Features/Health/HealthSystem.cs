@@ -1,4 +1,4 @@
-using _project.Scripts.ECS.Features.ObjectDestroyer;
+using _project.Scripts.ECS.Features.ObjectDestroy;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using UnityEngine;
