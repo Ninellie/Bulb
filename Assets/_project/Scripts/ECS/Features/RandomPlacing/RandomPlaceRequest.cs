@@ -2,7 +2,7 @@
 using Scellecs.Morpeh;
 using UnityEngine;
 
-namespace _project.Scripts.ECS.Features.Spawner
+namespace _project.Scripts.ECS.Features.RandomPlacing
 {
     [Serializable]
     public struct RandomPlaceRequest : IComponent

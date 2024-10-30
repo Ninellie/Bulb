@@ -6,7 +6,7 @@ using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using UnityEngine;
 
-namespace _project.Scripts.ECS.Features.EnemyPlacing
+namespace _project.Scripts.ECS.Features.RandomPlacing
 {
     [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(RandomPlacerSystem))]
     public sealed class RandomPlacerSystem : FixedUpdateSystem
