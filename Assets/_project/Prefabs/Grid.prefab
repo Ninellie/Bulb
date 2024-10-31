@@ -80,7 +80,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4424319456544408037}
   - component: {fileID: 877174743087326668}
-  - component: {fileID: 611219221123937959}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -116,34 +115,3 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
---- !u!114 &611219221123937959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8126183576087459953}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ce80253efc6cfc45bdda0628d74f705, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tilemap: {fileID: 5195246823950478761}
-  rules:
-  - tile: {fileID: 11400000, guid: 82009a82ecf48504ab7bd1ee8eac825a, type: 2}
-    generateFrom: {x: 0, y: -12}
-    notGenerateFrom: {x: 0, y: 0}
-    priority: 3
-  - tile: {fileID: 11400000, guid: 2b4f47be6b4a4d04189d45275a71152d, type: 2}
-    generateFrom: {x: 0, y: -16}
-    notGenerateFrom: {x: 0, y: -10}
-    priority: 1
-  - tile: {fileID: 11400000, guid: 0fe103be092cc6d4b850a34063b33d35, type: 2}
-    generateFrom: {x: 0, y: -17}
-    notGenerateFrom: {x: 0, y: -16}
-    priority: 2
-  - tile: {fileID: 11400000, guid: 02f723e27405bcd4c87a380920e4a505, type: 2}
-    generateFrom: {x: 0, y: -13}
-    notGenerateFrom: {x: 0, y: -12}
-    priority: 2
-  groundHeight: 5
