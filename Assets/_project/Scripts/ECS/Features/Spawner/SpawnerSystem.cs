@@ -1,5 +1,5 @@
 ﻿using _project.Scripts.ECS.Features.RandomPlacing;
-using Core.Shapes;
+using _project.Scripts.ECS.Pool;
 using GameSession.Spawner;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
@@ -11,6 +11,7 @@ namespace _project.Scripts.ECS.Features.Spawner
     public sealed class SpawnerSystem : FixedUpdateSystem
     {
         [SerializeField] private GameObject enemyPrefab;
+        [SerializeField] private ComponentPoolContainer poolContainer;
         
         [Header("Spawn pattern settings")]
         [SerializeField] private SpawnDataPreset spawnData;
@@ -20,11 +21,10 @@ namespace _project.Scripts.ECS.Features.Spawner
         [SerializeField] [TriInspector.ReadOnly] private float enemiesPerSecond;
         [SerializeField] [TriInspector.ReadOnly] private float timeToNextSpawn;
 
-        private EnemyDataComponentPool _enemyPool;
-        
         private Filter _filter;
         private Stash<EnemyData> _releaseRequestStash;
-        
+        private ComponentPool<EnemyDataProvider> _enemyPool;
+
         public override void OnAwake()
         {
             CreatePool();
@@ -62,10 +62,8 @@ namespace _project.Scripts.ECS.Features.Spawner
                     position = Vector3.zero
                 }
             };
-            
-            _enemyPool = 
-                new EnemyDataComponentPool(true, 200, 50, root, enemyPrefab);
-            _enemyPool.Init();
+
+            _enemyPool = poolContainer.AddPool<EnemyDataProvider>(true, 200, 50, root, enemyPrefab);
         }
 
         private void CheckReleaseRequests()
