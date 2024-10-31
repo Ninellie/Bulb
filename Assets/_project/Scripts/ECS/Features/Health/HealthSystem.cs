@@ -1,4 +1,5 @@
 using _project.Scripts.ECS.Features.ObjectDestroy;
+using _project.Scripts.ECS.Features.Spawner;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using UnityEngine;
@@ -26,7 +27,7 @@ namespace _project.Scripts.ECS.Features.Health
                 {
                     continue;
                 }
-                entity.AddComponent<DestroyRequest>();
+                entity.AddComponent<ReleaseRequest>();
             }
         }
     }
