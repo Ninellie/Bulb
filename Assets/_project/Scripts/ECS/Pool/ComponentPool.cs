@@ -2,9 +2,9 @@
 using UnityEngine.Pool;
 using Object = UnityEngine.Object;
 
-namespace _project.Scripts.ECS.Features.Spawner
+namespace _project.Scripts.ECS.Pool
 {
-    public abstract class ComponentPool<T> where T : Component
+    public class ComponentPool<T> where T : Component
     {
         public int CountActive => _pool.CountActive;
         public int CountAll => _pool.CountAll;
@@ -18,7 +18,7 @@ namespace _project.Scripts.ECS.Features.Spawner
         private readonly bool _collectionCheck;
         private Transform _transform;
 
-        protected ComponentPool(bool collectionCheck, uint maxSize, uint size, GameObject root, GameObject itemPrefab)
+        public ComponentPool(bool collectionCheck, uint maxSize, uint size, GameObject root, GameObject itemPrefab)
         {
             _collectionCheck = collectionCheck;
             _maxSize = maxSize;
