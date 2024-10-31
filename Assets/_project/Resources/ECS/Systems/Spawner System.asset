@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Spawner System
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3904607079798715221, guid: 396e8ea6b2501c045a1852550599ffa3, type: 3}
+  poolContainer: {fileID: 11400000, guid: 16a87aca84ba56f41824d1b5a2233464, type: 2}
   spawnData: {fileID: 11400000, guid: b28fec8d88f012b4aaa143d954e89eae, type: 2}
   maxEnemies: 0
   spawnQueueSize: 0
   enemiesPerSecond: 0
-  enemiesPerSpawn: 0
   timeToNextSpawn: 0
