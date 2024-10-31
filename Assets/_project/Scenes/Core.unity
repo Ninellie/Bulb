@@ -274,13 +274,13 @@ MonoBehaviour:
   updateSystems: []
   fixedUpdateSystems:
   - enabled: 1
-    system: {fileID: 11400000, guid: b9ffab40c19b00d43acc926d1dccf609, type: 2}
-  - enabled: 1
-    system: {fileID: 11400000, guid: 8a4c81bdac2988f4682e84b36aac2772, type: 2}
-  - enabled: 1
     system: {fileID: 11400000, guid: 895bcfe84d791a74fb9f1d4203f284be, type: 2}
   - enabled: 1
     system: {fileID: 11400000, guid: 5627d1f0bebd3f947a2a049d90815b8f, type: 2}
+  - enabled: 1
+    system: {fileID: 11400000, guid: 8a4c81bdac2988f4682e84b36aac2772, type: 2}
+  - enabled: 1
+    system: {fileID: 11400000, guid: b9ffab40c19b00d43acc926d1dccf609, type: 2}
   lateUpdateSystems: []
   cleanupSystems: []
 --- !u!4 &628941485
