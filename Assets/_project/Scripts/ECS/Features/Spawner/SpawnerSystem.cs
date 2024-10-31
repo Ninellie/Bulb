@@ -1,4 +1,5 @@
 ﻿using _project.Scripts.ECS.Features.RandomPlacing;
+using Core.Shapes;
 using GameSession.Spawner;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
@@ -21,10 +22,14 @@ namespace _project.Scripts.ECS.Features.Spawner
 
         private EnemyDataComponentPool _enemyPool;
         
-
+        private Filter _filter;
+        private Stash<EnemyData> _releaseRequestStash;
+        
         public override void OnAwake()
         {
             CreatePool();
+            _filter =  World.Filter.With<ReleaseRequest>().With<EnemyData>().Build();
+            _releaseRequestStash = World.GetStash<EnemyData>();
             spawnQueueSize = 0;
         }
 
@@ -34,6 +39,8 @@ namespace _project.Scripts.ECS.Features.Spawner
             
             maxEnemies = (int)spawnData.MaxEnemiesOnScreen.Evaluate(Time.timeSinceLevelLoad);
             enemiesPerSecond = maxEnemies / spawnData.FulfillSeconds;
+            
+            CheckReleaseRequests();
             
             if (timeToNextSpawn <= 0)
             {
@@ -60,6 +67,16 @@ namespace _project.Scripts.ECS.Features.Spawner
                 new EnemyDataComponentPool(true, 200, 50, root, enemyPrefab);
             _enemyPool.Init();
         }
+
+        private void CheckReleaseRequests()
+        {
+            foreach (var entity in _filter)
+            {
+                entity.RemoveComponent<ReleaseRequest>();
+                _enemyPool.Release(_releaseRequestStash.Get(entity).Transform.gameObject);
+            }
+        }
+        
         
         private void SpawnOneEnemy()
         {
