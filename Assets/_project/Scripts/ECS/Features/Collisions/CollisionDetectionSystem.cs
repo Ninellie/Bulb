@@ -8,8 +8,8 @@ namespace _project.Scripts.ECS.Features.Collisions
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(CollisionSystem))]
-    public sealed class CollisionSystem : FixedUpdateSystem
+    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(CollisionDetectionSystem))]
+    public sealed class CollisionDetectionSystem : FixedUpdateSystem
     {
         private Filter _filter;
         private Stash<Colliding> _collidingStash;
@@ -28,18 +28,12 @@ namespace _project.Scripts.ECS.Features.Collisions
                 
                 while (colliding.CollisionQueue.Count > 0)
                 {
-                    var collisionData = colliding.CollisionQueue.Dequeue();
+                    var data = colliding.CollisionQueue.Dequeue();
                     var collisionEntity = World.CreateEntity();
-                    collisionEntity.AddComponent<CollisionComponent>().Data = collisionData;
-                    ProcessCollision(collisionData);
+                    collisionEntity.AddComponent<CollisionComponent>().Data = data;
+                    Debug.Log($"Collision detected between entities {data.Entity} and {data.OtherEntity}");
                 }
             }
-        }
-        
-        private void ProcessCollision(CollisionData data)
-        {
-            // Логика обработки столкновений внутри ECS (например, уменьшение здоровья)
-            Debug.Log($"Collision detected between entities {data.Entity} and {data.OtherEntity}");
         }
     }
 }
