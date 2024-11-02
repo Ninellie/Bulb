@@ -5,6 +5,10 @@ using UnityEngine;
 
 namespace _project.Scripts.ECS.Features.Collisions
 {
+    /// <summary>
+    /// При столкновении двух Unity GameObject с таким же компонентом,
+    /// добавляет во внутреннее хранилище CollisionData о столкновении с собой.
+    /// </summary>
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
