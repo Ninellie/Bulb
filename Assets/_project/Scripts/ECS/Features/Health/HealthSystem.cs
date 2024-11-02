@@ -13,12 +13,12 @@ namespace _project.Scripts.ECS.Features.Health
     public sealed class HealthSystem : FixedUpdateSystem 
     {
         private Filter _filter;
-        private Stash<Health> _healthStash;
+        private Stash<HealthComponent> _healthStash;
     
         public override void OnAwake()
         {
-            _filter = World.Filter.With<Health>().Build();
-            _healthStash = World.GetStash<Health>();
+            _filter = World.Filter.With<HealthComponent>().Build();
+            _healthStash = World.GetStash<HealthComponent>();
         }
 
         public override void OnUpdate(float deltaTime)

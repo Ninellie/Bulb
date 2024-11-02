@@ -5,7 +5,7 @@ using UnityEngine;
 namespace _project.Scripts.ECS.Features.Health
 {
     [Serializable]
-    public struct Health : IComponent
+    public struct HealthComponent : IComponent
     {
         [SerializeField] private int healthPoints;
 
