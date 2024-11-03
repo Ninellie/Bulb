@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3762718968560434059}
   - component: {fileID: 355923174913735040}
   - component: {fileID: 4574533703639804011}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4245571974479556502}
   - component: {fileID: 5745416431248539046}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 4781642648414829457}
   - component: {fileID: 4014634069294503614}
   - component: {fileID: 2514036098665868714}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -457,7 +457,7 @@ GameObject:
   - component: {fileID: 3712760140173448490}
   - component: {fileID: 6217681333811098024}
   - component: {fileID: 2766282143626886958}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Core
   m_TagString: Untagged
   m_Icon: {fileID: 0}

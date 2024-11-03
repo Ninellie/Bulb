@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edb68cf49d3c4926b781424c4f1a4eac, type: 3}
   m_Name: Enemy Placer
   m_EditorClassIdentifier: 
-  spawnAreaCheckMode: 1
+  placeAreaCheckMode: 1

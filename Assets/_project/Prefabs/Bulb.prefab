@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4752445395161463050}
   - component: {fileID: 567717438654471954}
   - component: {fileID: 7455774164293217080}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Generator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: -404756511883514529}
   - component: {fileID: -3671066304794129326}
   - component: {fileID: -4196832420444156096}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bulb
   m_TagString: Player
   m_Icon: {fileID: 0}
