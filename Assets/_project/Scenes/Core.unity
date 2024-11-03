@@ -220,6 +220,10 @@ MonoBehaviour:
   - enabled: 1
     system: {fileID: 11400000, guid: 8a4c81bdac2988f4682e84b36aac2772, type: 2}
   - enabled: 1
+    system: {fileID: 11400000, guid: 501a5f346aa42aa47bf6daeec20b50d4, type: 2}
+  - enabled: 1
+    system: {fileID: 11400000, guid: 38301d200cd77c74f98033ba8ed8c255, type: 2}
+  - enabled: 1
     system: {fileID: 11400000, guid: b9ffab40c19b00d43acc926d1dccf609, type: 2}
   lateUpdateSystems: []
   cleanupSystems: []
