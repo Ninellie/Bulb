@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Providers;
 using Unity.IL2CPP.CompilerServices;
@@ -17,20 +18,21 @@ namespace _project.Scripts.ECS.Features.Collisions
         //Накапливает внури себя данные о коллизиях 
         private void OnCollisionEnter2D(Collision2D collision)
         {
+            Debug.Log($"Detected collision {collision}");
             if (!collision.collider.TryGetComponent(out CollidingProvider provider)) return;
             
             var otherEntity = provider.Entity;
 
             if (otherEntity == null) return;
-            
             var data = new CollisionData
             {
                 Entity = Entity,
                 OtherEntity = otherEntity,
                 CollisionPoint = collision.contacts[0].point
             };
-            
-            Entity.GetComponent<Colliding>().CollisionQueue.Enqueue(data);
+            ref var colliding = ref Entity.GetComponent<Colliding>();
+            colliding.CollisionQueue ??= new Queue<CollisionData>();
+            colliding.CollisionQueue.Enqueue(data);
         }
     }
 }

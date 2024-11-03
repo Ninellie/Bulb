@@ -30,6 +30,11 @@ namespace _project.Scripts.ECS.Features.Collisions
             foreach (var entity in _filter)
             {
                 var colliding = _collidingStash.Get(entity);
+
+                if (colliding.CollisionQueue == null)
+                {
+                    continue;
+                }
                 
                 while (colliding.CollisionQueue.Count > 0)
                 {
