@@ -10,23 +10,20 @@ namespace _project.Scripts.ECS.Features.Movement
     {
         private Filter _filter;
         private Stash<Movable> _movableStash;
-        private Stash<GameObjectComponent> _gameObjectStash;
-    
+
         public override void OnAwake()
         {
             _filter = World.Filter.With<Movable>().With<GameObjectComponent>().Build();
             _movableStash = World.GetStash<Movable>();
-            _gameObjectStash = World.GetStash<GameObjectComponent>();
         }
 
         public override void OnUpdate(float deltaTime)
         {
             foreach (var entity in _filter)
             {
-                var speed = _movableStash.Get(entity).Speed.Value;
+                var transform = _movableStash.Get(entity).Transform;
                 var targetPosition = _movableStash.Get(entity).TargetPosition.Value;
-
-                var transform = _gameObjectStash.Get(entity).GameObject.transform;
+                var speed = _movableStash.Get(entity).Speed.Value;
 
                 var position = transform.position;
                 var direction = (targetPosition - (Vector2)position).normalized;

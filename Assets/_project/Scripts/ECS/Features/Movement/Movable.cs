@@ -10,17 +10,10 @@ namespace _project.Scripts.ECS.Features.Movement
     {
         [SerializeField] private Vector2Reference targetPosition;
         [SerializeField] private FloatReference speed;
+        [SerializeField] private Transform transform;
 
-        public Vector2Reference TargetPosition
-        {
-            get => targetPosition;
-            set => targetPosition = value;
-        }
-
-        public FloatReference Speed
-        {
-            get => speed;
-            set => speed = value;
-        }
+        public Transform Transform { get => transform; set => transform = value; }
+        public Vector2Reference TargetPosition { get => targetPosition; set => targetPosition = value; }
+        public FloatReference Speed { get => speed; set => speed = value; }
     }
 }
