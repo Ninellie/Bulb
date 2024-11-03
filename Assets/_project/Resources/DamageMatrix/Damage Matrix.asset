@@ -1,0 +1,170 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 012e490cf13c410f88b65322097b707d, type: 3}
+  m_Name: Damage Matrix
+  m_EditorClassIdentifier: 
+  damageTakers:
+  - tag: Enemy
+    damageDealers:
+    - interact: 0
+      tag: Enemy
+      damage: 0
+    - interact: 0
+      tag: Player
+      damage: 0
+    - interact: 0
+      tag: Bullet
+      damage: 0
+  - tag: Player
+    damageDealers:
+    - interact: 0
+      tag: Enemy
+      damage: 0
+    - interact: 0
+      tag: Player
+      damage: 0
+    - interact: 0
+      tag: Bullet
+      damage: 0
+  - tag: Bullet
+    damageDealers:
+    - interact: 0
+      tag: Enemy
+      damage: 0
+    - interact: 0
+      tag: Player
+      damage: 0
+    - interact: 0
+      tag: Bullet
+      damage: 0
+  takers:
+  - tag: Name
+    damage0: Enemy
+    damage1: Player
+    damage2: Bullet
+    damage3: Tag 3
+    damage4: Tag 4
+    damage5: Tag 5
+    damage6: Tag 6
+    damage7: Tag 7
+    damage8: Tag 8
+    damage9: Tag 9
+  - tag: Enemy
+    damage0: 
+    damage1: 100
+    damage2: 
+    damage3: 
+    damage4: 
+    damage5: 
+    damage6: 
+    damage7: 
+    damage8: 
+    damage9: 
+  - tag: Player
+    damage0: 1
+    damage1: 
+    damage2: 
+    damage3: 
+    damage4: 
+    damage5: 
+    damage6: 
+    damage7: 
+    damage8: 
+    damage9: 
+  - tag: Bullet
+    damage0: 1
+    damage1: 
+    damage2: 
+    damage3: 
+    damage4: 
+    damage5: 
+    damage6: 
+    damage7: 
+    damage8: 
+    damage9: 
+  - tag: 
+    damage0: 
+    damage1: 
+    damage2: 
+    damage3: 
+    damage4: 
+    damage5: 
+    damage6: 
+    damage7: 
+    damage8: 
+    damage9: 
+  - tag: 
+    damage0: 
+    damage1: 
+    damage2: 
+    damage3: 
+    damage4: 
+    damage5: 
+    damage6: 
+    damage7: 
+    damage8: 
+    damage9: 
+  - tag: 
+    damage0: 
+    damage1: 
+    damage2: 
+    damage3: 
+    damage4: 
+    damage5: 
+    damage6: 
+    damage7: 
+    damage8: 
+    damage9: 
+  - tag: 
+    damage0: 
+    damage1: 
+    damage2: 
+    damage3: 
+    damage4: 
+    damage5: 
+    damage6: 
+    damage7: 
+    damage8: 
+    damage9: 
+  - tag: 
+    damage0: 
+    damage1: 
+    damage2: 
+    damage3: 
+    damage4: 
+    damage5: 
+    damage6: 
+    damage7: 
+    damage8: 
+    damage9: 
+  - tag: 
+    damage0: 
+    damage1: 
+    damage2: 
+    damage3: 
+    damage4: 
+    damage5: 
+    damage6: 
+    damage7: 
+    damage8: 
+    damage9: 
+  - tag: 
+    damage0: 
+    damage1: 
+    damage2: 
+    damage3: 
+    damage4: 
+    damage5: 
+    damage6: 
+    damage7: 
+    damage8: 
+    damage9: 
