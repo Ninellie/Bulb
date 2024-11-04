@@ -3,6 +3,7 @@ using _project.Scripts.ECS.Pool;
 using GameSession.Spawner;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
+using TriInspector;
 using UnityEngine;
 
 namespace _project.Scripts.ECS.Features.Spawner
@@ -16,10 +17,10 @@ namespace _project.Scripts.ECS.Features.Spawner
         [Header("Spawn pattern settings")]
         [SerializeField] private SpawnDataPreset spawnData;
         [Header("Readonly Indicators")]
-        [SerializeField] [TriInspector.ReadOnly] private int maxEnemies;
-        [SerializeField] [TriInspector.ReadOnly] private float spawnQueueSize;
-        [SerializeField] [TriInspector.ReadOnly] private float enemiesPerSecond;
-        [SerializeField] [TriInspector.ReadOnly] private float timeToNextSpawn;
+        [SerializeField] [ReadOnly] private int maxEnemies;
+        [SerializeField] [ReadOnly] private float spawnQueueSize;
+        [SerializeField] [ReadOnly] private float enemiesPerSecond;
+        [SerializeField] [ReadOnly] private float timeToNextSpawn;
 
         private Filter _filter;
         private Stash<EnemyData> _releaseRequestStash;
@@ -55,15 +56,7 @@ namespace _project.Scripts.ECS.Features.Spawner
 
         private void CreatePool()
         {
-            var root = new GameObject("Enemy Pool")
-            {
-                transform =
-                {
-                    position = Vector3.zero
-                }
-            };
-
-            _enemyPool = poolContainer.AddPool<EnemyDataProvider>(true, 200, 50, root, enemyPrefab);
+            _enemyPool = poolContainer.CreatePool<EnemyDataProvider>("Enemy Pool",true, 200, 50, enemyPrefab);
         }
 
         private void CheckReleaseRequests()
@@ -74,8 +67,7 @@ namespace _project.Scripts.ECS.Features.Spawner
                 _enemyPool.Release(_releaseRequestStash.Get(entity).Transform.gameObject);
             }
         }
-        
-        
+
         private void SpawnOneEnemy()
         {
             var enemy = _enemyPool.Get();
