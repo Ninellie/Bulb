@@ -1,4 +1,5 @@
-﻿using _project.Scripts.ECS.Features.RandomPlacing;
+﻿using _project.Scripts.ECS.Features.Health;
+using _project.Scripts.ECS.Features.RandomPlacing;
 using _project.Scripts.ECS.Pool;
 using GameSession.Spawner;
 using Scellecs.Morpeh;
@@ -22,14 +23,18 @@ namespace _project.Scripts.ECS.Features.Spawner
         [SerializeField] [ReadOnly] private float enemiesPerSecond;
         [SerializeField] [ReadOnly] private float timeToNextSpawn;
 
-        private Filter _filter;
+        private Filter _enemyHealthFilter;
+        private Stash<HealthComponent> _healthStash;
+
         private Stash<EnemyData> _releaseRequestStash;
+        
         private ComponentPool<EnemyDataProvider> _enemyPool;
 
         public override void OnAwake()
         {
             CreatePool();
-            _filter =  World.Filter.With<ReleaseRequest>().With<EnemyData>().Build();
+            _enemyHealthFilter =  World.Filter.With<HealthComponent>().With<EnemyData>().Build();
+            _healthStash = World.GetStash<HealthComponent>();
             _releaseRequestStash = World.GetStash<EnemyData>();
             spawnQueueSize = 0;
         }
@@ -41,7 +46,7 @@ namespace _project.Scripts.ECS.Features.Spawner
             maxEnemies = (int)spawnData.MaxEnemiesOnScreen.Evaluate(Time.timeSinceLevelLoad);
             enemiesPerSecond = maxEnemies / spawnData.FulfillSeconds;
             
-            CheckReleaseRequests();
+            CheckReleaseNeed();
             
             if (timeToNextSpawn <= 0)
             {
@@ -59,12 +64,19 @@ namespace _project.Scripts.ECS.Features.Spawner
             _enemyPool = poolContainer.CreatePool<EnemyDataProvider>("Enemy Pool",true, 200, 50, enemyPrefab);
         }
 
-        private void CheckReleaseRequests()
+        private void CheckReleaseNeed()
         {
-            foreach (var entity in _filter)
+            foreach (var entity in _enemyHealthFilter)
             {
-                entity.RemoveComponent<ReleaseRequest>();
-                _enemyPool.Release(_releaseRequestStash.Get(entity).Transform.gameObject);
+                ref var health = ref _healthStash.Get(entity);
+                
+                if (health.HealthPoints > 0)
+                {
+                    continue;
+                }
+                
+                ref var enemyData = ref _releaseRequestStash.Get(entity);
+                _enemyPool.Release(enemyData.Transform.gameObject);
             }
         }
 
