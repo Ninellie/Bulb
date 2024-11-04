@@ -1,5 +1,4 @@
-﻿using _project.Scripts.ECS.Features.ObjectDestroy;
-using Scellecs.Morpeh;
+﻿using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ namespace _project.Scripts.ECS.Features.Movement
 
         public override void OnAwake()
         {
-            _filter = World.Filter.With<Movable>().With<GameObjectComponent>().Build();
+            _filter = World.Filter.With<Movable>().Build();
             _movableStash = World.GetStash<Movable>();
         }
 
