@@ -20,17 +20,24 @@ namespace _project.Scripts.ECS.Features.Movement
         {
             foreach (var entity in _filter)
             {
-                var transform = _movableStash.Get(entity).Transform;
-                var targetPosition = _movableStash.Get(entity).TargetPosition.Value;
+                var movableTransform = _movableStash.Get(entity).Transform;
+                var directionAsTarget = _movableStash.Get(entity).DirectionAsTarget;
+                var direction = _movableStash.Get(entity).Direction.Value.normalized;
                 var speed = _movableStash.Get(entity).Speed.Value;
-
-                var position = transform.position;
-                var direction = (targetPosition - (Vector2)position).normalized;
-                direction *= speed * deltaTime;
+                var speedScale = _movableStash.Get(entity).SpeedScale;
                 
-                var nextPos = (Vector2)position + direction;
-                position = nextPos;
-                transform.position = position;
+                var movablePosition = (Vector2)movableTransform.position;
+
+                if (directionAsTarget)
+                {
+                    direction = (direction - movablePosition).normalized;
+                }
+                
+                direction *= speed * deltaTime * speedScale;
+                
+                var nextPos = movablePosition + direction;
+                movablePosition = nextPos;
+                movableTransform.position = movablePosition;
             }
         }
     }
