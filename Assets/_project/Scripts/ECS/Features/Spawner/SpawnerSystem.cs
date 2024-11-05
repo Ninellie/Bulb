@@ -26,7 +26,7 @@ namespace _project.Scripts.ECS.Features.Spawner
         private Filter _enemyHealthFilter;
         private Stash<HealthComponent> _healthStash;
 
-        private Stash<EnemyData> _releaseRequestStash;
+        private Stash<EnemyData> _enemyDataStash;
         
         private ComponentPool<EnemyDataProvider> _enemyPool;
 
@@ -35,7 +35,7 @@ namespace _project.Scripts.ECS.Features.Spawner
             CreatePool();
             _enemyHealthFilter =  World.Filter.With<HealthComponent>().With<EnemyData>().Build();
             _healthStash = World.GetStash<HealthComponent>();
-            _releaseRequestStash = World.GetStash<EnemyData>();
+            _enemyDataStash = World.GetStash<EnemyData>();
             spawnQueueSize = 0;
         }
 
@@ -75,7 +75,7 @@ namespace _project.Scripts.ECS.Features.Spawner
                     continue;
                 }
                 
-                ref var enemyData = ref _releaseRequestStash.Get(entity);
+                ref var enemyData = ref _enemyDataStash.Get(entity);
                 _enemyPool.Release(enemyData.Transform.gameObject);
             }
         }
