@@ -46,19 +46,22 @@ namespace _project.Scripts.ECS.Features.Damage
                 var entity = collisionData.Entity;
                 var otherEntity = collisionData.OtherEntity;
 
-                var dealDamage = _damageDealerStash.Has(otherEntity); 
-                
-                if (dealDamage)
+                if (!otherEntity.IsNullOrDisposed())
                 {
-                    var takeDamage = _damageTakerStash.Has(entity); 
+                    var dealDamage = _damageDealerStash.Has(otherEntity); 
                     
-                    if (takeDamage)
+                    if (dealDamage)
                     {
-                        var damageAmount = _damageDealerStash.Get(otherEntity).Amount;
-                        var damageEntity = World.CreateEntity();
-                        ref var damage = ref _damageStash.Add(damageEntity);
-                        damage.TargetEntity = entity;
-                        damage.Amount = -damageAmount; 
+                        var takeDamage = _damageTakerStash.Has(entity); 
+                        
+                        if (takeDamage)
+                        {
+                            var damageAmount = _damageDealerStash.Get(otherEntity).Amount;
+                            var damageEntity = World.CreateEntity();
+                            ref var damage = ref _damageStash.Add(damageEntity);
+                            damage.TargetEntity = entity;
+                            damage.Amount = -damageAmount; 
+                        }
                     }
                 }
 
