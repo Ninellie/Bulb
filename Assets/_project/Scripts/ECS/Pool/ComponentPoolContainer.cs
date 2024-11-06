@@ -17,8 +17,25 @@ namespace _project.Scripts.ECS.Pool
             }
             return null;
         }
+        
+        public ComponentPool<T> CreatePool<T>(string poolName, bool collectionCheck, uint maxSize, uint size, GameObject itemPrefab)
+            where T : Component
+        {
+            var root = new GameObject(poolName)
+            {
+                transform =
+                {
+                    position = Vector3.zero
+                }
+            };
+            var pool = AddPool<T>(collectionCheck, maxSize, size, root, itemPrefab);
+            
+            _pools.Add(pool);
+            
+            return pool;
+        }
 
-        public ComponentPool<T> AddPool<T>(bool collectionCheck, uint maxSize, uint size, GameObject root, GameObject itemPrefab)
+        private ComponentPool<T> AddPool<T>(bool collectionCheck, uint maxSize, uint size, GameObject root, GameObject itemPrefab)
             where T : Component
         {
             var pool = new ComponentPool<T>(collectionCheck, maxSize, size, root, itemPrefab);
