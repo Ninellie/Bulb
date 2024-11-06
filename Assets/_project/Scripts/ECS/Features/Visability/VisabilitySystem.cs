@@ -8,7 +8,7 @@ namespace _project.Scripts.ECS.Features.Visability
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
-    [CreateAssetMenu(menuName = "ECS/Systems/Update" + nameof(VisabilitySystem))]
+    [CreateAssetMenu(menuName = "ECS/Systems/Update/" + nameof(VisabilitySystem))]
     public sealed class VisabilitySystem : UpdateSystem
     {
         private Filter _renderedFilter;
