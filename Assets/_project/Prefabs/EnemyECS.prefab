@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 6455402215502456153}
   - component: {fileID: -4571130024793711880}
   - component: {fileID: 1885109462598596245}
+  - component: {fileID: 2453876458483786243}
   m_Layer: 6
   m_Name: EnemyECS
   m_TagString: Enemy
@@ -168,7 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    healthPoints: 15
+    healthPoints: 1
 --- !u!114 &-8405196308904907549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,15 +223,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    targetPosition:
+    transform: {fileID: 8951136872698286780}
+    directionAsTarget: 1
+    direction:
       useConstant: 0
       constantValue: {x: 0, y: 0}
       variable: {fileID: 11400000, guid: db1da9e3e213f364eb9d5d3b9a58c94c, type: 2}
     speed:
       useConstant: 1
-      constantValue: 55
+      constantValue: 40
       variable: {fileID: 0}
-    transform: {fileID: 8951136872698286780}
+    speedScale: 1
 --- !u!114 &-4571130024793711880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,3 +261,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6343a9a68bd789d449bc786189c5fd25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2453876458483786243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3904607079798715221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d845329938ec4a63b21b230032711244, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    <Renderer>k__BackingField: {fileID: 5345840929291442590}
