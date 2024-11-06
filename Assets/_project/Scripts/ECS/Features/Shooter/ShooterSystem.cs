@@ -26,7 +26,9 @@ namespace _project.Scripts.ECS.Features.Shooter
         [SerializeField] private float bulletSpeedScaleDecreasePerSecond;
         [SerializeField] private float startBulletSpeedScale;
 
+        [SerializeField] private bool shootAtOneTime;
         [SerializeField] [ReadOnly] private float timeBetweenShoots;
+        [SerializeField] [ReadOnly] private int shootersCount;
         [SerializeField] [ReadOnly] private float cooldown;
         [SerializeField] [ReadOnly] private bool suspended;
  
@@ -90,24 +92,42 @@ namespace _project.Scripts.ECS.Features.Shooter
             
             _visibleStash = World.GetStash<Visible>();
             _invisibleStash = World.GetStash<Invisible>();
+            
+            // Обновляем кулдаун
+            cooldown = 1f / attackSpeed;
         }
         
         public override void OnUpdate(float deltaTime)
         {
             // Ловим все компоненты суспенда и суспендим если находим и удаляем компоненты
             // Ловим все компоненты возобновления и возобновляем если находим и удаляем компоненты   
-            CheckReleaseNeed();
-            
             UpdateTimers(deltaTime);
             
-            if (!(cooldown > 0))
-            {
-                // Создать запросы на выстрел
-                CreateShootRequests();
-                // Обновляем кулдаун
-                cooldown = 1f / attackSpeed;
-            }
+            // Обновляем скаляры скоростей пуль
+            // todo перенести в MovementSystem
+            DecreaseBulletsSpeedScale(deltaTime);
             
+            CheckReleaseNeed();
+            
+            // Обрабатываем запросы на выстрел
+            HandleShootRequests();
+
+            if (_visibleEnemiesFilter.IsEmpty())
+            {
+                return;
+            }
+
+            if (cooldown > 0) return;
+            
+            // Создать запросы на выстрел
+            CreateShootRequests();
+                
+            // Обновляем кулдаун
+            cooldown = 1f / attackSpeed;
+        }
+
+        private void DecreaseBulletsSpeedScale(float deltaTime)
+        {
             foreach (var entity in _bulletFilter)
             {
                 if (entity.IsNullOrDisposed())
@@ -122,9 +142,6 @@ namespace _project.Scripts.ECS.Features.Shooter
                 ref var movable = ref _movableStash.Get(entity);
                 movable.SpeedScale -= bulletSpeedScaleDecreasePerSecond * deltaTime;
             }
-            
-            // Обрабатываем запросы на выстрел
-            HandleShootRequests();
         }
 
         private void HandleShootRequests()
@@ -200,7 +217,9 @@ namespace _project.Scripts.ECS.Features.Shooter
         // Единичный выстрел из всех пушек
         private void CreateShootRequests()
         {
-            timeBetweenShoots = 1f / attackSpeed / _shooterStash.Length;
+            shootersCount = _shooterStash.Length;
+            timeBetweenShoots = 1f / attackSpeed / shootersCount;
+
             var nextShootDelay = 0f;
             
             foreach (var entity in _notEnemyShooterFilter)
@@ -216,6 +235,12 @@ namespace _project.Scripts.ECS.Features.Shooter
                 request.shooter = shooter;
                 
                 request.delay = nextShootDelay;
+                
+                if (shootAtOneTime)
+                {
+                    continue;
+                }
+                
                 nextShootDelay += timeBetweenShoots;
             }
         }
