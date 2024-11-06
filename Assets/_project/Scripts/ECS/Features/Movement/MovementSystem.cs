@@ -22,7 +22,7 @@ namespace _project.Scripts.ECS.Features.Movement
             {
                 var movableTransform = _movableStash.Get(entity).Transform;
                 var directionAsTarget = _movableStash.Get(entity).DirectionAsTarget;
-                var direction = _movableStash.Get(entity).Direction.Value.normalized;
+                var direction = _movableStash.Get(entity).Direction.Value;
                 var speed = _movableStash.Get(entity).Speed.Value;
                 var speedScale = _movableStash.Get(entity).SpeedScale;
                 
@@ -31,6 +31,10 @@ namespace _project.Scripts.ECS.Features.Movement
                 if (directionAsTarget)
                 {
                     direction = (direction - movablePosition).normalized;
+                }
+                else
+                {
+                    direction.Normalize();
                 }
                 
                 direction *= speed * deltaTime * speedScale;
