@@ -13,13 +13,15 @@ namespace _project.Scripts.ECS.Features.Visability
     {
         private Filter _renderedFilter;
         private Stash<Rendered> _rendered;
-        private Stash<Rendered> _visible;
-        private Stash<Rendered> _invisible;
+        private Stash<Visible> _visible;
+        private Stash<Invisible> _invisible;
 
         public override void OnAwake()
         {
             _renderedFilter = World.Filter.With<Rendered>().Build();
             _rendered = World.GetStash<Rendered>();
+            _visible = World.GetStash<Visible>();
+            _invisible = World.GetStash<Invisible>();
         }
 
         public override void OnUpdate(float deltaTime)
