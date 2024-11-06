@@ -50,7 +50,6 @@ namespace _project.Scripts.ECS.Features.Shooter
         
         private Stash<Projectile> _projectileStash;
         
-        private Stash<Visible> _visibleStash;
         private Stash<Invisible> _invisibleStash;
         
         // Можно создать несколько систем стрельбы, но лучше будет как-то переделать суть.
@@ -90,7 +89,6 @@ namespace _project.Scripts.ECS.Features.Shooter
             _healthStash = World.GetStash<HealthComponent>();
             _projectileStash = World.GetStash<Projectile>();
             
-            _visibleStash = World.GetStash<Visible>();
             _invisibleStash = World.GetStash<Invisible>();
             
             // Обновляем кулдаун
