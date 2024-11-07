@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: BulbPosition
   m_EditorClassIdentifier: 
   developerDescription: 
-  value: {x: 0, y: 0}
+  value: {x: 4, y: -76}

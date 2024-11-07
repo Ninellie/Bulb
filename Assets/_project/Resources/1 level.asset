@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 1 level
   m_EditorClassIdentifier: 
   _description: 
-  _fulfillSeconds: 4
+  _fulfillSeconds: 1
   _intervalMultiplier: 1
   _firstWaveSizeMultiplier: 1
   _maxEnemiesOnScreen:
@@ -21,9 +21,9 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 3
-      inSlope: 0.045
-      outSlope: 0.045
+      value: 25
+      inSlope: 0.008333334
+      outSlope: 0.008333334
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
@@ -31,8 +31,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 600
       value: 30
-      inSlope: 0.045
-      outSlope: 0.045
+      inSlope: 0.008333334
+      outSlope: 0.008333334
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
