@@ -16,12 +16,12 @@ MonoBehaviour:
   poolContainer: {fileID: 11400000, guid: 16a87aca84ba56f41824d1b5a2233464, type: 2}
   attackSpeed:
     useConstant: 1
-    constantValue: 0.1
+    constantValue: 1
     variable: {fileID: 0}
-  bulletSpeedScaleDecreasePerSecond: 1
-  startBulletSpeedScale: 2.5
+  bulletSpeedScaleDecreasePerSecond: 0.1
+  startBulletSpeedScale: 1
   shootAtOneTime: 0
   timeBetweenShoots: 0.016666668
   shootersCount: 60
-  cooldown: 0.94000006
+  cooldown: 0.6800003
   suspended: 0
