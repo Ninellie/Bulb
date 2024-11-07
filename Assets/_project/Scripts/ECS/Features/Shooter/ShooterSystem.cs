@@ -8,6 +8,7 @@ using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using TriInspector;
 using Unity.IL2CPP.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _project.Scripts.ECS.Features.Shooter
@@ -207,8 +208,10 @@ namespace _project.Scripts.ECS.Features.Shooter
                 }
 
                 if (!release) continue;
-                ref var projectile = ref _projectileStash.Get(entity);
-                _bulletPool.Release(projectile.Transform.gameObject);
+                
+                var gameObject = _projectileStash.Get(entity).Transform.gameObject;
+                gameObject.SetActive(false);
+                _bulletPool.Release(gameObject);
             }
         }
         
@@ -218,7 +221,7 @@ namespace _project.Scripts.ECS.Features.Shooter
             shootersCount = _shooterStash.Length;
             timeBetweenShoots = 1f / attackSpeed / shootersCount;
 
-            var nextShootDelay = 0f;
+            var nextShootDelay = timeBetweenShoots;
             
             foreach (var entity in _notEnemyShooterFilter)
             {
