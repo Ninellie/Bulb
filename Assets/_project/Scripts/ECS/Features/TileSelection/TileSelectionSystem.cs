@@ -37,6 +37,7 @@ namespace _project.Scripts.ECS.Features.TileSelection
             changeSelectionToRight = inputActionAsset.FindAction("ChangeSelectionToRight");
             changeSelectionToUp = inputActionAsset.FindAction("ChangeSelectionToUp");
             changeSelectionToDown = inputActionAsset.FindAction("ChangeSelectionToDown");
+            //changeSelectionToDown = inputActionAsset.FindAction("DeleteTile");
         }
 
         public override void OnUpdate(float deltaTime)
@@ -65,8 +66,15 @@ namespace _project.Scripts.ECS.Features.TileSelection
                 return;
             }
             
-            currentSelection += selectionChange;
-            
+            var newSelection = currentSelection + selectionChange;
+
+            if (!tilemap.value.HasTile(newSelection))
+            {
+                return;
+            }
+
+            currentSelection = newSelection;
+                
             var cellToWorld = tilemap.value.CellToWorld(currentSelection);
             _tileSelection.transform.position = cellToWorld;
         }
