@@ -282,7 +282,7 @@ MonoBehaviour:
       variable: {fileID: 0}
     speed:
       useConstant: 1
-      constantValue: 75
+      constantValue: 200
       variable: {fileID: 0}
     speedScale: 1
 --- !u!114 &1885109462598596245
