@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Floor Generation System
   m_EditorClassIdentifier: 
   tilemapPrefab: {fileID: 877174743087326668, guid: c4c16507769bc1f46b2df705d0e4fb1e, type: 3}
+  tilemap: {fileID: 11400000, guid: 673c94fe112574744872b6d1aaf0b655, type: 2}
   rules:
   - tile: {fileID: 11400000, guid: 82009a82ecf48504ab7bd1ee8eac825a, type: 2}
     generateFrom: {x: -100, y: -12}

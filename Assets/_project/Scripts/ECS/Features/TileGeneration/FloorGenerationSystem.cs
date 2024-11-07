@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Variables;
 using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace _project.Scripts.ECS.Features.TileGeneration
     public sealed class FloorGenerationSystem : Initializer
     {
         [SerializeField] private Grid tilemapPrefab;
+        [SerializeField] private TilemapVariable tilemap;
         [SerializeField] private GenerationRule[] rules;
         [SerializeField] private int groundHeight;
         
@@ -24,6 +26,7 @@ namespace _project.Scripts.ECS.Features.TileGeneration
         public override void OnAwake()
         {
             _tilemap = Instantiate(tilemapPrefab).GetComponentInChildren<Tilemap>();
+            tilemap.SetValue(_tilemap);
             
             var leftWorld = new Vector3(-HalfScreenReferenceSize.x, -HalfScreenReferenceSize.y);
             var rightWorld = new Vector3(HalfScreenReferenceSize.x, -HalfScreenReferenceSize.y);
