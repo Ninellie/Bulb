@@ -783,7 +783,7 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "ChangeSelectionToRight",
@@ -792,7 +792,7 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "ChangeSelectionToUp",
@@ -801,7 +801,7 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "ChangeSelectionToDown",
@@ -810,7 +810,7 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -818,7 +818,7 @@
                     "name": "",
                     "id": "238871bf-7a60-46b9-b90e-a485f61edf05",
                     "path": "<Keyboard>/a",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "ChangeSelectionToLeft",
@@ -829,7 +829,7 @@
                     "name": "",
                     "id": "cba0fd22-46d9-4744-b7f2-96d21c496fea",
                     "path": "<Keyboard>/d",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "ChangeSelectionToRight",
@@ -840,7 +840,7 @@
                     "name": "",
                     "id": "092a5e05-77b0-492c-81e4-6c3962502830",
                     "path": "<Keyboard>/w",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "ChangeSelectionToUp",
@@ -851,7 +851,7 @@
                     "name": "",
                     "id": "0c5268f1-45a5-45c2-be0c-878eec19869b",
                     "path": "<Keyboard>/s",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "ChangeSelectionToDown",
