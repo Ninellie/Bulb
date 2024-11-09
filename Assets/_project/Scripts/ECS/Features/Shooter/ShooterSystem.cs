@@ -1,4 +1,5 @@
-﻿using _project.Scripts.ECS.Features.Health;
+﻿using System.Collections.Generic;
+using _project.Scripts.ECS.Features.Health;
 using _project.Scripts.ECS.Features.Movement;
 using _project.Scripts.ECS.Features.Spawner;
 using _project.Scripts.ECS.Features.Visability;
@@ -22,24 +23,21 @@ namespace _project.Scripts.ECS.Features.Shooter
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] private ComponentPoolContainer poolContainer;
         
-        [SerializeField] private FloatReference attackSpeed; // Выстрелы в секунду
+        [SerializeField] [Tooltip("Shoots per second")] private FloatReference attackSpeed;
         
         [SerializeField] private float bulletSpeedScaleDecreasePerSecond;
         [SerializeField] private float startBulletSpeedScale;
-
         [SerializeField] private bool shootAtOneTime;
-        [SerializeField] [ReadOnly] private float timeBetweenShoots;
+        
+        [SerializeField] [ReadOnly] private float shootInterval;
         [SerializeField] [ReadOnly] private int shootersCount;
         [SerializeField] [ReadOnly] private float cooldown;
-        [SerializeField] [ReadOnly] private bool suspended;
+        //[SerializeField] [ReadOnly] private bool suspended;
  
         private ComponentPool<MovableProvider> _bulletPool;
         
         private Filter _notEnemyShooterFilter;
         private Stash<Shooter> _shooterStash;
-
-        private Filter _shootRequestsFilter;
-        private Stash<ShootRequest> _shootRequestStash;
 
         private Filter _visibleEnemiesFilter;
         private Stash<EnemyData> _enemyDataStash;
@@ -53,7 +51,8 @@ namespace _project.Scripts.ECS.Features.Shooter
         
         private Stash<Invisible> _invisibleStash;
         
-        // Можно создать несколько систем стрельбы, но лучше будет как-то переделать суть.
+        private readonly List<ShootRequest> _shootRequestList = new(500);
+        
         public override void OnAwake()
         {
             // Создаём пул пуль
@@ -65,12 +64,6 @@ namespace _project.Scripts.ECS.Features.Shooter
                 Without<EnemyData>().
                 Build();
             _shooterStash = World.GetStash<Shooter>();
-
-            // Найти все запросы на выстрел
-            _shootRequestsFilter = World.Filter.
-                With<ShootRequest>().
-                Build();
-            _shootRequestStash = World.GetStash<ShootRequest>();
 
             // Найти всех враов
             _visibleEnemiesFilter = World.Filter.
@@ -145,20 +138,17 @@ namespace _project.Scripts.ECS.Features.Shooter
 
         private void HandleShootRequests()
         {
-            foreach (var entity in _shootRequestsFilter)
+            var requestsToRemove = new List<ShootRequest>();
+            
+            foreach (var request in _shootRequestList)
             {
-                if (entity.IsNullOrDisposed())
-                {
-                    continue;
-                }
-                ref var shootRequest = ref _shootRequestStash.Get(entity);
-                if (shootRequest.delay > 0)
+                if (request.Delay > 0)
                 {
                     continue;
                 }
                 
                 // Найти направление к ближайшему врагу от запроса
-                ref var shooter = ref shootRequest.shooter;
+                var shooter = request.Shooter;
                 var shooterPosition = (Vector2)shooter.Transform.position;
                 var targetPosition = GetNearestToPosition(shooterPosition);
 
@@ -173,7 +163,12 @@ namespace _project.Scripts.ECS.Features.Shooter
                     bulletMovable.Direction.constantValue = (targetPosition - shooterPosition).normalized;
                 }
                 
-                _shootRequestStash.Remove(entity);
+                requestsToRemove.Add(request);
+            }
+
+            foreach (var request in requestsToRemove)
+            {
+                _shootRequestList.Remove(request);
             }
         }
 
@@ -218,10 +213,12 @@ namespace _project.Scripts.ECS.Features.Shooter
         // Единичный выстрел из всех пушек
         private void CreateShootRequests()
         {
+            // Узнаём сколько всего пушек
             shootersCount = _shooterStash.Length;
-            timeBetweenShoots = 1f / attackSpeed / shootersCount;
+            // Узнаём временной интервал между выстрелами пушек
+            shootInterval = 1f / attackSpeed / shootersCount;
 
-            var nextShootDelay = timeBetweenShoots;
+            var nextShootDelay = shootInterval;
             
             foreach (var entity in _notEnemyShooterFilter)
             {
@@ -229,20 +226,18 @@ namespace _project.Scripts.ECS.Features.Shooter
                 {
                     continue;
                 }
-                var requestEntity = World.CreateEntity();
-                ref var request = ref _shootRequestStash.Add(requestEntity);
-                
+
                 var shooter = _shooterStash.Get(entity);
-                request.shooter = shooter;
                 
-                request.delay = nextShootDelay;
-                
+                var request = new ShootRequest(shooter, nextShootDelay);
+                _shootRequestList.Add(request);
+
                 if (shootAtOneTime)
                 {
                     continue;
                 }
                 
-                nextShootDelay += timeBetweenShoots;
+                nextShootDelay += shootInterval;
             }
         }
         
@@ -281,11 +276,11 @@ namespace _project.Scripts.ECS.Features.Shooter
         private void UpdateTimers(float deltaTime)
         {
             cooldown -= deltaTime;
+            
             // Уменьшить задержку всех запросов на выстрел
-            foreach (var entity in _shootRequestsFilter)
+            foreach (var request in _shootRequestList)
             {
-                ref var shootRequest = ref _shootRequestStash.Get(entity);
-                shootRequest.delay -= deltaTime;
+                request.Delay -= deltaTime;
             }
         }
     }
