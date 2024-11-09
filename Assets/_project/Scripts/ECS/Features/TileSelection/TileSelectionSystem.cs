@@ -16,31 +16,29 @@ namespace _project.Scripts.ECS.Features.TileSelection
         [SerializeField] private TilemapVariable tilemap;
         [SerializeField] private GameObject tileSelection;
         [SerializeField] private InputActionAsset inputActionAsset;
-
-        [SerializeField] [ReadOnly] private Vector3Int currentSelection;
-
         [SerializeField] private float multiSwapThreshold = 1f;
         [SerializeField] private float pressingSelectionChangeCooldown = 0.2f;
+
+        [SerializeField] [ReadOnly] private Vector3Int currentSelection;
+        [SerializeField] [ReadOnly] private float pressTimer;
+        [SerializeField] [ReadOnly] private float pressingSelectionChangeCooldownTimer;
         
-        private Transform _tileSelection;
+        private Transform _selectionTransform;
         
         private InputAction _changeSelectionToLeft;
         private InputAction _changeSelectionToRight;
         private InputAction _changeSelectionToUp;
         private InputAction _changeSelectionToDown;
 
-        [SerializeField] [ReadOnly] private float _pressTimer;
-        [SerializeField] [ReadOnly] private float _pressingSelectionChangeCooldownTimer;
-        
         public override void OnAwake()
         {
-            _tileSelection = Instantiate(tileSelection).transform;
+            _selectionTransform = Instantiate(tileSelection).transform;
             currentSelection = tilemap.value.origin;
             var cellToWorld = tilemap.value.CellToWorld(currentSelection);
-            _tileSelection.transform.position = cellToWorld;
+            _selectionTransform.transform.position = cellToWorld;
 
-            _pressingSelectionChangeCooldownTimer = pressingSelectionChangeCooldown;
-            _pressTimer = 0;
+            pressingSelectionChangeCooldownTimer = pressingSelectionChangeCooldown;
+            pressTimer = 0;
             
             _changeSelectionToLeft = inputActionAsset.FindAction("ChangeSelectionToLeft");
             _changeSelectionToRight = inputActionAsset.FindAction("ChangeSelectionToRight");
@@ -51,10 +49,7 @@ namespace _project.Scripts.ECS.Features.TileSelection
 
         public override void OnUpdate(float deltaTime)
         {
-            if (_pressingSelectionChangeCooldownTimer > 0)
-            {
-                _pressingSelectionChangeCooldownTimer -= deltaTime;
-            }
+            UpdateSelectCooldown(deltaTime);
             UpdatePressingTimer(deltaTime);
             
             // Получить направление отжатых в этот кадр клавиш
@@ -64,22 +59,29 @@ namespace _project.Scripts.ECS.Features.TileSelection
             if (selectionChange.Equals(Vector3Int.zero))
             {
                 // Если таймер зажатия клавиш больше чем трешхолд
-                if (!(_pressTimer > multiSwapThreshold)) return;
+                if (!(pressTimer > multiSwapThreshold)) return;
                 // Если кулдаун на смену позиции во время зажатия меньше нуля
-                if (_pressingSelectionChangeCooldownTimer > 0) return;
+                if (pressingSelectionChangeCooldownTimer > 0) return;
 
                 selectionChange = GetPressedSelectionChange();
                 ChangeSelection(selectionChange);
-                _pressingSelectionChangeCooldownTimer = pressingSelectionChangeCooldown;
+                pressingSelectionChangeCooldownTimer = pressingSelectionChangeCooldown;
                 return;
             }
 
-            _pressTimer = 0;
+            pressTimer = 0;
             
             ChangeSelection(selectionChange);
         }
-        
-        
+
+        private void UpdateSelectCooldown(float deltaTime)
+        {
+            if (pressingSelectionChangeCooldownTimer > 0)
+            {
+                pressingSelectionChangeCooldownTimer -= deltaTime;
+            }
+        }
+
         private void ChangeSelection(Vector3Int selectionChange)
         {
             var newSelection = currentSelection + selectionChange;
@@ -92,7 +94,7 @@ namespace _project.Scripts.ECS.Features.TileSelection
             currentSelection = newSelection;
                 
             var cellToWorld = tilemap.value.CellToWorld(currentSelection);
-            _tileSelection.transform.position = cellToWorld;
+            _selectionTransform.transform.position = cellToWorld;
         }
 
         private Vector3Int GetReleasedSelectionChange()
@@ -145,25 +147,25 @@ namespace _project.Scripts.ECS.Features.TileSelection
         {
             if (_changeSelectionToLeft.IsPressed())
             {
-                _pressTimer += deltaTime;
+                pressTimer += deltaTime;
                 return;
             }
             
             if (_changeSelectionToRight.IsPressed())
             {
-                _pressTimer += deltaTime;
+                pressTimer += deltaTime;
                 return;
             }
             
             if (_changeSelectionToUp.IsPressed())
             {
-                _pressTimer += deltaTime;
+                pressTimer += deltaTime;
                 return;
             }
             
             if (_changeSelectionToDown.IsPressed())
             {
-                _pressTimer += deltaTime;
+                pressTimer += deltaTime;
             }
         }
     }
