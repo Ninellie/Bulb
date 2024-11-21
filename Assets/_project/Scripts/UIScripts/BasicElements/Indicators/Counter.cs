@@ -1,5 +1,5 @@
 using System;
-using Core.Variables.References;
+using _project.Scripts.Core.Variables.References;
 using TMPro;
 using UnityEngine;
 

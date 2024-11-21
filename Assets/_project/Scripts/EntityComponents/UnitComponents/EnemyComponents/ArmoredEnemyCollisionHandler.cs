@@ -1,4 +1,4 @@
-using Core.Variables.References;
+using _project.Scripts.Core.Variables.References;
 using EntityComponents.UnitComponents.Knockback;
 using EntityComponents.UnitComponents.Movement;
 using UIScripts.BasicElements.Indicators;

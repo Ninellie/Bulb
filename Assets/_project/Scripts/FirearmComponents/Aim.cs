@@ -1,5 +1,5 @@
+using _project.Scripts.Core.Variables.References;
 using Core.Sets;
-using Core.Variables.References;
 using EntityComponents.UnitComponents.EnemyComponents;
 using UnityEngine;
 

@@ -1,6 +1,6 @@
 using System;
+using _project.Scripts.Core.Variables.References;
 using Core.Events;
-using Core.Variables.References;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

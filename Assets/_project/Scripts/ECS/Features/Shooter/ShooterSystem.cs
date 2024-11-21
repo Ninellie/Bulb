@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
+using _project.Scripts.Core.Variables.References;
 using _project.Scripts.ECS.Features.Health;
 using _project.Scripts.ECS.Features.Movement;
 using _project.Scripts.ECS.Features.Spawner;
 using _project.Scripts.ECS.Features.Visability;
 using _project.Scripts.ECS.Pool;
-using Core.Variables.References;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using TriInspector;
 using Unity.IL2CPP.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _project.Scripts.ECS.Features.Shooter

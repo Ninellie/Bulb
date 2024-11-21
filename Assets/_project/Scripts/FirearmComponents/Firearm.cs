@@ -1,6 +1,6 @@
+using _project.Scripts.Core.Variables.References;
 using Core.Events;
 using Core.Sets;
-using Core.Variables.References;
 using EntityComponents.UnitComponents.EnemyComponents;
 using EntityComponents.UnitComponents.Movement;
 using EntityComponents.UnitComponents.PlayerComponents;

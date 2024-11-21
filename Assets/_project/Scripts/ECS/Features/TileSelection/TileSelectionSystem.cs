@@ -1,4 +1,4 @@
-﻿using Core.Variables;
+﻿using _project.Scripts.Core.Variables;
 using Scellecs.Morpeh.Systems;
 using TriInspector;
 using Unity.IL2CPP.CompilerServices;
@@ -19,7 +19,8 @@ namespace _project.Scripts.ECS.Features.TileSelection
         [SerializeField] private float multiSwapThreshold = 1f;
         [SerializeField] private float pressingSelectionChangeCooldown = 0.2f;
 
-        [SerializeField] [ReadOnly] private Vector3Int currentSelection;
+        [SerializeField] private Vector3IntVariable currentSelection;
+        
         [SerializeField] [ReadOnly] private float pressTimer;
         [SerializeField] [ReadOnly] private float pressingSelectionChangeCooldownTimer;
         
@@ -33,7 +34,7 @@ namespace _project.Scripts.ECS.Features.TileSelection
         public override void OnAwake()
         {
             _selectionTransform = Instantiate(tileSelection).transform;
-            currentSelection = tilemap.value.origin;
+            currentSelection.SetValue(tilemap.value.origin);
             var cellToWorld = tilemap.value.CellToWorld(currentSelection);
             _selectionTransform.transform.position = cellToWorld;
 
@@ -91,7 +92,7 @@ namespace _project.Scripts.ECS.Features.TileSelection
                 return;
             }
 
-            currentSelection = newSelection;
+            currentSelection.SetValue(newSelection);
                 
             var cellToWorld = tilemap.value.CellToWorld(currentSelection);
             _selectionTransform.transform.position = cellToWorld;

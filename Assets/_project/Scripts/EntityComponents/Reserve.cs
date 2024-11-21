@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Variables.References;
+using _project.Scripts.Core.Variables.References;
 using UnityEngine;
 using UnityEngine.Events;
 

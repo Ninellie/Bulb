@@ -1,4 +1,4 @@
-using Core.Variables.References;
+using _project.Scripts.Core.Variables.References;
 using UnityEngine;
 
 namespace EntityComponents.UnitComponents.ProjectileComponents

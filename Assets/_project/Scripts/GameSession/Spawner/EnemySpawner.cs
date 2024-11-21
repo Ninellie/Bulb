@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
+using _project.Scripts.Core.Variables.References;
 using Core.Shapes;
-using Core.Variables.References;
 using EntityComponents.UnitComponents.PlayerComponents;
 using UnityEngine;
 
