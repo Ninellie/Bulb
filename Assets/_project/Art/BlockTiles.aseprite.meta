@@ -181,6 +181,26 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 20, y: 4}
+  - name: BlockTiles_Frame_3
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 20
+      y: 20
+      width: 8
+      height: 8
+    spriteID: 1d41612397dee5f4eae2961500bbbd92
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 20, y: 20}
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
@@ -217,6 +237,15 @@ ScriptedImporter:
         width: 8
         height: 8
       spriteId: c2309534b60ccbc4ca5185a22d3ce730
+    - name: BlockTiles_Frame_3
+      frameIndex: 3
+      additiveSortOrder: 0
+      cellRect:
+        x: 0
+        y: 0
+        width: 8
+        height: 8
+      spriteId: 1d41612397dee5f4eae2961500bbbd92
     linkedCells: []
     parentIndex: -1
   platformSettings:
