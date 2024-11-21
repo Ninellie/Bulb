@@ -1,6 +1,6 @@
 using System;
 
-namespace Core.Variables.References
+namespace _project.Scripts.Core.Variables.References
 {
     [Serializable]
     public class StatReference

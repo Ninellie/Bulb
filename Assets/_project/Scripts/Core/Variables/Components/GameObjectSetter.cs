@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Core.Variables.Components
+namespace _project.Scripts.Core.Variables.Components
 {
     public class GameObjectSetter : MonoBehaviour
     {

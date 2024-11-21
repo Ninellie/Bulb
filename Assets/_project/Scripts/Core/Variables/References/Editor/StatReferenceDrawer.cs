@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using _project.Scripts.Core.Variables.References;
 using UnityEditor;
 using UnityEngine;
 

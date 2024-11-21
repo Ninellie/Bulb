@@ -1,7 +1,7 @@
 ﻿using EntityComponents.UnitComponents.PlayerComponents;
 using UnityEngine;
 
-namespace Core.Variables
+namespace _project.Scripts.Core.Variables
 {
     [CreateAssetMenu(fileName = "New Projectile Pool Variable", menuName = "Variables/Projectile Pool", order = 51)]
     public class ProjectilePoolVariable : ScriptableObject

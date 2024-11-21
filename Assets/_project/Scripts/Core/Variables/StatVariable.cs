@@ -3,7 +3,7 @@ using Core.Events;
 using SourceStatSystem;
 using UnityEngine;
 
-namespace Core.Variables
+namespace _project.Scripts.Core.Variables
 {
     [CreateAssetMenu(fileName = "New Stat Variable", menuName = "Variables/Stat", order = 51)]
     public class StatVariable : FloatVariable
