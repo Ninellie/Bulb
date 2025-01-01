@@ -9,6 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c93ff24f4f442769037ec54d1e42af6, type: 3}
-  m_Name: OnBulbEnergyEdge
+  m_Script: {fileID: 11500000, guid: 2e666405040846e59de8ed4bbcb67bb3, type: 3}
+  m_Name: Current Bulb Energy
   m_EditorClassIdentifier: 
+  developerDescription: 
+  value: 0

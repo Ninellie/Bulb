@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dba7e350aeb34266b12cd446e267f888, type: 3}
-  m_Name: BulbPosition
+  m_Name: Current Bulb Position
   m_EditorClassIdentifier: 
   developerDescription: 
   value: {x: 4, y: -76}
