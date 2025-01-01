@@ -15,40 +15,8 @@ MonoBehaviour:
   tilemap: {fileID: 11400000, guid: 673c94fe112574744872b6d1aaf0b655, type: 2}
   tileSelection: {fileID: 8342101115193762049, guid: aa28c3b1f4405144f9f56ef6dc0b537d, type: 3}
   inputActionAsset: {fileID: -944628639613478452, guid: 3c4d7d2807398b8429f9337bb87f9801, type: 3}
-  currentSelection: {x: 0, y: 0, z: 0}
-  changeSelectionToLeft:
-    m_Name: Change Selection To Left
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 2071dfc0-4cba-42cb-a4d4-04d19cad56ec
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  changeSelectionToRight:
-    m_Name: Change Selection To Right
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 688cc0e6-0ca3-4c45-a5bf-b78701c71987
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  changeSelectionToUp:
-    m_Name: Change Selection To Up
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: e45c33eb-2082-43de-832f-331235041482
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  changeSelectionToDown:
-    m_Name: Change Selection To Down
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 8ecafc7c-7778-4a47-bff5-b44d26eaf2cd
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
+  multiSwapThreshold: 1
+  pressingSelectionChangeCooldown: 0.2
+  currentSelection: {fileID: 11400000, guid: 5a81258cf37a334489d7e1127930d595, type: 2}
+  pressTimer: 0
+  pressingSelectionChangeCooldownTimer: 0
