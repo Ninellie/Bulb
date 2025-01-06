@@ -282,9 +282,10 @@ MonoBehaviour:
       variable: {fileID: 0}
     speed:
       useConstant: 1
-      constantValue: 200
+      constantValue: 70
       variable: {fileID: 0}
     speedScale: 1
+    speedScaleChangePerSecond: -0.5
 --- !u!114 &1885109462598596245
 MonoBehaviour:
   m_ObjectHideFlags: 0

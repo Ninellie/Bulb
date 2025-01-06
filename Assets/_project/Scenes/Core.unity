@@ -261,8 +261,6 @@ MonoBehaviour:
   updateSystems:
   - enabled: 1
     system: {fileID: 11400000, guid: 784349e2bf09967448d1ae36874e9692, type: 2}
-  - enabled: 1
-    system: {fileID: 11400000, guid: 5c6f9416fed87494b8398b1469daa40f, type: 2}
   fixedUpdateSystems:
   - enabled: 1
     system: {fileID: 11400000, guid: 895bcfe84d791a74fb9f1d4203f284be, type: 2}

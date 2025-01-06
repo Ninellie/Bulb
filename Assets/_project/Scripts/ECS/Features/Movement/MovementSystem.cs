@@ -20,29 +20,43 @@ namespace _project.Scripts.ECS.Features.Movement
         {
             foreach (var entity in _filter)
             {
-                var movableTransform = _movableStash.Get(entity).Transform;
-                var directionAsTarget = _movableStash.Get(entity).DirectionAsTarget;
-                var direction = _movableStash.Get(entity).Direction.Value;
-                var speed = _movableStash.Get(entity).Speed.Value;
-                var speedScale = _movableStash.Get(entity).SpeedScale;
-                
-                var movablePosition = (Vector2)movableTransform.position;
-
-                if (directionAsTarget)
-                {
-                    direction = (direction - movablePosition).normalized;
-                }
-                else
-                {
-                    direction.Normalize();
-                }
-                
-                direction *= speed * deltaTime * speedScale;
-                
-                var nextPos = movablePosition + direction;
-                movablePosition = nextPos;
-                movableTransform.position = movablePosition;
+                MoveEntity(deltaTime, entity);
+                ChangeSpeedScale(deltaTime, entity);
             }
+        }
+
+        private void MoveEntity(float deltaTime, Entity entity)
+        {
+            var movableTransform = _movableStash.Get(entity).Transform;
+            var directionAsTarget = _movableStash.Get(entity).DirectionAsTarget;
+            var direction = _movableStash.Get(entity).Direction.Value;
+            var speed = _movableStash.Get(entity).Speed.Value;
+            var speedScale = _movableStash.Get(entity).SpeedScale;
+
+            var movablePosition = (Vector2)movableTransform.position;
+
+            if (directionAsTarget)
+            {
+                direction = (direction - movablePosition).normalized;
+            }
+            else
+            {
+                direction.Normalize();
+            }
+
+            direction *= speed * deltaTime * speedScale;
+
+            var nextPos = movablePosition + direction;
+            movablePosition = nextPos;
+            movableTransform.position = movablePosition;
+        }
+        
+        private void ChangeSpeedScale(float deltaTime, Entity entity)
+        {
+            ref var movable = ref _movableStash.Get(entity);
+            var speedScaleDecreasePerSecond = movable.SpeedScaleChangePerSecond;
+            if (speedScaleDecreasePerSecond == 0) return;
+            movable.SpeedScale += movable.SpeedScaleChangePerSecond * deltaTime;
         }
     }
 }

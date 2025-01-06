@@ -3,7 +3,6 @@ using _project.Scripts.Core.Variables.References;
 using _project.Scripts.ECS.Features.Health;
 using _project.Scripts.ECS.Features.Movement;
 using _project.Scripts.ECS.Features.Spawner;
-using _project.Scripts.ECS.Features.Visability;
 using _project.Scripts.ECS.Pool;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
@@ -24,7 +23,6 @@ namespace _project.Scripts.ECS.Features.Shooter
         
         [SerializeField] [Tooltip("Shoots per second")] private FloatReference attackSpeed;
         
-        [SerializeField] private float bulletSpeedScaleDecreasePerSecond;
         [SerializeField] private float startBulletSpeedScale;
         [SerializeField] private bool shootAtOneTime;
         
@@ -38,7 +36,7 @@ namespace _project.Scripts.ECS.Features.Shooter
         private Filter _notEnemyShooterFilter;
         private Stash<Shooter> _shooterStash;
 
-        private Filter _visibleEnemiesFilter;
+        private Filter _enemiesInGameFieldFilter;
         private Stash<EnemyData> _enemyDataStash;
 
         private Filter _bulletFilter;
@@ -47,9 +45,7 @@ namespace _project.Scripts.ECS.Features.Shooter
         private Stash<HealthComponent> _healthStash;
         
         private Stash<Projectile> _projectileStash;
-        
-        private Stash<Invisible> _invisibleStash;
-        
+
         private readonly List<ShootRequest> _shootRequestList = new(500);
         
         public override void OnAwake()
@@ -62,14 +58,16 @@ namespace _project.Scripts.ECS.Features.Shooter
                 With<Shooter>().
                 Without<EnemyData>().
                 Build();
+            
             _shooterStash = World.GetStash<Shooter>();
 
             // Найти всех враов
-            _visibleEnemiesFilter = World.Filter.
+            _enemiesInGameFieldFilter = World.Filter.
                 With<EnemyData>().
-                With<Visible>().
-                Without<Invisible>().
+                //With<Visible>().
+                //Without<Invisible>().
                 Build();
+            
             _enemyDataStash = World.GetStash<EnemyData>();
 
             // Найти все движущиеся снаряды со здоровьем
@@ -78,35 +76,23 @@ namespace _project.Scripts.ECS.Features.Shooter
                 With<Movable>().
                 With<HealthComponent>().
                 Build();
+            
             _movableStash = World.GetStash<Movable>();
             _healthStash = World.GetStash<HealthComponent>();
             _projectileStash = World.GetStash<Projectile>();
-            
-            _invisibleStash = World.GetStash<Invisible>();
-            
+
             // Обновляем кулдаун
             cooldown = 1f / attackSpeed;
         }
         
         public override void OnUpdate(float deltaTime)
         {
-            // Ловим все компоненты суспенда и суспендим если находим и удаляем компоненты
-            // Ловим все компоненты возобновления и возобновляем если находим и удаляем компоненты   
             UpdateTimers(deltaTime);
-            
-            // Обновляем скаляры скоростей пуль
-            // todo перенести в MovementSystem
-            DecreaseBulletsSpeedScale(deltaTime);
-            
+
             CheckReleaseNeed();
             
             // Обрабатываем запросы на выстрел
             HandleShootRequests();
-
-            if (_visibleEnemiesFilter.IsEmpty())
-            {
-                return;
-            }
 
             if (cooldown > 0) return;
             
@@ -115,24 +101,6 @@ namespace _project.Scripts.ECS.Features.Shooter
                 
             // Обновляем кулдаун
             cooldown = 1f / attackSpeed;
-        }
-
-        private void DecreaseBulletsSpeedScale(float deltaTime)
-        {
-            foreach (var entity in _bulletFilter)
-            {
-                if (entity.IsNullOrDisposed())
-                {
-                    continue;
-                }
-
-                if (!_movableStash.Has(entity))
-                {
-                    return;
-                }
-                ref var movable = ref _movableStash.Get(entity);
-                movable.SpeedScale -= bulletSpeedScaleDecreasePerSecond * deltaTime;
-            }
         }
 
         private void HandleShootRequests()
@@ -160,6 +128,12 @@ namespace _project.Scripts.ECS.Features.Shooter
                     bulletMovable.SpeedScale = startBulletSpeedScale;
                     bulletMovable.Transform.position = shooterPosition;
                     bulletMovable.Direction.constantValue = (targetPosition - shooterPosition).normalized;
+                    
+                    Debug.Log("Bullet Creating Requested", this);
+                }
+                else
+                {
+                    Debug.Log("No Target Found For Request", this);
                 }
                 
                 requestsToRemove.Add(request);
@@ -168,6 +142,7 @@ namespace _project.Scripts.ECS.Features.Shooter
             foreach (var request in requestsToRemove)
             {
                 _shootRequestList.Remove(request);
+                Debug.Log("Shoot Request Removed", this);
             }
         }
 
@@ -180,32 +155,33 @@ namespace _project.Scripts.ECS.Features.Shooter
                     continue;
                 }
 
-                var release = _invisibleStash.Has(entity);
+                var release = false;
 
                 // Получаем хп пули
                 var health = _healthStash.Get(entity).HealthPoints;
+                
                 // Получаем скаляр скорости пули
                 var speedScale = _movableStash.Get(entity).SpeedScale;
-
-                // Если хп пули не больше нуля, то полчить проджектайл и вернуть в пул и перейти
-                // к следующей пуле
+                
+                // Если хп пули не больше нуля, выставить релиз флаг
                 if (!(health > 0))
                 {
                     release = true;
                 }
                 
-                // Если скаляр скорости пули не больше нуля, то полчить проджектайл и вернуть в пул и перейти
-                // к следующей пуле
+                // Если скаляр скорости пули не больше нуля, выставить релиз флаг
                 if (!(speedScale > 0))
                 {
                     release = true;
                 }
 
+                // Перейти к следующей пули, если релиз флаг не выставлен
                 if (!release) continue;
                 
+                // Получить юнити gameObject
                 var gameObject = _projectileStash.Get(entity).Transform.gameObject;
-                gameObject.SetActive(false);
-                _bulletPool.Release(gameObject);
+                gameObject.SetActive(false); // Выставить активность
+                _bulletPool.Release(gameObject); //
             }
         }
         
@@ -231,6 +207,8 @@ namespace _project.Scripts.ECS.Features.Shooter
                 var request = new ShootRequest(shooter, nextShootDelay);
                 _shootRequestList.Add(request);
 
+                Debug.Log("Created Shoot Request");
+                
                 if (shootAtOneTime)
                 {
                     continue;
@@ -244,7 +222,8 @@ namespace _project.Scripts.ECS.Features.Shooter
         {
             var distanceToNearestTarget = Mathf.Infinity;
             Transform nearestTarget = null;
-            foreach (var entity in _visibleEnemiesFilter)
+            
+            foreach (var entity in _enemiesInGameFieldFilter)
             {
                 ref var target = ref _enemyDataStash.Get(entity);
                 var transform = target.Transform;
@@ -269,7 +248,7 @@ namespace _project.Scripts.ECS.Features.Shooter
         private void CreatePool()
         {
             _bulletPool = poolContainer.CreatePool<MovableProvider>("Bullet Pool",true, 200,
-                50, bulletPrefab);
+                250, bulletPrefab);
         }
 
         private void UpdateTimers(float deltaTime)

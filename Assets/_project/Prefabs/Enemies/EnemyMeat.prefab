@@ -231,9 +231,10 @@ MonoBehaviour:
       variable: {fileID: 11400000, guid: db1da9e3e213f364eb9d5d3b9a58c94c, type: 2}
     speed:
       useConstant: 1
-      constantValue: 40
+      constantValue: 15
       variable: {fileID: 0}
     speedScale: 1
+    speedScaleChangePerSecond: 0
 --- !u!114 &-4571130024793711880
 MonoBehaviour:
   m_ObjectHideFlags: 0
