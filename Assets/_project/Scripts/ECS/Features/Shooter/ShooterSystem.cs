@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _project.Scripts.Core.Variables.References;
+using _project.Scripts.ECS.Features.CameraBoundsDetection;
 using _project.Scripts.ECS.Features.Health;
 using _project.Scripts.ECS.Features.Movement;
 using _project.Scripts.ECS.Features.Spawner;
 using _project.Scripts.ECS.Pool;
 using Scellecs.Morpeh;
+using Scellecs.Morpeh.Providers;
 using Scellecs.Morpeh.Systems;
 using TriInspector;
 using Unity.IL2CPP.CompilerServices;
@@ -61,11 +64,10 @@ namespace _project.Scripts.ECS.Features.Shooter
             
             _shooterStash = World.GetStash<Shooter>();
 
-            // Найти всех враов
+            // Найти всех врагов в камере
             _enemiesInGameFieldFilter = World.Filter.
                 With<EnemyData>().
-                //With<Visible>().
-                //Without<Invisible>().
+                With<InMainCamBounds>().
                 Build();
             
             _enemyDataStash = World.GetStash<EnemyData>();
@@ -88,19 +90,11 @@ namespace _project.Scripts.ECS.Features.Shooter
         public override void OnUpdate(float deltaTime)
         {
             UpdateTimers(deltaTime);
-
             CheckReleaseNeed();
-            
-            // Обрабатываем запросы на выстрел
-            HandleShootRequests();
-
+            HandleShootRequests(); // Обрабатываем запросы на выстрел
             if (cooldown > 0) return;
-            
-            // Создать запросы на выстрел
-            CreateShootRequests();
-                
-            // Обновляем кулдаун
-            cooldown = 1f / attackSpeed;
+            CreateShootRequests(); // Создать запросы на выстрел
+            cooldown = 1f / attackSpeed; // Обновляем кулдаун
         }
 
         private void HandleShootRequests()
@@ -109,11 +103,7 @@ namespace _project.Scripts.ECS.Features.Shooter
             
             foreach (var request in _shootRequestList)
             {
-                if (request.Delay > 0)
-                {
-                    continue;
-                }
-                
+                if (request.Delay > 0) continue;
                 // Найти направление к ближайшему врагу от запроса
                 var shooter = request.Shooter;
                 var shooterPosition = (Vector2)shooter.Transform.position;
@@ -150,34 +140,17 @@ namespace _project.Scripts.ECS.Features.Shooter
         {
             foreach (var entity in _bulletFilter)
             {
-                if (entity.IsNullOrDisposed())
-                {
-                    continue;
-                }
-
+                if (entity.IsNullOrDisposed()) continue;
                 var release = false;
-
-                // Получаем хп пули
-                var health = _healthStash.Get(entity).HealthPoints;
-                
+                var health = _healthStash.Get(entity).HealthPoints; // Получаем хп пули
                 // Получаем скаляр скорости пули
                 var speedScale = _movableStash.Get(entity).SpeedScale;
-                
                 // Если хп пули не больше нуля, выставить релиз флаг
-                if (!(health > 0))
-                {
-                    release = true;
-                }
-                
+                if (!(health > 0)) release = true;
                 // Если скаляр скорости пули не больше нуля, выставить релиз флаг
-                if (!(speedScale > 0))
-                {
-                    release = true;
-                }
-
+                if (!(speedScale > 0)) release = true;
                 // Перейти к следующей пули, если релиз флаг не выставлен
                 if (!release) continue;
-                
                 // Получить юнити gameObject
                 var gameObject = _projectileStash.Get(entity).Transform.gameObject;
                 gameObject.SetActive(false); // Выставить активность
@@ -197,11 +170,7 @@ namespace _project.Scripts.ECS.Features.Shooter
             
             foreach (var entity in _notEnemyShooterFilter)
             {
-                if (entity.IsNullOrDisposed())
-                {
-                    continue;
-                }
-
+                if (entity.IsNullOrDisposed()) continue;
                 var shooter = _shooterStash.Get(entity);
                 
                 var request = new ShootRequest(shooter, nextShootDelay);
@@ -209,11 +178,7 @@ namespace _project.Scripts.ECS.Features.Shooter
 
                 Debug.Log("Created Shoot Request");
                 
-                if (shootAtOneTime)
-                {
-                    continue;
-                }
-                
+                if (shootAtOneTime) continue;
                 nextShootDelay += shootInterval;
             }
         }
