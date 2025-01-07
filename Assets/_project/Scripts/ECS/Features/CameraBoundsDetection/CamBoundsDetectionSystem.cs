@@ -38,9 +38,12 @@ namespace _project.Scripts.ECS.Features.CameraBoundsDetection
             
             var outCamBoundsRenderersTemp = 
                 GetCamBoundsRenderers(_outCamBounds);
-            
+
+#if UNITY_EDITOR
             Debug.Log($"Рендереров видно на камере: {inCamBoundsRenderersTemp.Count().ToString()}");
             Debug.Log($"Рендереров не видно на камере: {outCamBoundsRenderersTemp.Count().ToString()}");
+#endif
+                
             
             foreach (var (entity, renderer) in inCamBoundsRenderersTemp)
             {
