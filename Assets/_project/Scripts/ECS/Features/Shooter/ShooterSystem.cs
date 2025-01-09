@@ -23,46 +23,36 @@ namespace _project.Scripts.ECS.Features.Shooter
     {
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] private ComponentPoolContainer poolContainer;
-        
-        [SerializeField] [Tooltip("Shoots per second")] private FloatReference attackSpeed;
-        
+
+        [SerializeField] [Tooltip("Shoots per second")]
+        private FloatReference attackSpeed;
+
         [SerializeField] private float startBulletSpeedScale;
         [SerializeField] private bool shootAtOneTime;
-        
+
         [SerializeField] [ReadOnly] private float shootInterval;
         [SerializeField] [ReadOnly] private int shootersCount;
-        [SerializeField] [ReadOnly] private float cooldown;
-        //[SerializeField] [ReadOnly] private bool suspended;
- 
+        
         private ComponentPool<MovableProvider> _bulletPool;
-        
-        private Filter _notEnemyAimedShooterFilter;
-        private Stash<Shooter> _shooterStash;
-        
-        private Stash<Aimed> _aimedStash;
 
+        private Filter _aimedReadyShooterFilter;
         private Filter _bulletFilter;
-        private Stash<Movable> _movableStash;
-
-        private Stash<HealthComponent> _healthStash;
         
+        private Stash<Movable> _movableStash;
+        private Stash<HealthComponent> _healthStash;
         private Stash<Projectile> _projectileStash;
 
-        private readonly List<ShootRequest> _shootRequestList = new(500);
-        
         public override void OnAwake()
         {
             // Создаём пул пуль
             CreatePool();
-            
+
             // Найти все прицелившиеся готовые к стрельбе сущности
-            _notEnemyAimedShooterFilter = World.Filter
+            _aimedReadyShooterFilter = World.Filter
                 .With<Shooter>()
                 .With<Aimed>()
                 .Without<Cooldown>()
                 .Build();
-            
-            _shooterStash = World.GetStash<Shooter>();
 
             // Найти все движущиеся снаряды со здоровьем
             _bulletFilter = World.Filter
@@ -71,58 +61,36 @@ namespace _project.Scripts.ECS.Features.Shooter
                 .With<HealthComponent>()
                 .Build();
             
-            _aimedStash = World.GetStash<Aimed>();
             _movableStash = World.GetStash<Movable>();
             _healthStash = World.GetStash<HealthComponent>();
             _projectileStash = World.GetStash<Projectile>();
-
-            // Обновляем время восстановления
-            cooldown = 1f / attackSpeed;
         }
-        
+
         public override void OnUpdate(float deltaTime)
         {
-            UpdateTimers(deltaTime);
+            Shoots();
             CheckReleaseNeed();
-            HandleShootRequests(); // Обрабатываем запросы на выстрел
-            if (cooldown > 0) return;
-            CreateShootRequests(); // Создать запросы на выстрел
-            cooldown = 1f / attackSpeed; // Обновляем время восстановления
         }
-        
-        private void HandleShootRequests()
-        {
-            var requestsToRemove = new List<ShootRequest>();
-            
-            foreach (var request in _shootRequestList.Where(request => !(request.Delay > 0)))
-            {
-                // Проверить прицелен ли шутер
-                if (!request.ShooterEntity.IsNullOrDisposed())
-                {
-                    if (_aimedStash.Has(request.ShooterEntity))
-                    {
-                        // Найти направление к ближайшему врагу от запроса
-                        ref var shooter = ref request.ShooterEntity.GetComponent<Shooter>();
-                        ref var aimed = ref request.ShooterEntity.GetComponent<Aimed>();
-                        var shooterPosition = (Vector2)shooter.Transform.position;
-                        var targetPosition = (Vector2)aimed.Target.position;
-                        
-                        // Создать запрос на создание пули (пока просто создать пулю)
-                        var bulletMovableProvider = _bulletPool.Get();
-                        ref var bulletMovable = ref _movableStash.Get(bulletMovableProvider.Entity);
-                        bulletMovable.SpeedScale = startBulletSpeedScale;
-                        bulletMovable.Transform.position = shooterPosition;
-                        bulletMovable.Direction.constantValue = (targetPosition - shooterPosition).normalized;
-                        Debug.Log("Bullet Creating Requested", this);
-                    }
-                }
-                requestsToRemove.Add(request);
-            }
 
-            foreach (var request in requestsToRemove)
+        private void Shoots()
+        {
+            var cooldown = 1f / attackSpeed;
+            foreach (var entity in _aimedReadyShooterFilter)
             {
-                _shootRequestList.Remove(request);
-                Debug.Log("Shoot Request Removed", this);
+                ref var shooter = ref entity.GetComponent<Shooter>();
+                ref var aimed = ref entity.GetComponent<Aimed>();
+                var shooterPosition = (Vector2)shooter.Transform.position;
+                var targetPosition = (Vector2)aimed.Target.position;
+
+                // Создать запрос на создание пули (пока просто создать пулю)
+                var bulletMovableProvider = _bulletPool.Get();
+                ref var bulletMovable = ref _movableStash.Get(bulletMovableProvider.Entity);
+                bulletMovable.SpeedScale = startBulletSpeedScale;
+                bulletMovable.Transform.position = shooterPosition;
+                bulletMovable.Direction.constantValue = (targetPosition - shooterPosition).normalized;
+
+                entity.AddComponent<Cooldown>().Current = cooldown;
+                entity.RemoveComponent<Aimed>();
             }
         }
 
@@ -147,43 +115,12 @@ namespace _project.Scripts.ECS.Features.Shooter
                 _bulletPool.Release(gameObject); // todo жижа каждый раз делает GetComponent внутри
             }
         }
-        
-        // Единичный выстрел из всех пушек
-        private void CreateShootRequests()
-        {
-            // Узнаём сколько всего пушек
-            shootersCount = _shooterStash.Length;
-            // Узнаём временной интервал между выстрелами пушек
-            shootInterval = 1f / attackSpeed / shootersCount;
 
-            var nextShootDelay = shootInterval;
-            
-            foreach (var entity in _notEnemyAimedShooterFilter)
-            {
-                if (entity.IsNullOrDisposed()) continue;
-                _shootRequestList.Add(new ShootRequest(entity, nextShootDelay));
-                Debug.Log("Created Shoot Request");
-                if (shootAtOneTime) continue;
-                nextShootDelay += shootInterval;
-            }
-        }
-        
         private void CreatePool()
         {
             _bulletPool = poolContainer.CreatePool<MovableProvider>(
-                "Bullet Pool",true, 200,
+                "Bullet Pool", true, 200,
                 250, bulletPrefab);
-        }
-
-        private void UpdateTimers(float deltaTime)
-        {
-            cooldown -= deltaTime;
-            
-            // Уменьшить задержку всех запросов на выстрел
-            foreach (var request in _shootRequestList)
-            {
-                request.Delay -= deltaTime;
-            }
         }
     }
 }
