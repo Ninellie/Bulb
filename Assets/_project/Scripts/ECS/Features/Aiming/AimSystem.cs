@@ -1,4 +1,5 @@
 ﻿using _project.Scripts.ECS.Features.CameraBoundsDetection;
+using _project.Scripts.ECS.Features.CooldownReduction;
 using _project.Scripts.ECS.Features.Spawner;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
@@ -23,16 +24,18 @@ namespace _project.Scripts.ECS.Features.Aiming
         public override void OnAwake()
         {
             // Найти всех врагов в камере
-            _enemiesInCamBoundsFilter = World.Filter.
-                With<EnemyData>().
-                With<InMainCamBounds>().
-                Build();
+            _enemiesInCamBoundsFilter = World.Filter
+                .With<EnemyData>()
+                .With<InMainCamBounds>()
+                .Build();
             
             _enemyDataStash = World.GetStash<EnemyData>();
 
             _aimedStash = World.GetStash<Aimed>();
 
-            _aimingFilter = World.Filter.With<Aiming>().Build();
+            _aimingFilter = World.Filter.With<Aiming>()
+                .Without<Cooldown>()
+                .Build();
         }
         
         public override void OnUpdate(float deltaTime)
