@@ -151,6 +151,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     <Transform>k__BackingField: {fileID: 7353880756776423416}
+    <AttackSpeed>k__BackingField:
+      useConstant: 1
+      constantValue: 0.1
+      variable: {fileID: 0}
 --- !u!114 &3838100841394702756
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using _project.Scripts.Core.Variables.References;
-using _project.Scripts.ECS.Features.Aiming;
+﻿using _project.Scripts.ECS.Features.Aiming;
 using _project.Scripts.ECS.Features.CooldownReduction;
 using _project.Scripts.ECS.Features.Health;
 using _project.Scripts.ECS.Features.Movement;
-using _project.Scripts.ECS.Features.Spawner;
 using _project.Scripts.ECS.Pool;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
@@ -23,9 +19,6 @@ namespace _project.Scripts.ECS.Features.Shooter
     {
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] private ComponentPoolContainer poolContainer;
-
-        [SerializeField] [Tooltip("Shoots per second")]
-        private FloatReference attackSpeed;
 
         [SerializeField] private float startBulletSpeedScale;
         [SerializeField] private bool shootAtOneTime;
@@ -74,7 +67,6 @@ namespace _project.Scripts.ECS.Features.Shooter
 
         private void Shoots()
         {
-            var cooldown = 1f / attackSpeed;
             foreach (var entity in _aimedReadyShooterFilter)
             {
                 ref var shooter = ref entity.GetComponent<Shooter>();
@@ -88,7 +80,8 @@ namespace _project.Scripts.ECS.Features.Shooter
                 bulletMovable.SpeedScale = startBulletSpeedScale;
                 bulletMovable.Transform.position = shooterPosition;
                 bulletMovable.Direction.constantValue = (targetPosition - shooterPosition).normalized;
-
+                
+                var cooldown = 1f / shooter.AttackSpeed;
                 entity.AddComponent<Cooldown>().Current = cooldown;
                 entity.RemoveComponent<Aimed>();
             }
