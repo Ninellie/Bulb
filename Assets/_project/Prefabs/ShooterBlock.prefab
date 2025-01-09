@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6267652337249091519}
   - component: {fileID: -8616973659635065736}
   - component: {fileID: 7867028015206009810}
+  - component: {fileID: 3838100841394702756}
   m_Layer: 0
   m_Name: ShooterBlock
   m_TagString: Untagged
@@ -149,4 +150,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
+    <Transform>k__BackingField: {fileID: 7353880756776423416}
+--- !u!114 &3838100841394702756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6516446363662742930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b328824b56475497d681315a946a43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    <AimingRadius>k__BackingField: 200
     <Transform>k__BackingField: {fileID: 7353880756776423416}
