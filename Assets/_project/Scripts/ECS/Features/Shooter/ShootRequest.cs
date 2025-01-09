@@ -1,13 +1,15 @@
-﻿namespace _project.Scripts.ECS.Features.Shooter
+﻿using Scellecs.Morpeh;
+
+namespace _project.Scripts.ECS.Features.Shooter
 {
     public class ShootRequest
     {
-        public Shooter Shooter { get; }
+        public Entity ShooterEntity { get; }
         public float Delay { get; set; }
 
-        public ShootRequest(Shooter shooter, float delay)
+        public ShootRequest(Entity shooterEntity, float delay)
         {
-            Shooter = shooter;
+            ShooterEntity = shooterEntity;
             Delay = delay;
         }
     }

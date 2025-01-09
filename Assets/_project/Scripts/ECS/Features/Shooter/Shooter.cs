@@ -8,5 +8,6 @@ namespace _project.Scripts.ECS.Features.Shooter
     public struct Shooter : IComponent
     {
         [field: SerializeField] public Transform Transform { get; set; }
+        [field: SerializeField] public float BaseCooldown { get; set; }
     }
 }
