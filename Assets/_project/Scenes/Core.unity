@@ -267,9 +267,13 @@ MonoBehaviour:
   - enabled: 1
     system: {fileID: 11400000, guid: 895bcfe84d791a74fb9f1d4203f284be, type: 2}
   - enabled: 1
-    system: {fileID: 11400000, guid: 3afde097ea6cb0043b33ab8d5411e319, type: 2}
+    system: {fileID: 11400000, guid: 5627d1f0bebd3f947a2a049d90815b8f, type: 2}
+  - enabled: 1
+    system: {fileID: 11400000, guid: 32696996b5a73224da18a22a6c6da53f, type: 2}
   - enabled: 1
     system: {fileID: 11400000, guid: 55aada3a1f8a33b4f80eddb7689aafcd, type: 2}
+  - enabled: 1
+    system: {fileID: 11400000, guid: 3afde097ea6cb0043b33ab8d5411e319, type: 2}
   - enabled: 1
     system: {fileID: 11400000, guid: 8a4c81bdac2988f4682e84b36aac2772, type: 2}
   - enabled: 1
@@ -278,8 +282,6 @@ MonoBehaviour:
     system: {fileID: 11400000, guid: 38301d200cd77c74f98033ba8ed8c255, type: 2}
   - enabled: 1
     system: {fileID: 11400000, guid: b9ffab40c19b00d43acc926d1dccf609, type: 2}
-  - enabled: 1
-    system: {fileID: 11400000, guid: 5627d1f0bebd3f947a2a049d90815b8f, type: 2}
   lateUpdateSystems: []
   cleanupSystems: []
 --- !u!4 &628941485
