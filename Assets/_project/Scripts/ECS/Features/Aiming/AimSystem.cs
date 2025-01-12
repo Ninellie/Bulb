@@ -50,31 +50,29 @@ namespace _project.Scripts.ECS.Features.Aiming
                 var nearestEnemy = GetNearestToCenterInCircle(aimingPos, radius);
                 var isAimed = _aimedStash.Has(entity);
                 var withoutEnemy = nearestEnemy is null;
-
-                switch (isAimed)
+                
+                if (isAimed)
                 {
-                    // Не целится и врагов поблизости нет
-                    case false when withoutEnemy:
-                        continue;
-                    case true when withoutEnemy:
-                        _aimedStash.Remove(entity); // Если цель прицелена, удалить компонент
-                        break;
-                }
-                switch (isAimed)
-                {
-                    // Если цель прицелена и враг есть, обновить цель
-                    case true when !withoutEnemy:
+                    if (withoutEnemy) 
                     {
+                        // Если цель прицелена, удалить компонент
+                        _aimedStash.Remove(entity);  
+                    }
+                    else 
+                    {
+                        // Если цель прицелена и враг есть, обновить цель
                         ref var aimed = ref _aimedStash.Get(entity);
                         aimed.Target = nearestEnemy;
-                        break;
                     }
-                    case false:
+                }
+                else
+                {
+                    // Не целится и врагов поблизости нет
+                    if (!withoutEnemy) 
                     {
                         // Добавить компонент прицеливания
                         ref var aimed = ref entity.AddComponent<Aimed>();
                         aimed.Target = nearestEnemy;
-                        break;
                     }
                 }
             }
@@ -94,13 +92,16 @@ namespace _project.Scripts.ECS.Features.Aiming
             foreach (var entity in _enemiesInCamBoundsFilter)
             {
                 ref var target = ref _enemyDataStash.Get(entity);
-                var transform = target.Transform;
-                var direction = (Vector2)transform.position;
-                var distance = Vector2.Distance(center, direction);
-                if (!(distance < radius)) continue;
-                if (!(distance < distanceToNearestTarget)) continue;
-                distanceToNearestTarget = distance;
-                nearestTarget = transform;
+                var targetTransform = target.Transform;
+                var targetPosition = (Vector2)targetTransform.position;
+                var distance = Vector2.Distance(center, targetPosition);
+                var radiusExtended = radius + target.CircleCollider2D.radius;
+                if (distance >= radiusExtended) continue;
+                if (distance < distanceToNearestTarget)
+                {
+                    distanceToNearestTarget = distance;
+                    nearestTarget = targetTransform;
+                }
             }
 
             return nearestTarget;
