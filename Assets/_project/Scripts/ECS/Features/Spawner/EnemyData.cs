@@ -7,10 +7,7 @@ namespace _project.Scripts.ECS.Features.Spawner
     [Serializable]
     public struct EnemyData : IComponent
     {
-        [SerializeField] private Transform transform;
-        [SerializeField] private Rigidbody2D rigidbody2D;
-        
-        public Transform Transform => transform;
-        public Rigidbody2D Rigidbody2D => rigidbody2D;
+        [field: SerializeField] public Transform Transform { get; set; }
+        [field: SerializeField] public CircleCollider2D CircleCollider2D { get; set; }
     }
 }
