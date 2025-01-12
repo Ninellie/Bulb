@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a5ed54825064473822767a4f535cf5d, type: 3}
-  m_Name: Current Energy
+  m_Script: {fileID: 11500000, guid: 8f9af71d046d4b11868c1a1ba86339c6, type: 3}
+  m_Name: Energy Production System
   m_EditorClassIdentifier: 
-  developerDescription: 
-  value: 1.7993207
+  currentEnergy: {fileID: 11400000, guid: d446ffff4ebaa2f43bcc8b23a929db84, type: 2}
+  energyMaximum: {fileID: 11400000, guid: 47708cc09da868348aa6966d82e66ce1, type: 2}

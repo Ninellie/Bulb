@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a5ed54825064473822767a4f535cf5d, type: 3}
-  m_Name: Current Energy
+  m_Script: {fileID: 11500000, guid: c9c1d8ac916c4240ae98252a0dabec74, type: 3}
+  m_Name: Energy Consumption System
   m_EditorClassIdentifier: 
-  developerDescription: 
-  value: 1.7993207
+  currentEnergy: {fileID: 11400000, guid: d446ffff4ebaa2f43bcc8b23a929db84, type: 2}
