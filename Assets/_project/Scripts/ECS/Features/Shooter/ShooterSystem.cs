@@ -1,5 +1,7 @@
 ﻿using _project.Scripts.ECS.Features.Aiming;
+using _project.Scripts.ECS.Features.CameraBoundsDetection;
 using _project.Scripts.ECS.Features.CooldownReduction;
+using _project.Scripts.ECS.Features.EnergyConsumption;
 using _project.Scripts.ECS.Features.Health;
 using _project.Scripts.ECS.Features.Movement;
 using _project.Scripts.ECS.Pool;
@@ -29,7 +31,9 @@ namespace _project.Scripts.ECS.Features.Shooter
         private ComponentPool<MovableProvider> _bulletPool;
 
         private Filter _aimedReadyShooterFilter;
+        
         private Filter _bulletFilter;
+        private Filter _bulletOutOfCamFilter;
         
         private Stash<Movable> _movableStash;
         private Stash<HealthComponent> _healthStash;
@@ -43,6 +47,7 @@ namespace _project.Scripts.ECS.Features.Shooter
             // Найти все прицелившиеся готовые к стрельбе сущности
             _aimedReadyShooterFilter = World.Filter
                 .With<Shooter>()
+                .Without<EnergyEmpty>()
                 .With<Aimed>()
                 .Without<Cooldown>()
                 .Build();
@@ -52,6 +57,15 @@ namespace _project.Scripts.ECS.Features.Shooter
                 .With<Projectile>()
                 .With<Movable>()
                 .With<HealthComponent>()
+                .With<InMainCamBounds>()
+                .Build();
+            
+            // Найти пули за камерой
+            _bulletOutOfCamFilter = World.Filter
+                .With<Projectile>()
+                .With<Movable>()
+                .With<HealthComponent>()
+                .Without<InMainCamBounds>()
                 .Build();
             
             _movableStash = World.GetStash<Movable>();
@@ -69,44 +83,73 @@ namespace _project.Scripts.ECS.Features.Shooter
         {
             foreach (var entity in _aimedReadyShooterFilter)
             {
+                ref var energyReserve = ref entity.GetComponent<EnergyReserve>();
                 ref var shooter = ref entity.GetComponent<Shooter>();
                 ref var aimed = ref entity.GetComponent<Aimed>();
+                var cost = shooter.Cost.Value;
+
+                if (energyReserve.CurrentAmount - cost < 0)
+                {
+                    // Недостаточно энергии, выключить и наложить штрафной длительный кд
+                    // todo сделать визуальный эффект выключения, снизить излучаемую яркость до нуля
+                    
+                    entity.AddComponent<Cooldown>().Current = shooter.PenaltyTime;
+                    entity.RemoveComponent<Aimed>();
+                    continue;
+                }
+                
+                energyReserve.CurrentAmount -= cost;
                 var shooterPosition = (Vector2)shooter.Transform.position;
                 var targetPosition = (Vector2)aimed.Target.position;
 
-                // Создать запрос на создание пули (пока просто создать пулю)
-                var bulletMovableProvider = _bulletPool.Get();
-                ref var bulletMovable = ref _movableStash.Get(bulletMovableProvider.Entity);
-                bulletMovable.SpeedScale = startBulletSpeedScale;
-                bulletMovable.Transform.position = shooterPosition;
-                bulletMovable.Direction.constantValue = (targetPosition - shooterPosition).normalized;
-                
-                var cooldown = 1f / shooter.AttackSpeed;
-                entity.AddComponent<Cooldown>().Current = cooldown;
+                entity.AddComponent<Cooldown>().Current = shooter.Cooldown;
                 entity.RemoveComponent<Aimed>();
+                
+                // Создать запрос на создание пули (пока просто создать пулю)
+                CreateBullet(shooterPosition, targetPosition);
             }
+        }
+
+        private void CreateBullet(Vector2 shooterPosition, Vector2 targetPosition)
+        {
+            var bulletMovableProvider = _bulletPool.Get();
+            ref var bulletMovable = ref _movableStash.Get(bulletMovableProvider.Entity);
+            bulletMovable.SpeedScale = startBulletSpeedScale;
+            bulletMovable.Transform.position = shooterPosition;
+            bulletMovable.Direction.constantValue = (targetPosition - shooterPosition).normalized;
         }
 
         private void CheckReleaseNeed()
         {
+            foreach (var entity in _bulletOutOfCamFilter)
+            {
+                if (entity.IsNullOrDisposed()) continue;
+                ReleaseBullet(entity);
+            }
+            
             foreach (var entity in _bulletFilter)
             {
                 if (entity.IsNullOrDisposed()) continue;
-                var release = false;
                 var health = _healthStash.Get(entity).HealthPoints; // Получаем хп пули
-                // Получаем скаляр скорости пули
-                var speedScale = _movableStash.Get(entity).SpeedScale;
-                // Если хп пули не больше нуля, выставить релиз флаг
-                if (!(health > 0)) release = true;
-                // Если скаляр скорости пули не больше нуля, выставить релиз флаг
-                if (!(speedScale > 0)) release = true;
-                // Перейти к следующей пули, если релиз флаг не выставлен
-                if (!release) continue;
-                // Получить юнити gameObject
-                var gameObject = _projectileStash.Get(entity).Transform.gameObject;
-                gameObject.SetActive(false); // Выставить активность
-                _bulletPool.Release(gameObject); // todo жижа каждый раз делает GetComponent внутри
+                if (!(health > 0)) // Если хп пули не больше нуля, выставить релиз флаг
+                {
+                    ReleaseBullet(entity);
+                    continue;
+                };
+                var speedScale = _movableStash.Get(entity).SpeedScale; // Получаем скаляр скорости пули
+                if (!(speedScale > 0)) // Если скаляр скорости пули не больше нуля, выставить релиз флаг
+                {
+                    ReleaseBullet(entity);
+                }
             }
+        }
+
+        private void ReleaseBullet(Entity entity)
+        {
+            var gameObject = _projectileStash.Get(entity).Transform.gameObject;
+            gameObject.SetActive(false); // Выставить активность
+            _bulletPool.Release(gameObject); // todo жижа каждый раз делает GetComponent внутри 
+            entity.Dispose();
         }
 
         private void CreatePool()
@@ -114,6 +157,24 @@ namespace _project.Scripts.ECS.Features.Shooter
             _bulletPool = poolContainer.CreatePool<MovableProvider>(
                 "Bullet Pool", true, 200,
                 250, bulletPrefab);
+        }
+    }
+
+
+    [Il2CppSetOption(Option.NullChecks, false)]
+    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
+    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
+    [CreateAssetMenu(menuName = "ECS/Systems/Fixed/" + nameof(ProjectileHandlerSystem))]
+    public sealed class ProjectileHandlerSystem : FixedUpdateSystem
+    {
+        public override void OnAwake()
+        {
+            
+        }
+
+        public override void OnUpdate(float deltaTime)
+        {
+            
         }
     }
 }
