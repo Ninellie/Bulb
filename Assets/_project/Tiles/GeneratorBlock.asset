@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: GeneratorBlock
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: 0}
-  m_DefaultGameObject: {fileID: 6516446363662742930, guid: 94ebaabad63340e4a8d62296e764b93d, type: 3}
+  m_DefaultGameObject: {fileID: 6516446363662742930, guid: 8fe304cb00f3d5e41b9a6acd92716cf2, type: 3}
   m_DefaultColliderType: 2
   m_TilingRules: []

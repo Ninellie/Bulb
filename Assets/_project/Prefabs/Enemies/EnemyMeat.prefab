@@ -250,6 +250,7 @@ MonoBehaviour:
   serializedData:
     transform: {fileID: 8951136872698286780}
     rigidbody2D: {fileID: 6126576625434812319}
+    circleCollider2D: {fileID: 2889872314614446963}
 --- !u!114 &1885109462598596245
 MonoBehaviour:
   m_ObjectHideFlags: 0

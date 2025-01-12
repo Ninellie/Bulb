@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -8616973659635065736}
   - component: {fileID: 7867028015206009810}
   - component: {fileID: 3838100841394702756}
+  - component: {fileID: -5397043360577990649}
   m_Layer: 0
   m_Name: ShooterBlock
   m_TagString: Untagged
@@ -151,10 +152,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     <Transform>k__BackingField: {fileID: 7353880756776423416}
-    <AttackSpeed>k__BackingField:
+    <Cooldown>k__BackingField:
       useConstant: 1
-      constantValue: 0.1
+      constantValue: 2
       variable: {fileID: 0}
+    <Cost>k__BackingField:
+      useConstant: 1
+      constantValue: 2
+      variable: {fileID: 0}
+    <PenaltyTime>k__BackingField: 30
 --- !u!114 &3838100841394702756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,3 +176,19 @@ MonoBehaviour:
   serializedData:
     <AimingRadius>k__BackingField: 200
     <Transform>k__BackingField: {fileID: 7353880756776423416}
+--- !u!114 &-5397043360577990649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6516446363662742930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dee7722dee6046e9ac3ae317d3b2a0b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    <CurrentAmount>k__BackingField: 1
+    <MaximumAmount>k__BackingField: 5
+    <SatisfactionAmount>k__BackingField: 2
