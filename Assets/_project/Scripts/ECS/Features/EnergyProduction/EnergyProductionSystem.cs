@@ -16,7 +16,16 @@ namespace _project.Scripts.ECS.Features.EnergyProduction
         [SerializeField] private FloatVariable currentEnergy;
         [SerializeField] private FloatVariable energyMaximum;
 
+        // Только для установки значения, для инфы
+        [SerializeField] private FloatVariable producedTotal;
+        [SerializeField] private FloatVariable productionRate;
+        
+        // энергия которая выработалась но была урезана максимумом, эффективная энергия
+        [SerializeField] private float energyProducedUpToMaximum;
+        
         private Filter _generatorsFilter;
+        
+        private Filter _generatorStash;
         
         public override void OnAwake()
         {
@@ -24,21 +33,51 @@ namespace _project.Scripts.ECS.Features.EnergyProduction
                 .Without<Disabled>()
                 .Without<Cooldown>()
                 .Build();
+
+            _generatorStash = World.Filter.With<Generator>()
+                .Without<Disabled>()
+                .Without<Cooldown>()
+                .Build();
             
             foreach (var entity in _generatorsFilter)
             {
                 ref var generator = ref entity.GetComponent<Generator>();
+                
+                // Или так или выставить rate per second и умножать значение в секунду,
+                // но тогда нельзя делать разные смешные типы генераторов,
+                // которые производят энергию раз в определённый период.
                 var baseCooldown = generator.BaseCooldown.Value;
                 entity.AddComponent<Cooldown>().Current = baseCooldown;
             }
         }
 
+        private void CalculateProduction()
+        {
+            foreach (var entity in _generatorStash)
+            {
+                ref var generator = ref entity.GetComponent<Generator>();
+                var producedEnergy = generator.EnergyProductionAmount.Value;
+                producedTotal.ApplyChange(producedEnergy);
+            }
+            var total = producedTotal.value;
+            productionRate.SetValue(total / Time.timeSinceLevelLoad);
+        }
+        
+        
         public override void OnUpdate(float deltaTime)
         {
+#if UNITY_EDITOR
+            CalculateProduction();
+#endif
             foreach (var entity in _generatorsFilter)
             {
                 ref var generator = ref entity.GetComponent<Generator>();
                 var producedEnergy = generator.EnergyProductionAmount.Value;
+
+#if UNITY_EDITOR
+                energyProducedUpToMaximum += producedEnergy;
+#endif
+                
                 var nextValue = currentEnergy.value + producedEnergy;
                 currentEnergy.SetValue(!(nextValue > energyMaximum.value) ? nextValue : energyMaximum.value);
                 var baseCooldown = generator.BaseCooldown.Value;

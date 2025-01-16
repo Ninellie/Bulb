@@ -22,6 +22,10 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
     {
         [SerializeField] private FloatVariable currentEnergy;
         
+        // Только для установки значения, для инфы
+        [SerializeField] private FloatVariable consumedTotal;
+        [SerializeField] private FloatVariable consumptionRate;
+        
         // Сначала это
         private Filter _nonSatisfiedConsumersFilter;
         // Потом это
@@ -58,6 +62,12 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
             // todo на подумать: penalty time возможно не должно быть статичным временем, но вместо этого ждать пока резерв не заполнится полностью 
             SatisfyConsumers();
             FillConsumers();
+            
+            
+#if UNITY_EDITOR
+            var total = consumedTotal.value;
+            consumptionRate.SetValue(total / Time.timeSinceLevelLoad);
+#endif
         }
 
         private void VerifyConsumersStatus()
@@ -84,7 +94,10 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
                 ref var reserve = ref entity.GetComponent<EnergyReserve>();
                 var needToSatisfy = reserve.SatisfactionAmount - reserve.CurrentAmount;
 
-                if (!(currentEnergy.value - needToSatisfy > 0)) continue;
+                if (currentEnergy.value - needToSatisfy <= 0) continue;
+                
+                consumedTotal.ApplyChange(needToSatisfy);
+                
                 currentEnergy.ApplyChange(-needToSatisfy);
                 reserve.CurrentAmount = reserve.SatisfactionAmount;
                 entity.AddComponent<EnergySatisfied>();
@@ -98,7 +111,11 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
             {
                 ref var reserve = ref entity.GetComponent<EnergyReserve>();
                 var needToFill = reserve.MaximumAmount - reserve.CurrentAmount;
-                if (!(currentEnergy.value - needToFill > 0)) continue;
+                
+                if (currentEnergy.value - needToFill <= 0) continue;
+                
+                consumedTotal.ApplyChange(needToFill);
+                
                 currentEnergy.ApplyChange(-needToFill);
                 reserve.CurrentAmount = reserve.MaximumAmount;
                 entity.AddComponent<EnergyFull>();
