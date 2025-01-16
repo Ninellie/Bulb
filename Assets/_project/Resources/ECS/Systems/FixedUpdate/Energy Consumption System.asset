@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: Energy Consumption System
   m_EditorClassIdentifier: 
   currentEnergy: {fileID: 11400000, guid: d446ffff4ebaa2f43bcc8b23a929db84, type: 2}
+  consumedTotal: {fileID: 11400000, guid: 8cf51369ecee9124383be89edddbb3be, type: 2}
+  consumptionRate: {fileID: 11400000, guid: 4fa0b8c6de5d1fc438e2683926f3e251, type: 2}

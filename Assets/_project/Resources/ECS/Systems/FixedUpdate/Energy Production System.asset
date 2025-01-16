@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentEnergy: {fileID: 11400000, guid: d446ffff4ebaa2f43bcc8b23a929db84, type: 2}
   energyMaximum: {fileID: 11400000, guid: 47708cc09da868348aa6966d82e66ce1, type: 2}
+  producedTotal: {fileID: 11400000, guid: 057ba56f6f46119439774e9441bf35ef, type: 2}
+  productionRate: {fileID: 11400000, guid: 14f02471f3156e44a99a53302403d41f, type: 2}
+  energyProducedUpToMaximum: 2384.6152

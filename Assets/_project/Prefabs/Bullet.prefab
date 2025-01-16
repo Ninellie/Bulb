@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    <DamageMatrix>k__BackingField: {fileID: 0}
+    <DamageMatrix>k__BackingField: {fileID: 11400000, guid: d6acf2674bffa254cae910903c5a832b, type: 2}
 --- !u!114 &20869465446927985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,18 +274,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    transform: {fileID: 8951136872698286780}
-    directionAsTarget: 0
-    direction:
+    <Transform>k__BackingField: {fileID: 8951136872698286780}
+    <Direction>k__BackingField: {x: 0, y: 0}
+    <Speed>k__BackingField:
       useConstant: 1
-      constantValue: {x: 0, y: 0}
+      constantValue: 50
       variable: {fileID: 0}
-    speed:
-      useConstant: 1
-      constantValue: 70
-      variable: {fileID: 0}
-    speedScale: 1
-    speedScaleChangePerSecond: -0.5
+    <SpeedScale>k__BackingField: 1
+    <SpeedScaleChangePerSecond>k__BackingField: 0
 --- !u!114 &1885109462598596245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,7 +307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    transform: {fileID: 8951136872698286780}
+    <MovableProvider>k__BackingField: {fileID: 6455402215502456153}
 --- !u!114 &8502935113798033003
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -19,7 +19,23 @@ namespace _project.Scripts.Core.Variables.References
             constantValue = value;
         }
 
-        public Vector2 Value => useConstant ? constantValue : variable.value;
+        public Vector2 Value
+        {
+            get => useConstant ? constantValue : variable.value;
+
+            set
+            {
+                if (useConstant)
+                {
+                    constantValue = value;
+                }
+                else
+                {
+                    variable.value = value;
+                }
+                
+            }
+        }
 
         public static implicit operator Vector2(Vector2Reference reference)
         {

@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51b0e8c93d7446a8b4f01eaa80957554, type: 3}
+  m_Name: Projectile Handler System
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 3904607079798715221, guid: 305694461e77cb140a94fa3476076de1, type: 3}
+  poolContainer: {fileID: 11400000, guid: 16a87aca84ba56f41824d1b5a2233464, type: 2}
