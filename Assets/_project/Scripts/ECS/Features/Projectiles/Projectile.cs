@@ -1,4 +1,5 @@
 ﻿using System;
+using _project.Scripts.ECS.Features.Movement;
 using Scellecs.Morpeh;
 using UnityEngine;
 
@@ -7,8 +8,6 @@ namespace _project.Scripts.ECS.Features.Shooter
     [Serializable]
     public struct Projectile : IComponent
     {
-        [SerializeField] private Transform transform;
-        
-        public Transform Transform { get => transform; set => transform = value; }
+        [field: SerializeField] public MovableProvider MovableProvider { get; set; }
     }
 }
