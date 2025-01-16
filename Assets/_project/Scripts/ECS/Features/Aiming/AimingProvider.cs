@@ -10,7 +10,7 @@ namespace _project.Scripts.ECS.Features.Aiming
         {
             ref var aiming = ref cachedEntity.GetComponent<Aiming>();
             var radius = aiming.AimingRadius;
-            var selfPos = aiming.Transform.position;
+            var selfPos = aiming.SelfTransform.position;
             
            Gizmos.color = Color.green;
            Gizmos.DrawWireSphere(selfPos, radius);

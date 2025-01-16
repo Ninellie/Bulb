@@ -8,6 +8,6 @@ namespace _project.Scripts.ECS.Features.Aiming
     public struct Aiming : IComponent
     {
         [field: SerializeField] public float AimingRadius { get; set; }
-        [field: SerializeField] public Transform Transform { get; set; }
+        [field: SerializeField] public Transform SelfTransform { get; set; }
     }
 }

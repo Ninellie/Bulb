@@ -43,7 +43,7 @@ namespace _project.Scripts.ECS.Features.Aiming
             foreach (var entity in _aimingFilter)
             {
                 ref var aiming = ref entity.GetComponent<Aiming>();
-                Vector2 aimingPos = aiming.Transform.position;
+                Vector2 aimingPos = aiming.SelfTransform.position;
                 var radius = aiming.AimingRadius;
                 
                 // Найти ближайшую цель, если она есть
