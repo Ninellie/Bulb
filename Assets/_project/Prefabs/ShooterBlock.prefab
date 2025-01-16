@@ -106,7 +106,7 @@ MonoBehaviour:
   m_FalloffIntensity: 1
   m_Color: {r: 1, g: 0.8748058, b: 0.33490568, a: 0.72156864}
   m_Intensity: 1
-  m_LightVolumeIntensity: 0.004
+  m_LightVolumeIntensity: 0.02
   m_LightVolumeIntensityEnabled: 1
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_AlphaBlendOnOverlap: 0
   m_OverlapOperation: 0
   m_NormalMapDistance: 3
-  m_NormalMapQuality: 2
+  m_NormalMapQuality: 0
   m_UseNormalMap: 0
   m_ShadowIntensityEnabled: 0
   m_ShadowIntensity: 0
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     <AimingRadius>k__BackingField: 200
-    <Transform>k__BackingField: {fileID: 7353880756776423416}
+    <SelfTransform>k__BackingField: {fileID: 7353880756776423416}
 --- !u!114 &-5397043360577990649
 MonoBehaviour:
   m_ObjectHideFlags: 0
