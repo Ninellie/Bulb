@@ -26,6 +26,8 @@ namespace _project.Scripts.ECS.Features.BlocksToolbarPanel
 
         public override void OnUpdate(float deltaTime)
         {
+            _blockButtonClickedEventStash.RemoveAll();
+            
             // Если кнопка была нажата в этом кадре, создать компонент-ивент о нажатии определённой кнопки
 
             foreach (var entity in _blockButtonClickedFilter)
