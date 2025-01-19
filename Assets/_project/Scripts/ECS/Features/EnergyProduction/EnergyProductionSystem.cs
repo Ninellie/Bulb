@@ -20,7 +20,7 @@ namespace _project.Scripts.ECS.Features.EnergyProduction
         [SerializeField] private FloatVariable producedTotal;
         [SerializeField] private FloatVariable productionRate;
         
-        // энергия которая выработалась но была урезана максимумом, эффективная энергия
+        // Энергия, которая выработалась, но была урезана максимумом, эффективная энергия
         [SerializeField] private float energyProducedUpToMaximum;
         
         private Filter _generatorsFilter;
