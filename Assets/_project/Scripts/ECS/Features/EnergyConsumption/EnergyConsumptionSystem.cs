@@ -7,6 +7,13 @@ using UnityEngine;
 
 namespace _project.Scripts.ECS.Features.EnergyConsumption
 {
+    [Serializable]
+    public enum EnergyDistributionMode
+    {
+        Equally,
+        OneByOne
+    }
+    
     /// <summary>
     /// Система потребления энергию распределяет общую энергию по потребителям.
     /// Но потребители сами как-то тратят энергию. Поэтому система также проверяет статус резерва потребителей.
@@ -20,6 +27,7 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
     [CreateAssetMenu(menuName = "ECS/Systems/Fixed/" + nameof(EnergyConsumptionSystem))]
     public sealed class EnergyConsumptionSystem : FixedUpdateSystem
     {
+        [SerializeField] private EnergyDistributionMode distributionMode = EnergyDistributionMode.Equally;
         [SerializeField] private FloatVariable currentEnergy;
         
         // Только для установки значения, для инфы
@@ -32,6 +40,8 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
         private Filter _nonFullSatisfiedConsumersFilter;
         
         private Filter _fullConsumersFilter;
+        
+        private Filter _nonFullConsumersFilter;
         
         // todo решение довольно плохое, так как большие потребители будут всегда выжирать всю энергию.
         // Нужно чтобы после удовлетворения энергия распределялась небольшими порциями. Возможно с мануальным выставлением мода.
@@ -49,6 +59,11 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
                 .Without<EnergyFull>()
                 .Build();
 
+            _nonFullConsumersFilter = World.Filter
+                .With<EnergyReserve>()
+                .Without<EnergyFull>()
+                .Build();
+            
             _fullConsumersFilter = World.Filter
                 .With<EnergyReserve>()
                 .With<EnergyFull>()
@@ -60,13 +75,22 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
             // удостовериться что они всё ещё удовлетворены
             VerifyConsumersStatus();
             // todo на подумать: penalty time возможно не должно быть статичным временем, но вместо этого ждать пока резерв не заполнится полностью 
-            SatisfyConsumers();
-            FillConsumers();
-            
+
+            switch (distributionMode)
+            {
+                case EnergyDistributionMode.Equally:
+                    FillConsumersEqually();
+                    break;
+                case EnergyDistributionMode.OneByOne:
+                    SatisfyConsumersOneByOne();
+                    FillConsumersOneByOne();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
             
 #if UNITY_EDITOR
-            var total = consumedTotal.value;
-            consumptionRate.SetValue(total / Time.timeSinceLevelLoad);
+            consumptionRate.SetValue(consumedTotal.value / Time.timeSinceLevelLoad);
 #endif
         }
 
@@ -87,7 +111,7 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
             }
         }
 
-        private void SatisfyConsumers()
+        private void SatisfyConsumersOneByOne()
         {
             foreach (var entity in _nonSatisfiedConsumersFilter)
             {
@@ -105,7 +129,7 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
             }
         }
         
-        private void FillConsumers()
+        private void FillConsumersOneByOne()
         {
             foreach (var entity in _nonFullSatisfiedConsumersFilter)
             {
@@ -122,17 +146,44 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
                 entity.RemoveComponent<EnergyEmpty>();
             }
         }
+        
+        private void FillConsumersEqually()
+        {
+            var nonFullConsumers = 0;
+            
+            foreach (var entity in _nonFullConsumersFilter)
+            {
+                nonFullConsumers++; 
+            }
+            
+            var energyPortion = currentEnergy.value / nonFullConsumers;
+            
+            foreach (var entity in _nonFullConsumersFilter)
+            {
+                ref var reserve = ref entity.GetComponent<EnergyReserve>();
+                var needToFill = reserve.MaximumAmount - reserve.CurrentAmount;
+                
+                // Если порция больше чем нужно для заполнения (после этого действия энергия станет полной)
+                if (energyPortion > needToFill)
+                {
+                    entity.AddComponent<EnergyFull>();
+                    reserve.CurrentAmount = reserve.MaximumAmount;
+                    currentEnergy.ApplyChange(-needToFill);
+                    consumedTotal.ApplyChange(needToFill);
+                }
+                else
+                {
+                    reserve.CurrentAmount += energyPortion;
+                    currentEnergy.ApplyChange(-energyPortion);
+                    consumedTotal.ApplyChange(energyPortion);
+                }
+                
+                entity.RemoveComponent<EnergyEmpty>();
+            }
+        }
     }
 
 
-    [Serializable]
-    public struct EnergyFull : IComponent { }
-    [Serializable]
-    public struct EnergySatisfied : IComponent { }
-    
-    [Serializable]
-    public struct EnergyEmpty : IComponent { }
-    
     /*
     /// <summary>
     /// Заполняется полностью если хватает энергии. Главный приоритет.
@@ -158,13 +209,4 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
     [Serializable]
     public struct OptionalEnergyConsumer : IComponent { }
     */
-
-    [Serializable]
-    public struct EnergyReserve : IComponent
-    {
-        [field: SerializeField] public float CurrentAmount { get; set; }
-        [field: SerializeField] public float MaximumAmount { get; set; }
-        // Удобно использовать для проставления единичной стоимости умения
-        [field: SerializeField] public float SatisfactionAmount { get; set; } 
-    }
 }
