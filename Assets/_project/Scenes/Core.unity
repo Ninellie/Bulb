@@ -144,18 +144,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4193674083813174112, guid: 7f43282551d06f54cb77d9b07614b375, type: 3}
-      propertyPath: m_BackGroundColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4193674083813174112, guid: 7f43282551d06f54cb77d9b07614b375, type: 3}
-      propertyPath: m_BackGroundColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4193674083813174112, guid: 7f43282551d06f54cb77d9b07614b375, type: 3}
-      propertyPath: m_BackGroundColor.r
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5219863603362932725, guid: 7f43282551d06f54cb77d9b07614b375, type: 3}
       propertyPath: m_Name
       value: Main Camera
