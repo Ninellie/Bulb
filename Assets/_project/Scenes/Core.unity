@@ -144,6 +144,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4193674083813174112, guid: 7f43282551d06f54cb77d9b07614b375, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4193674083813174112, guid: 7f43282551d06f54cb77d9b07614b375, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4193674083813174112, guid: 7f43282551d06f54cb77d9b07614b375, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5219863603362932725, guid: 7f43282551d06f54cb77d9b07614b375, type: 3}
       propertyPath: m_Name
       value: Main Camera
@@ -263,6 +275,8 @@ MonoBehaviour:
     system: {fileID: 11400000, guid: 784349e2bf09967448d1ae36874e9692, type: 2}
   - enabled: 1
     system: {fileID: 11400000, guid: 0a982e49cddfe5c4dbc7d3edc424a04c, type: 2}
+  - enabled: 1
+    system: {fileID: 11400000, guid: 2b6eaf110f7606e408cb5677360daad9, type: 2}
   fixedUpdateSystems:
   - enabled: 1
     system: {fileID: 11400000, guid: 1fa6c0250e7052843bd00d6612c9f885, type: 2}
