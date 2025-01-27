@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c4eeb6b2a42438da1f7d526ef8add90, type: 3}
+  m_Name: Block Data Preset
+  m_EditorClassIdentifier: 
+  blockDataList:
+  - <Name>k__BackingField: 1
+    <TileBasePrefab>k__BackingField: {fileID: 11400000, guid: 2b4f47be6b4a4d04189d45275a71152d, type: 2}
+    <Cost>k__BackingField: 0
+  - <Name>k__BackingField: 2
+    <TileBasePrefab>k__BackingField: {fileID: 11400000, guid: 5e67a40cbdf826447bb36d62ad474e3e, type: 2}
+    <Cost>k__BackingField: 0
+  - <Name>k__BackingField: 3
+    <TileBasePrefab>k__BackingField: {fileID: 11400000, guid: 0fe103be092cc6d4b850a34063b33d35, type: 2}
+    <Cost>k__BackingField: 0
+  - <Name>k__BackingField: 4
+    <TileBasePrefab>k__BackingField: {fileID: 11400000, guid: 02f723e27405bcd4c87a380920e4a505, type: 2}
+    <Cost>k__BackingField: 0
