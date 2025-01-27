@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using _project.Scripts.Core.Variables;
+using _project.Scripts.ECS.Features.RectSelection;
+using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace _project.Scripts.ECS.Features.MultipleTileSelection
 {
@@ -14,128 +16,49 @@ namespace _project.Scripts.ECS.Features.MultipleTileSelection
     public sealed class MultipleTileSelectionSystem : UpdateSystem
     {
         [SerializeField] private TilemapVariable tilemap;
-        [SerializeField] private LineRenderer lineRendererPrefab;
-        [SerializeField] private List<Vector3Int> selectedTiles = new();
+        [SerializeField] private TileBase outlineTile;
         
-        private readonly HashSet<Vector3Int> _selectedTiles = new();
-        private LineRenderer _lineRenderer;
-        private bool _isSelecting;
-        private Camera _mainCamera;
+        private HashSet<Vector3Int> _positions = new();
+        //private bool _isAdding;
         
-        private Vector3Int _startTilePos;
-        private Vector3Int _endTilePos;
+        private Stash<SelectBoundsEvent> _selectEventsStash;
         
         public override void OnAwake()
         {
-            _mainCamera = Camera.main;
-            _lineRenderer = Instantiate(lineRendererPrefab);
+            _selectEventsStash = World.GetStash<SelectBoundsEvent>();
         }
         
         public override void OnUpdate(float deltaTime)
         {
-            selectedTiles = _selectedTiles.ToList();
-            SetSelectingState();
-
-            if (_isSelecting)
+            //SetAddingState();
+            foreach (ref var selectEvent in _selectEventsStash)
             {
-                var tileUnderMouse = GetMouseTilePosition();
-                _selectedTiles.Add(tileUnderMouse);
+                var bounds = selectEvent.SelectionBounds;
+                _positions = TileHelper.GetTilesWithinBounds(tilemap, bounds);
                 GenerateOutline();
             }
-            else
-            {
-                _selectedTiles.Clear();
-            }
         }
-        
-        private void SetSelectingState()
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                _isSelecting = true;
-            }
 
-            if (Input.GetMouseButtonUp(0))
-            {
-                _isSelecting = false;
-            }
-        }
-        
-        private Vector3Int GetMouseTilePosition()
-        {
-            // Получение позиции тайла под мышью
-            var worldPoint = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            return tilemap.value.WorldToCell(worldPoint);
-        }
-        
         private void GenerateOutline()
         {
-            _lineRenderer.positionCount = 0;
-            // Создаем контур
-            var tilesEdgeRect = GetTilesEdgeRect();
-
-            var edgeRect = GetEdgeRect(tilesEdgeRect);
-            
-            var posList = new List<Vector3>();
-            
-            var leftDownCorner = edgeRect.min;
-            var leftTopCorner = new Vector2(edgeRect.min.x, edgeRect.max.y);
-            var rightDownCorner = new Vector2(edgeRect.max.x, edgeRect.min.y);
-            var rightTopCorner = edgeRect.max;
-
-            posList.Add(leftDownCorner);
-            posList.Add(leftTopCorner);
-            posList.Add(rightTopCorner);
-            posList.Add(rightDownCorner);
-            
-            _lineRenderer.positionCount = 4;
-            _lineRenderer.SetPositions(posList.ToArray());
-        }
-
-        private Rect GetEdgeRect(RectInt tilesRect)
-        {
-            var leftDownTile = (Vector3Int)tilesRect.min;
-            var rightTopTile = (Vector3Int)tilesRect.max;
-            
-            var leftDownCorner = tilemap.value.CellToWorld(leftDownTile) + new Vector3(-4, -4);
-            var rightTopCorner = tilemap.value.CellToWorld(rightTopTile) + new Vector3(4, 4);
-            
-            var size = rightTopCorner - leftDownCorner;
-            return new Rect(leftDownCorner, size);
-        }
-        
-        private RectInt GetTilesEdgeRect()
-        {
-            var leftSide = int.MaxValue;
-            var downSide = int.MaxValue;
-            var rightSide = int.MinValue;
-            var upSide = int.MinValue;
-            
-            foreach (var tile in _selectedTiles)
+            foreach (var position in _positions)
             {
-                if (tile.x < leftSide)
-                {
-                    leftSide = tile.x;
-                }
-                if (tile.x > rightSide)
-                {
-                    rightSide = tile.x;
-                }
-                if (tile.y < downSide)
-                {
-                    downSide = tile.y;
-                }
-                if (tile.y > upSide)
-                {
-                    upSide = tile.y;
-                }
+                var pos = new Vector3Int(position.x, position.y, 10);
+                tilemap.value.SetTile(pos, outlineTile);
             }
-            
-            var position = new Vector2Int(leftSide, downSide);
-            var size = new Vector2Int(Mathf.Abs(rightSide - leftSide), Mathf.Abs(upSide - downSide));
-            var rect = new RectInt(position, size);
-
-            return rect;
         }
+        //
+        // private void SetAddingState()
+        // {
+        //     if (Input.GetKeyDown(KeyCode.LeftShift))
+        //     {
+        //         _isAdding = true;
+        //     }
+        //
+        //     if (Input.GetKeyUp(KeyCode.LeftShift))
+        //     {
+        //         _isAdding = false;
+        //     }
+        // }
     }
 }
