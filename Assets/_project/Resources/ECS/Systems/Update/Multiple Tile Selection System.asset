@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Multiple Tile Selection System
   m_EditorClassIdentifier: 
   tilemap: {fileID: 11400000, guid: 673c94fe112574744872b6d1aaf0b655, type: 2}
+  tilemapPrefab: {fileID: 8126183576087459953, guid: 91f7ab8b26e315f4c9f602d589781ecf, type: 3}
   outlineTile: {fileID: 11400000, guid: 46d804d1bfbf8dd4fbe83d49247fbffb, type: 2}

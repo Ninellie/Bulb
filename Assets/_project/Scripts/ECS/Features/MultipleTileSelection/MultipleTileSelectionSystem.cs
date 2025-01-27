@@ -16,6 +16,7 @@ namespace _project.Scripts.ECS.Features.MultipleTileSelection
     public sealed class MultipleTileSelectionSystem : UpdateSystem
     {
         [SerializeField] private TilemapVariable tilemap;
+        [SerializeField] private GameObject tilemapPrefab;
         [SerializeField] private TileBase outlineTile;
         
         private HashSet<Vector3Int> _positions = new();
@@ -23,9 +24,14 @@ namespace _project.Scripts.ECS.Features.MultipleTileSelection
         
         private Stash<SelectBoundsEvent> _selectEventsStash;
         
+        private HashSet<Vector3Int> _selectedPositions = new();
+        
+        private Tilemap _outlineTilemap;
+        
         public override void OnAwake()
         {
             _selectEventsStash = World.GetStash<SelectBoundsEvent>();
+            _outlineTilemap = Instantiate(tilemapPrefab).GetComponentInChildren<Tilemap>();
         }
         
         public override void OnUpdate(float deltaTime)
@@ -33,18 +39,28 @@ namespace _project.Scripts.ECS.Features.MultipleTileSelection
             //SetAddingState();
             foreach (ref var selectEvent in _selectEventsStash)
             {
+                ClearSelection();
                 var bounds = selectEvent.SelectionBounds;
                 _positions = TileHelper.GetTilesWithinBounds(tilemap, bounds);
                 GenerateOutline();
             }
         }
 
+        private void ClearSelection()
+        {
+            foreach (var position in _selectedPositions)
+            {
+                _outlineTilemap.SetTile(position, null);
+            }
+        }
+        
         private void GenerateOutline()
         {
             foreach (var position in _positions)
             {
                 var pos = new Vector3Int(position.x, position.y, 10);
-                tilemap.value.SetTile(pos, outlineTile);
+                _outlineTilemap.SetTile(pos, outlineTile);
+                _selectedPositions.Add(pos);
             }
         }
         //
