@@ -37,7 +37,7 @@ namespace UIScripts.BasicElements.Indicators
         [SerializeField] private string _counterName = "Simple counter";
         [Space]
         [Header("Value settings")]
-        [SerializeField] protected IntReference _value;
+        [SerializeField] protected FloatReference _value;
         [SerializeField] protected FloatReference _maximumValue;
         [Space]
         [Header("Counter text settings")]
@@ -53,7 +53,7 @@ namespace UIScripts.BasicElements.Indicators
         {
             UpdateCounter();
         }
-
+        
         public virtual void UpdateCounter()
         {
             UpdateLabel();
@@ -64,6 +64,11 @@ namespace UIScripts.BasicElements.Indicators
             UpdateCounter();
         }
 
+        public void Update()
+        {
+            UpdateLabel();
+        }
+        
         private void UpdateLabel()
         {
             var currentValue = GetValue();
@@ -150,7 +155,7 @@ namespace UIScripts.BasicElements.Indicators
                 }
                 else
                 {
-                    currentIntValue = _value.Value;
+                    currentIntValue = (int)_value.Value;
                 }
             }
 
