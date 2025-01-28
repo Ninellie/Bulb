@@ -1,5 +1,4 @@
-﻿using System;
-using _project.Scripts.ECS.Features.CameraBoundsDetection;
+﻿using _project.Scripts.ECS.Features.CameraBoundsDetection;
 using _project.Scripts.ECS.Features.Health;
 using _project.Scripts.ECS.Features.Movement;
 using _project.Scripts.ECS.Pool;
@@ -8,7 +7,7 @@ using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
-namespace _project.Scripts.ECS.Features.Shooter
+namespace _project.Scripts.ECS.Features.Projectiles
 {
     /// <summary>
     /// Создаёт снаряды, отслеживает необходимость их освобождения и освобождает
@@ -19,7 +18,6 @@ namespace _project.Scripts.ECS.Features.Shooter
     [CreateAssetMenu(menuName = "ECS/Systems/Fixed/" + nameof(ProjectileHandlerSystem))]
     public sealed class ProjectileHandlerSystem : FixedUpdateSystem
     {
-        
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] private ComponentPoolContainer poolContainer;
         
@@ -134,20 +132,5 @@ namespace _project.Scripts.ECS.Features.Shooter
                 "Bullet Pool", true, 200,
                 250, bulletPrefab);
         }
-    }
-    
-    
-    [Serializable]
-    public struct Targeted : IComponent
-    {
-        [field: SerializeField] public Vector2 CurrentTargetPosition { get; set; }
-    }
-    
-    [Serializable]
-    public struct CreateProjectileRequest : IComponent
-    {
-        [field: SerializeField] public Vector2 TargetPosition { get; set; }
-        [field: SerializeField] public Vector2 InitialPosition { get; set; }
-        [field: SerializeField] public float StartBulletSpeedScale { get; set; }
     }
 }

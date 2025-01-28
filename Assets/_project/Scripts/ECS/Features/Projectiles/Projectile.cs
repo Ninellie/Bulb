@@ -3,7 +3,7 @@ using _project.Scripts.ECS.Features.Movement;
 using Scellecs.Morpeh;
 using UnityEngine;
 
-namespace _project.Scripts.ECS.Features.Shooter
+namespace _project.Scripts.ECS.Features.Projectiles
 {
     [Serializable]
     public struct Projectile : IComponent
