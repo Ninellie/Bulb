@@ -1,8 +1,11 @@
-﻿using _project.Scripts.Core.Variables;
+﻿using System.Collections.Generic;
+using _project.Scripts.Core.Variables;
+using _project.Scripts.ECS.Features.BlocksToolbarPanel;
+using _project.Scripts.ECS.Features.MultipleTileSelection;
+using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 
 namespace _project.Scripts.ECS.Features.TileReplacement
@@ -13,56 +16,56 @@ namespace _project.Scripts.ECS.Features.TileReplacement
     [CreateAssetMenu(menuName = "ECS/Systems/Update/" + nameof(TileReplacementSystem))]
     public sealed class TileReplacementSystem : UpdateSystem
     {
-        [SerializeField] private InputActionAsset inputActionAsset;
         [SerializeField] private TilemapVariable tilemap;
-        [SerializeField] private Vector3IntVariable currentSelection;
         [SerializeField] private BlockDataPreset blockDataPreset;
-        [SerializeField] private IntVariable currentChitin;
         
-        private InputAction _replaceTile;
-    
+        private HashSet<Vector3Int> _selectedTiles;
+        private Stash<BlockButtonClickEvent> _toolbarItemClickEventStash;
+        private Stash<SelectTilesEvent> _selectTilesEventStash;
+        
         public override void OnAwake()
         {
-            if (inputActionAsset == null) return;
-            _replaceTile = inputActionAsset.FindAction("ReplaceBlock");
+            _toolbarItemClickEventStash = World.GetStash<BlockButtonClickEvent>();
+            _selectTilesEventStash = World.GetStash<SelectTilesEvent>();
         }
 
         public override void OnUpdate(float deltaTime)
         {
-            // При нужном инпуте
-            if (inputActionAsset == null) return;
-            if (_replaceTile == null) return;
-            var isReleasedThisFrame = _replaceTile.WasReleasedThisFrame();
-            if (!isReleasedThisFrame) return;
-        
-            // Получить тайлмап
-            if (tilemap == null) return;
-            if (tilemap.value == null) return;
+            foreach(ref var selectEvent in _selectTilesEventStash)
+            {
+                _selectedTiles = selectEvent.SelectionPositions;
+            }
+            
+            foreach (ref var clickEvent in _toolbarItemClickEventStash)
+            {
+                var blockTileName = clickEvent.BlockTileName;
+                var blockData = blockDataPreset.GetBlockDataByName(blockTileName);
 
-            // Получить селекшен Vector2Int
-            if (currentSelection == null) return;
+                if (blockData == null) continue;
 
-            // Получить блок в тайлмапе в селекшене Vector2Int
-            var selectedTileBase = tilemap.value.GetTile(currentSelection);
-
-            // Получить выбранные данные для блока
-            if (blockDataPreset == null) return;
-            if (blockDataPreset.Current == null) return;
-            var selectedBlockData = blockDataPreset.Current;
-
-            // Проверить не одинаковый ли блок заменяется
-            if (selectedTileBase == selectedBlockData.Prefab) return;
-
-            // Проверить хватает ли ресурсов (хитина) 
-            if (currentChitin == null) return;
-            if (selectedBlockData.Cost > currentChitin.value) return;
-
-            // Отнять нужное количество хитина
-            currentChitin.ApplyChange(selectedBlockData.Cost);
-
-            // Заменить блок в тайлмапе
-            var tileChangeData = new TileChangeData(currentSelection, selectedTileBase, Color.black, Matrix4x4.identity);
-            tilemap.value.SetTile(tileChangeData, true);
+                foreach (var selectedTile in _selectedTiles)
+                {
+                    var selectedTileBase = tilemap.value.GetTile(selectedTile);
+                    
+                    // Проверить не одинаковый ли блок заменяется
+                    if (selectedTileBase == blockData.TileBasePrefab) continue;
+                    
+                    // Заменить блок в тайлмапе
+                    var tileChangeData = new TileChangeData(selectedTile
+                        ,blockData.TileBasePrefab
+                        ,Color.black
+                        ,Matrix4x4.identity);
+                    
+                    tilemap.value.SetTile(tileChangeData, true);
+                }
+                
+                // Проверить хватает ли ресурсов (хитина) 
+                //if (currentChitin == null) return;
+                //if (selectedBlockData.Cost > currentChitin.value) return;
+                
+                // Отнять нужное количество хитина
+                //currentChitin.ApplyChange(selectedBlockData.Cost);
+            }
         }
     }
 }

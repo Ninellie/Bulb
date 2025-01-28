@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace _project.Scripts.ECS.Features.TileReplacement
 {
+    [CreateAssetMenu(menuName = "ECS/Blocks/" + nameof(BlockDataPreset))]
     public class BlockDataPreset : ScriptableObject
     {
         [SerializeField] private List<BlockData> blockDataList;
-        [field: SerializeField] [ReadOnly] public BlockData Current { get; private set; }
         
         private void OnValidate()
         {
@@ -18,12 +18,14 @@ namespace _project.Scripts.ECS.Features.TileReplacement
             }
         }
 
-        public void SetCurrentByName(string blockName)
+        public BlockData GetBlockDataByName(string blockName)
         {
-            var next =  blockDataList.FirstOrDefault(blockData => blockData.Name == blockName);
-            if (next == null) return;
-            if (next == Current) return;
-            Current = next;
+            return blockDataList.FirstOrDefault(blockData => blockData.Name == blockName);
+        }
+
+        public List<BlockData> GetBlockData()
+        {
+            return blockDataList;
         }
     }
 }
