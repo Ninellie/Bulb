@@ -13,15 +13,19 @@ MonoBehaviour:
   m_Name: Block Data Preset
   m_EditorClassIdentifier: 
   blockDataList:
-  - <Name>k__BackingField: 1
+  - <Name>k__BackingField: Chitin
     <TileBasePrefab>k__BackingField: {fileID: 11400000, guid: 2b4f47be6b4a4d04189d45275a71152d, type: 2}
     <Cost>k__BackingField: 0
-  - <Name>k__BackingField: 2
+    <Picture>k__BackingField: {fileID: 2949688202609911005, guid: 0c4f3060282847349b353c7247203b75, type: 3}
+  - <Name>k__BackingField: Battery
     <TileBasePrefab>k__BackingField: {fileID: 11400000, guid: 5e67a40cbdf826447bb36d62ad474e3e, type: 2}
     <Cost>k__BackingField: 0
-  - <Name>k__BackingField: 3
+    <Picture>k__BackingField: {fileID: -7725187784197034482, guid: 0c4f3060282847349b353c7247203b75, type: 3}
+  - <Name>k__BackingField: Generator
     <TileBasePrefab>k__BackingField: {fileID: 11400000, guid: 0fe103be092cc6d4b850a34063b33d35, type: 2}
     <Cost>k__BackingField: 0
-  - <Name>k__BackingField: 4
+    <Picture>k__BackingField: {fileID: 4044015177818495488, guid: 0c4f3060282847349b353c7247203b75, type: 3}
+  - <Name>k__BackingField: Shooter
     <TileBasePrefab>k__BackingField: {fileID: 11400000, guid: 02f723e27405bcd4c87a380920e4a505, type: 2}
     <Cost>k__BackingField: 0
+    <Picture>k__BackingField: {fileID: -7416631462528069661, guid: 0c4f3060282847349b353c7247203b75, type: 3}
