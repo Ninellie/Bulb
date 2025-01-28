@@ -1,5 +1,4 @@
-﻿using Scellecs.Morpeh;
-using Scellecs.Morpeh.Providers;
+﻿using Scellecs.Morpeh.Providers;
 
 namespace _project.Scripts.ECS.Features.Shooter
 {

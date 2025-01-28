@@ -1,9 +1,9 @@
 ﻿using _project.Scripts.ECS.Features.Aiming;
 using _project.Scripts.ECS.Features.CooldownReduction;
 using _project.Scripts.ECS.Features.EnergyConsumption;
+using _project.Scripts.ECS.Features.Projectiles;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
-using TriInspector;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
@@ -16,16 +16,16 @@ namespace _project.Scripts.ECS.Features.Shooter
     public sealed class ShooterSystem : FixedUpdateSystem
     {
         [SerializeField] private float startBulletSpeedScale;
+        
         private Filter _readyToShootFilter;
         
         public override void OnAwake()
         {
-            // Найти все сущности готовые к стрельбе
             _readyToShootFilter = World.Filter
-                .With<Aimed>() // Прицелившиеся
-                .With<Shooter>() // Стрелки
-                .Without<Cooldown>() // Не на перезарядке
-                .Without<EnergyEmpty>() // У которых не пустая энергия
+                .With<Aimed>()
+                .With<Shooter>()
+                .Without<Cooldown>()
+                .Without<EnergyEmpty>()
                 .Build();
         }
 
@@ -33,18 +33,14 @@ namespace _project.Scripts.ECS.Features.Shooter
         {
             foreach (var entity in _readyToShootFilter)
             {
-                
                 ref var energyReserve = ref entity.GetComponent<EnergyReserve>();
                 ref var shooter = ref entity.GetComponent<Shooter>();
                 ref var aimed = ref entity.GetComponent<Aimed>();
                 
-                var cost = shooter.Cost.Value;
+                var cost = shooter.Cost;
 
                 if (energyReserve.CurrentAmount - cost < 0)
                 {
-                    // Недостаточно энергии, выключить и наложить штрафной длительный кд
-                    // todo сделать визуальный эффект выключения, снизить излучаемую яркость до нуля
-                    
                     entity.AddComponent<Cooldown>().Current = shooter.PenaltyTime;
                     entity.RemoveComponent<Aimed>();
                     continue;
@@ -57,7 +53,6 @@ namespace _project.Scripts.ECS.Features.Shooter
                 entity.AddComponent<Cooldown>().Current = shooter.Cooldown;
                 entity.RemoveComponent<Aimed>();
                 
-                // Создать запрос на создание пули
                 ref var request = ref World.CreateEntity().AddComponent<CreateProjectileRequest>();
                 request.InitialPosition = shooterPosition;
                 request.TargetPosition = targetPosition;
