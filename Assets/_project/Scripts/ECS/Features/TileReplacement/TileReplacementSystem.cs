@@ -27,6 +27,7 @@ namespace _project.Scripts.ECS.Features.TileReplacement
         {
             _toolbarItemClickEventStash = World.GetStash<BlockButtonClickEvent>();
             _selectTilesEventStash = World.GetStash<SelectTilesEvent>();
+            _selectedTiles = new HashSet<Vector3Int>();
         }
 
         public override void OnUpdate(float deltaTime)
