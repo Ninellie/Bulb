@@ -22,33 +22,53 @@ namespace _project.Scripts.ECS.Features.MultipleTileSelection
         private HashSet<Vector3Int> _positions = new();
         //private bool _isAdding;
         
-        private Stash<SelectBoundsEvent> _selectEventsStash;
-        
-        private HashSet<Vector3Int> _selectedPositions = new();
-        
         private Tilemap _outlineTilemap;
+        
+        private Stash<SelectBoundsEvent> _selectEventsStash;
+        private Stash<SelectTilesEvent> _selectTilesEventsStash;
         
         public override void OnAwake()
         {
             _selectEventsStash = World.GetStash<SelectBoundsEvent>();
+            _selectTilesEventsStash = World.GetStash<SelectTilesEvent>();
+            
             _outlineTilemap = Instantiate(tilemapPrefab).GetComponentInChildren<Tilemap>();
         }
         
         public override void OnUpdate(float deltaTime)
         {
+            _selectTilesEventsStash.RemoveAll();
+            
             //SetAddingState();
             foreach (ref var selectEvent in _selectEventsStash)
             {
-                ClearSelection();
                 var bounds = selectEvent.SelectionBounds;
-                _positions = TileHelper.GetTilesWithinBounds(tilemap, bounds);
+                var positions= TileHelper.GetTilesWithinBounds(tilemap, bounds); // Присваивание
+
+                if (positions.Count == 0)
+                {
+                    continue;
+                }
+                
+                ClearSelection();
+                _positions = positions; 
+                
+                CreateTileSelectionEvent();
+                
                 GenerateOutline();
             }
         }
 
+        private void CreateTileSelectionEvent()
+        {
+            var eventEntity = World.CreateEntity();
+            var tileSelectionUpdateEvent = new SelectTilesEvent {SelectionPositions = _positions};
+            _selectTilesEventsStash.Set(eventEntity, tileSelectionUpdateEvent);
+        }
+        
         private void ClearSelection()
         {
-            foreach (var position in _selectedPositions)
+            foreach (var position in _positions)
             {
                 _outlineTilemap.SetTile(position, null);
             }
@@ -58,9 +78,8 @@ namespace _project.Scripts.ECS.Features.MultipleTileSelection
         {
             foreach (var position in _positions)
             {
-                var pos = new Vector3Int(position.x, position.y, 10);
+                var pos = new Vector3Int(position.x, position.y);
                 _outlineTilemap.SetTile(pos, outlineTile);
-                _selectedPositions.Add(pos);
             }
         }
         //
