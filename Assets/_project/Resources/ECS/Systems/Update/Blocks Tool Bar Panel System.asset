@@ -12,3 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac3c0a68b0254b66ad2c0f1e0b704fa4, type: 3}
   m_Name: Blocks Tool Bar Panel System
   m_EditorClassIdentifier: 
+  blockDataPreset: {fileID: 11400000, guid: fe6a8d7a84c848c4986b0940ac6e1989, type: 2}
+  toolBarPanelPrefab: {fileID: 1835869797957626375, guid: c593d126733afba439e3187b5290b7f7, type: 3}
+  buttonPrefab: {fileID: 8322013633097903299, guid: b2d448331e907f0489f00cbcf4f10d22, type: 3}

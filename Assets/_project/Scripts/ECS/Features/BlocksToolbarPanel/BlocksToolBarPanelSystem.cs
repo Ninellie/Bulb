@@ -1,7 +1,9 @@
-﻿using Scellecs.Morpeh;
+﻿using _project.Scripts.ECS.Features.TileReplacement;
+using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace _project.Scripts.ECS.Features.BlocksToolbarPanel
 {
@@ -11,6 +13,10 @@ namespace _project.Scripts.ECS.Features.BlocksToolbarPanel
     [CreateAssetMenu(menuName = "ECS/Systems/Update/" + nameof(BlocksToolBarPanelSystem))]
     public class BlocksToolBarPanelSystem : UpdateSystem
     {
+        [SerializeField] private BlockDataPreset blockDataPreset;
+        [SerializeField] private GameObject toolBarPanelPrefab;
+        [SerializeField] private BlockButtonProvider buttonPrefab;
+        
         private Filter _blockButtonClickedFilter;
         private Stash<BlockButtonClickEvent> _blockButtonClickedEventStash;
         
@@ -22,6 +28,21 @@ namespace _project.Scripts.ECS.Features.BlocksToolbarPanel
                 .Build();
 
             _blockButtonClickedEventStash = World.GetStash<BlockButtonClickEvent>();
+
+            
+            var toolBarPanelLayout = Instantiate(toolBarPanelPrefab).GetComponentInChildren<VerticalLayoutGroup>();
+            
+            foreach (var blockData in blockDataPreset.GetBlockData())
+            {
+                var blockName = blockData.Name;
+                var blockPicture = blockData.Picture;
+
+                var button = Instantiate(buttonPrefab, toolBarPanelLayout.transform, false);
+                button.name = blockName;
+                ref var blockButton = ref button.Entity.GetComponent<BlockButton>();
+                blockButton.BlockTileName = blockName;
+                button.gameObject.GetComponent<Image>().sprite = blockPicture;
+            }
         }
 
         public override void OnUpdate(float deltaTime)
@@ -29,7 +50,6 @@ namespace _project.Scripts.ECS.Features.BlocksToolbarPanel
             _blockButtonClickedEventStash.RemoveAll();
             
             // Если кнопка была нажата в этом кадре, создать компонент-ивент о нажатии определённой кнопки
-
             foreach (var entity in _blockButtonClickedFilter)
             {
                 ref var blockButton = ref entity.GetComponent<BlockButton>();
@@ -42,7 +62,5 @@ namespace _project.Scripts.ECS.Features.BlocksToolbarPanel
                 entity.RemoveComponent<ButtonClicked>();
             }
         }
-        
-        
     }
 }
