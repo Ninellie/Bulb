@@ -153,14 +153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     <Transform>k__BackingField: {fileID: 7353880756776423416}
-    <Cooldown>k__BackingField:
-      useConstant: 1
-      constantValue: 2
-      variable: {fileID: 0}
-    <Cost>k__BackingField:
-      useConstant: 1
-      constantValue: 2
-      variable: {fileID: 0}
+    <Cooldown>k__BackingField: 5
+    <Cost>k__BackingField: 1
     <PenaltyTime>k__BackingField: 30
 --- !u!114 &3838100841394702756
 MonoBehaviour:
