@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4749135426769492374}
   - component: {fileID: 5195246823950478761}
   - component: {fileID: 7314604614527153180}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,9 +130,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4424319456544408037}
   - component: {fileID: 877174743087326668}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Outline Grid
-  m_TagString: Untagged
+  m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
