@@ -25,6 +25,7 @@ namespace _project.Scripts.ECS.Features.ChitinPayment
 
             _successStash = World.GetStash<PaymentSuccess>();
             _failStash = World.GetStash<PaymentFail>();
+            _requestStash = World.GetStash<PaymentRequest>();
         }
 
         public override void OnUpdate(float deltaTime)
