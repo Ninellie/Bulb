@@ -94,15 +94,23 @@ namespace _project.Scripts.ECS.Features.TileReplacement
                     
                     changeDataList.Add(tileChangeData);
                 }
-                
-                var entity = World.CreateEntity();
-                
-                ref var tilesChangeRequest  = ref _tilesChangeRequestStash.Add(entity);
-                tilesChangeRequest.TileChangeData = changeDataList;
-                
-                ref var paymentRequest  = ref _paymentRequestStash.Add(entity);
-                paymentRequest.Cost = blockData.Cost * changeDataList.Count;
-                
+
+                var cost = blockData.Cost * changeDataList.Count;
+
+                if (cost > 0)
+                {
+                    var entity = World.CreateEntity();
+                    
+                    ref var tilesChangeRequest  = ref _tilesChangeRequestStash.Add(entity);
+                    tilesChangeRequest.TileChangeData = changeDataList;
+                    
+                    ref var paymentRequest  = ref _paymentRequestStash.Add(entity);
+                    paymentRequest.Cost = blockData.Cost * changeDataList.Count;
+                }
+                else
+                {
+                    ChangeTiles(changeDataList);
+                }
             }
         }
 
@@ -112,18 +120,23 @@ namespace _project.Scripts.ECS.Features.TileReplacement
             {
                 ref var tilesChangeRequest = ref entity.GetComponent<TilesChangeRequest>();
                 
-                if (tilesChangeRequest.TileChangeData == null)
-                {
-                    continue;
-                }
-                
-                foreach (var tileChangeData in tilesChangeRequest.TileChangeData)
-                {
-                    tilemap.value.SetTile(tileChangeData, true);
-                }
+                ChangeTiles(tilesChangeRequest.TileChangeData);
             }
             
             _tilesChangeRequestStash.RemoveAll();
+        }
+
+        private void ChangeTiles(List<TileChangeData> tileChangeDataList)
+        {
+            if (tileChangeDataList == null)
+            {
+                return;
+            }
+            
+            foreach (var tileChangeData in tileChangeDataList)
+            {
+                tilemap.value.SetTile(tileChangeData, true);
+            }
         }
     }
 }
