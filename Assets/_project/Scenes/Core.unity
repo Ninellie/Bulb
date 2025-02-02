@@ -306,6 +306,8 @@ MonoBehaviour:
     system: {fileID: 11400000, guid: c70f393a7dccb96488baf2565c1dbdaa, type: 2}
   - enabled: 1
     system: {fileID: 11400000, guid: 65128a1ab85fca54ab228e2e43b4fe8d, type: 2}
+  - enabled: 1
+    system: {fileID: 11400000, guid: f0b1803ae09e50e4f8dc51bffdbfc98c, type: 2}
   fixedUpdateSystems:
   - enabled: 1
     system: {fileID: 11400000, guid: 1fa6c0250e7052843bd00d6612c9f885, type: 2}
@@ -674,7 +676,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Chitin 0
+  m_text: Chitin 2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -757,9 +759,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _counterName: Chitin
   _value:
-    useConstant: 1
+    useConstant: 0
     constantValue: 0
-    variable: {fileID: 0}
+    variable: {fileID: 11400000, guid: 7ea92951b6b56314498e629724f2a8da, type: 2}
   _maximumValue:
     useConstant: 1
     constantValue: 1000
