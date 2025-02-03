@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace _project.Scripts.ECS.Features.Spawner
 {
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(SpawnerSystem))]
+    [CreateAssetMenu(menuName = "ECS/Systems/Fixed/" + nameof(SpawnerSystem))]
     public sealed class SpawnerSystem : FixedUpdateSystem
     {
         [SerializeField] private GameObject enemyPrefab;
