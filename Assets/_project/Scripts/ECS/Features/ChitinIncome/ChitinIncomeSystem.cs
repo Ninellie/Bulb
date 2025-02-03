@@ -11,11 +11,14 @@ namespace _project.Scripts.ECS.Features.ChitinIncome
     {
         [SerializeField] private FloatVariable currentCurrency;
         
+        private const float StartChitinIncome = 100f; 
+        
         private Stash<EnemyReturnToPoolEvent> _returnToPoolEventStash;
         
         public override void OnAwake()
         {
             _returnToPoolEventStash = World.GetStash<EnemyReturnToPoolEvent>();
+            currentCurrency.SetValue(StartChitinIncome);
         }
 
         public override void OnUpdate(float deltaTime)
