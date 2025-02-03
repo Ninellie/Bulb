@@ -23,24 +23,34 @@ namespace _project.Scripts.ECS.Features.Spawner
         [SerializeField] [ReadOnly] private float enemiesPerSecond;
         [SerializeField] [ReadOnly] private float timeToNextSpawn;
 
-        private Filter _enemyHealthFilter;
-        private Stash<HealthComponent> _healthStash;
-
-        private Stash<EnemyData> _enemyDataStash;
-        
         private ComponentPool<EnemyDataProvider> _enemyPool;
-
+        
+        private Filter _enemyHealthFilter;
+        
+        private Stash<HealthComponent> _healthStash;
+        private Stash<EnemyData> _enemyDataStash;
+        private Stash<EnemyReturnToPoolEvent> _returnToPoolEventStash;
+        
         public override void OnAwake()
         {
             CreatePool();
-            _enemyHealthFilter =  World.Filter.With<HealthComponent>().With<EnemyData>().Build();
+            
+            _enemyHealthFilter =  World.Filter
+                .With<HealthComponent>()
+                .With<EnemyData>()
+                .Build();
+            
             _healthStash = World.GetStash<HealthComponent>();
             _enemyDataStash = World.GetStash<EnemyData>();
+            _returnToPoolEventStash = World.GetStash<EnemyReturnToPoolEvent>();
+            
             spawnQueueSize = 0;
         }
-
+        
         public override void OnUpdate(float deltaTime)
         {
+            ClearReturnToPoolEvents();
+            
             timeToNextSpawn -= deltaTime;
             
             maxEnemies = (int)spawnData.MaxEnemiesOnScreen.Evaluate(Time.timeSinceLevelLoad);
@@ -59,9 +69,15 @@ namespace _project.Scripts.ECS.Features.Spawner
             }
         }
 
+        private void ClearReturnToPoolEvents()
+        {
+            _returnToPoolEventStash.RemoveAll();
+        }
+        
         private void CreatePool()
         {
-            _enemyPool = poolContainer.CreatePool<EnemyDataProvider>("Enemy Pool",true, 200, 50, enemyPrefab);
+            _enemyPool = poolContainer
+                .CreatePool<EnemyDataProvider>("Enemy Pool",true, 200, 50, enemyPrefab);
         }
 
         private void CheckReleaseNeed()
@@ -75,11 +91,14 @@ namespace _project.Scripts.ECS.Features.Spawner
                     continue;
                 }
                 
+                var eventHolderEntity = World.CreateEntity();
+                _returnToPoolEventStash.Add(eventHolderEntity);
+                
                 ref var enemyData = ref _enemyDataStash.Get(entity);
                 _enemyPool.Release(enemyData.Transform.gameObject);
             }
         }
-
+        
         private void SpawnOneEnemy()
         {
             var enemy = _enemyPool.Get();
