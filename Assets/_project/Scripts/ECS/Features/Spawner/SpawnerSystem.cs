@@ -49,7 +49,7 @@ namespace _project.Scripts.ECS.Features.Spawner
         
         public override void OnUpdate(float deltaTime)
         {
-            ClearReturnToPoolEvents();
+            _returnToPoolEventStash.RemoveAll();
             
             timeToNextSpawn -= deltaTime;
             
@@ -67,11 +67,6 @@ namespace _project.Scripts.ECS.Features.Spawner
             {
                 SpawnOneEnemy();
             }
-        }
-
-        private void ClearReturnToPoolEvents()
-        {
-            _returnToPoolEventStash.RemoveAll();
         }
         
         private void CreatePool()
