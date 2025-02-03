@@ -333,6 +333,8 @@ MonoBehaviour:
     system: {fileID: 11400000, guid: 38301d200cd77c74f98033ba8ed8c255, type: 2}
   - enabled: 1
     system: {fileID: 11400000, guid: b9ffab40c19b00d43acc926d1dccf609, type: 2}
+  - enabled: 1
+    system: {fileID: 11400000, guid: 3209ed791e8f8d746ad25b30496de41e, type: 2}
   lateUpdateSystems: []
   cleanupSystems: []
 --- !u!4 &628941485
@@ -676,7 +678,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Chitin 2
+  m_text: Chitin 92
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -955,7 +957,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Energy 100/100
+  m_text: Energy 57/100
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
