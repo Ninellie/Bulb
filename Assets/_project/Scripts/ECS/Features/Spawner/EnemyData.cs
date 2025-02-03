@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace _project.Scripts.ECS.Features.Spawner
 {
+    [Serializable]
     public struct EnemyData : IComponent
     {
         public Transform Transform;
