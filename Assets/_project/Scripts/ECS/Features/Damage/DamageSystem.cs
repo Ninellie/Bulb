@@ -1,5 +1,5 @@
 using _project.Scripts.ECS.Features.Collisions;
-using _project.Scripts.ECS.Features.Health;
+using _project.Scripts.ECS.Features.HealthChanging;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
@@ -20,15 +20,14 @@ namespace _project.Scripts.ECS.Features.Damage
         private Stash<DamageTaker> _damageTakerStash;
         
         private Stash<HealthChangeRequest> _damageStash;
-
-    
+        
         public override void OnAwake()
         {
             _collisionFilter = World.Filter.With<CollisionComponent>().Build();
+            
             _collisionStash = World.GetStash<CollisionComponent>();
             _damageDealerStash = World.GetStash<DamageDealer>();
             _damageTakerStash = World.GetStash<DamageTaker>();
-
             _damageStash = World.GetStash<HealthChangeRequest>();
         }
         

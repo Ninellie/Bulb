@@ -1,4 +1,4 @@
-﻿using _project.Scripts.ECS.Features.Health;
+﻿using _project.Scripts.ECS.Features.HealthChanging;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
@@ -13,7 +13,7 @@ namespace _project.Scripts.ECS.Features.ObjectDestroy
     public sealed class DestroySystem : FixedUpdateSystem
     {
         private Filter _filter;
-        private Stash<HealthComponent> _healthStash;
+        private Stash<Health> _healthStash;
     
         public override void OnAwake()
         {

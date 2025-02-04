@@ -1,5 +1,5 @@
 ﻿using _project.Scripts.ECS.Features.CameraBoundsDetection;
-using _project.Scripts.ECS.Features.Health;
+using _project.Scripts.ECS.Features.HealthChanging;
 using _project.Scripts.ECS.Features.Movement;
 using _project.Scripts.ECS.Pool;
 using Scellecs.Morpeh;
@@ -26,7 +26,7 @@ namespace _project.Scripts.ECS.Features.Projectiles
         private Filter _bulletFilter;
         private Filter _bulletOutOfCamFilter;
         
-        private Stash<HealthComponent> _healthStash;
+        private Stash<Health> _healthStash;
         private Stash<Projectile> _projectileStash;
         private Stash<Movable> _movableStash;
         
@@ -41,7 +41,7 @@ namespace _project.Scripts.ECS.Features.Projectiles
             _bulletOutOfCamFilter = World.Filter
                 .With<Projectile>()
                 .With<Movable>()
-                .With<HealthComponent>()
+                .With<Health>()
                 .Without<InMainCamBounds>()
                 .Build();
             
@@ -49,11 +49,11 @@ namespace _project.Scripts.ECS.Features.Projectiles
             _bulletFilter = World.Filter
                 .With<Projectile>()
                 .With<Movable>()
-                .With<HealthComponent>()
+                .With<Health>()
                 .With<InMainCamBounds>()
                 .Build();
             
-            _healthStash = World.GetStash<HealthComponent>();
+            _healthStash = World.GetStash<Health>();
             _projectileStash = World.GetStash<Projectile>();
             _movableStash = World.GetStash<Movable>();
             _projectileCreateRequestsStash = World.GetStash<CreateProjectileRequest>();

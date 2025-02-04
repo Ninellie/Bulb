@@ -1,3 +1,4 @@
+using _project.Scripts.ECS.Features.HealthChanging;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
@@ -8,7 +9,7 @@ namespace _project.Scripts.ECS.Features.Collisions
     /// <summary>
     /// Определяет столкновения и создаёт новые сущности с информацией о столкновениях.
     /// Каждый физический кадр находит все Colliding Объёкты и создаёт новые сущности
-    /// с компонентом CollisionCompomonent информацией о столкновением.
+    /// с компонентом Collision информацией о столкновении.
     /// </summary>
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
@@ -17,11 +18,16 @@ namespace _project.Scripts.ECS.Features.Collisions
     internal sealed class CollisionDetectionSystem : FixedUpdateSystem
     {
         private Filter _filter;
+        
         private Stash<Colliding> _collidingStash;
 
         public override void OnAwake()
         {
-            _filter = World.Filter.With<Colliding>().With<Health.HealthComponent>().Build();
+            _filter = World.Filter
+                .With<Colliding>()
+                .With<Health>()
+                .Build();
+            
             _collidingStash = World.GetStash<Colliding>();
         }
 

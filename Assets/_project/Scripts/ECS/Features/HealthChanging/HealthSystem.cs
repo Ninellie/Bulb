@@ -1,10 +1,9 @@
-using _project.Scripts.ECS.Features.Spawner;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
-namespace _project.Scripts.ECS.Features.Health
+namespace _project.Scripts.ECS.Features.HealthChanging
 {
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
@@ -13,15 +12,16 @@ namespace _project.Scripts.ECS.Features.Health
     public sealed class HealthSystem : FixedUpdateSystem 
     {
         private Filter _healthDecreaseRequestFilter;
-        private Stash<HealthComponent> _healthStash;
-        private Stash<HealthChangeRequest> _healthDecreaseRequestStash;
+        
+        private Stash<Health> _healthStash;
+        private Stash<HealthChangeRequest> _healthChangeRequestStash;
     
         public override void OnAwake()
         {
-            _healthStash = World.GetStash<HealthComponent>();
+            _healthStash = World.GetStash<Health>();
             
             _healthDecreaseRequestFilter = World.Filter.With<HealthChangeRequest>().Build();
-            _healthDecreaseRequestStash = World.GetStash<HealthChangeRequest>();
+            _healthChangeRequestStash = World.GetStash<HealthChangeRequest>();
         }
 
         public override void OnUpdate(float deltaTime)
@@ -29,11 +29,12 @@ namespace _project.Scripts.ECS.Features.Health
             // Находит все запросы на изменение здоровья, применяет их и удаляет
             foreach (var entity in _healthDecreaseRequestFilter)
             {
-                ref var request = ref _healthDecreaseRequestStash.Get(entity);
+                ref var request = ref _healthChangeRequestStash.Get(entity);
                 ref var health = ref _healthStash.Get(request.TargetEntity);
                 health.HealthPoints += request.Amount;
-                entity.RemoveComponent<HealthChangeRequest>();
             }
+            
+            _healthChangeRequestStash.RemoveAll();
         }
     }
 }

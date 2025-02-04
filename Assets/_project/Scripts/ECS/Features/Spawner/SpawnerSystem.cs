@@ -1,4 +1,4 @@
-﻿using _project.Scripts.ECS.Features.Health;
+﻿using _project.Scripts.ECS.Features.HealthChanging;
 using _project.Scripts.ECS.Features.RandomPlacing;
 using _project.Scripts.ECS.Pool;
 using GameSession.Spawner;
@@ -27,7 +27,7 @@ namespace _project.Scripts.ECS.Features.Spawner
         
         private Filter _enemyHealthFilter;
         
-        private Stash<HealthComponent> _healthStash;
+        private Stash<Health> _healthStash;
         private Stash<EnemyData> _enemyDataStash;
         private Stash<EnemyReturnToPoolEvent> _returnToPoolEventStash;
         
@@ -36,11 +36,11 @@ namespace _project.Scripts.ECS.Features.Spawner
             CreatePool();
             
             _enemyHealthFilter =  World.Filter
-                .With<HealthComponent>()
+                .With<Health>()
                 .With<EnemyData>()
                 .Build();
             
-            _healthStash = World.GetStash<HealthComponent>();
+            _healthStash = World.GetStash<Health>();
             _enemyDataStash = World.GetStash<EnemyData>();
             _returnToPoolEventStash = World.GetStash<EnemyReturnToPoolEvent>();
             
