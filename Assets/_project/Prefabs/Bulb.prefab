@@ -435,7 +435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    healthPoints: 100
+    HealthPoints: 10
 --- !u!114 &-3671066304794129326
 MonoBehaviour:
   m_ObjectHideFlags: 0

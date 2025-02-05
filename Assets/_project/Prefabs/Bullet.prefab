@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    healthPoints: 1
+    HealthPoints: 1
 --- !u!114 &-8405196308904907549
 MonoBehaviour:
   m_ObjectHideFlags: 0
