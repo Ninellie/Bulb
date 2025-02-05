@@ -2,7 +2,7 @@
 
 namespace _project.Scripts.ECS.Features.Spawner
 {
-    public struct EnemyReturnToPoolEvent : IComponent
+    public struct EnemyDeathEvent : IComponent
     {
     }
 }

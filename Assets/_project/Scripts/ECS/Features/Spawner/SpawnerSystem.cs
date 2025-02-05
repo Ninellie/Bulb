@@ -29,7 +29,7 @@ namespace _project.Scripts.ECS.Features.Spawner
         
         private Stash<Health> _healthStash;
         private Stash<EnemyData> _enemyDataStash;
-        private Stash<EnemyReturnToPoolEvent> _returnToPoolEventStash;
+        private Stash<EnemyDeathEvent> _enemyDeathEventStash;
         
         public override void OnAwake()
         {
@@ -42,14 +42,14 @@ namespace _project.Scripts.ECS.Features.Spawner
             
             _healthStash = World.GetStash<Health>();
             _enemyDataStash = World.GetStash<EnemyData>();
-            _returnToPoolEventStash = World.GetStash<EnemyReturnToPoolEvent>();
+            _enemyDeathEventStash = World.GetStash<EnemyDeathEvent>();
             
             spawnQueueSize = 0;
         }
         
         public override void OnUpdate(float deltaTime)
         {
-            _returnToPoolEventStash.RemoveAll();
+            _enemyDeathEventStash.RemoveAll();
             
             timeToNextSpawn -= deltaTime;
             
@@ -87,7 +87,7 @@ namespace _project.Scripts.ECS.Features.Spawner
                 }
                 
                 var eventHolderEntity = World.CreateEntity();
-                _returnToPoolEventStash.Add(eventHolderEntity);
+                _enemyDeathEventStash.Add(eventHolderEntity);
                 
                 ref var enemyData = ref _enemyDataStash.Get(entity);
                 _enemyPool.Release(enemyData.Transform.gameObject);
