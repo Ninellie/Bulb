@@ -22,6 +22,8 @@ namespace _project.Scripts.ECS.Features.EnergyProduction
         
         // Энергия, которая выработалась, но была урезана максимумом, эффективная энергия
         [SerializeField] private float energyProducedUpToMaximum;
+
+        private const float StartEnergy = 0f;
         
         private Filter _generatorsFilter;
         
@@ -29,6 +31,8 @@ namespace _project.Scripts.ECS.Features.EnergyProduction
         
         public override void OnAwake()
         {
+            currentEnergy.SetValue(StartEnergy);
+            
             _generatorsFilter = World.Filter.With<Generator>()
                 .Without<Disabled>()
                 .Without<Cooldown>()
