@@ -23,12 +23,4 @@ MonoBehaviour:
     generateFrom: {x: -100, y: -16}
     notGenerateFrom: {x: 100, y: -10}
     priority: 1
-  - tile: {fileID: 11400000, guid: 0fe103be092cc6d4b850a34063b33d35, type: 2}
-    generateFrom: {x: -100, y: -17}
-    notGenerateFrom: {x: 100, y: -16}
-    priority: 2
-  - tile: {fileID: 11400000, guid: 02f723e27405bcd4c87a380920e4a505, type: 2}
-    generateFrom: {x: -100, y: -13}
-    notGenerateFrom: {x: 100, y: -12}
-    priority: 2
   groundHeight: 5
