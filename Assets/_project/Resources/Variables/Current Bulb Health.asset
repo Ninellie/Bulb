@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e666405040846e59de8ed4bbcb67bb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a5ed54825064473822767a4f535cf5d, type: 3}
   m_Name: Current Bulb Health
   m_EditorClassIdentifier: 
-  developerDescription: 
-  value: 100
+  developerDescription: "\u0418\u0433\u0440\u0430 \u043F\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u0441\u044F
+    \u0435\u0441\u043B\u0438 \u043E\u043D\u043E \u0441\u0442\u0430\u043D\u0435\u0442
+    0"
+  value: 10
