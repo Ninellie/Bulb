@@ -30,5 +30,15 @@ namespace _project.Scripts.Core.Variables
         {
             value += amount.value;
         }
+        
+        public static implicit operator float(FloatVariable reference)
+        {
+            return reference.value;
+        }
+        
+        public static implicit operator int(FloatVariable reference)
+        {
+            return (int)reference.value;
+        }
     }
 }
