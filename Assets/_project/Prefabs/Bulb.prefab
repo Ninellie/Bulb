@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: -3671066304794129326}
   - component: {fileID: -4196832420444156096}
   - component: {fileID: 4802905936536224273}
+  - component: {fileID: -5371354644308914085}
   m_Layer: 7
   m_Name: Bulb
   m_TagString: Player
@@ -477,3 +478,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdddd651ba27420ebb178189ec5efd05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5371354644308914085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6747070217415875695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 061e281be9344841a48ba5655d3e188b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    <EnergyProductionAmount>k__BackingField:
+      useConstant: 1
+      constantValue: 0.05
+      variable: {fileID: 0}
+    <BaseCooldown>k__BackingField:
+      useConstant: 1
+      constantValue: 0.05
+      variable: {fileID: 0}
