@@ -1,7 +1,9 @@
-﻿using _project.Scripts.ECS.Features.HealthChanging;
+﻿using _project.Scripts.Core.Variables;
+using _project.Scripts.ECS.Features.HealthChanging;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _project.Scripts.ECS.Features.GameCoreEntity
 {
@@ -11,6 +13,10 @@ namespace _project.Scripts.ECS.Features.GameCoreEntity
     [CreateAssetMenu(menuName = "ECS/Systems/Fixed/" + nameof(GameCoreEntitySystem))]
     public sealed class GameCoreEntitySystem : FixedUpdateSystem
     {
+        [SerializeField] private FloatVariable healthCurrent;
+        
+        private const int StartCoreEntityHealth = 10;
+        
         private Filter _gameCoreEntities;
         
         private Stash<GameCoreEntityDeathEvent> _deathEventStash;
@@ -23,6 +29,12 @@ namespace _project.Scripts.ECS.Features.GameCoreEntity
                 .Build();
 
             _deathEventStash = World.GetStash<GameCoreEntityDeathEvent>();
+            
+            foreach (var entity in _gameCoreEntities)
+            {
+                ref var health = ref entity.GetComponent<Health>();
+                health.HealthPoints = StartCoreEntityHealth;
+            }
         }
 
         public override void OnUpdate(float deltaTime)
@@ -34,7 +46,7 @@ namespace _project.Scripts.ECS.Features.GameCoreEntity
             foreach (var entity in _gameCoreEntities)
             {
                 ref var health = ref entity.GetComponent<Health>();
-                
+                healthCurrent.value = health.HealthPoints;
                 if (health.HealthPoints > 0)
                 {
                     continue;
