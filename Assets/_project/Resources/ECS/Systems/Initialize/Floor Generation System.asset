@@ -20,7 +20,7 @@ MonoBehaviour:
     notGenerateFrom: {x: 100, y: 0}
     priority: 3
   - tile: {fileID: 11400000, guid: 2b4f47be6b4a4d04189d45275a71152d, type: 2}
-    generateFrom: {x: -100, y: -16}
-    notGenerateFrom: {x: 100, y: -10}
+    generateFrom: {x: -200, y: -20}
+    notGenerateFrom: {x: 200, y: -10}
     priority: 1
   groundHeight: 5
