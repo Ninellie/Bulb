@@ -33,13 +33,13 @@ namespace _project.Scripts.ECS.Features.EnergyProduction
         {
             currentEnergy.SetValue(StartEnergy);
             
-            _generatorsFilter = World.Filter.With<Generator>()
-                .Without<Disabled>()
+            _generatorsFilter = World.Filter
+                .With<Generator>()
                 .Without<Cooldown>()
                 .Build();
 
-            _generatorStash = World.Filter.With<Generator>()
-                .Without<Disabled>()
+            _generatorStash = World.Filter
+                .With<Generator>()
                 .Without<Cooldown>()
                 .Build();
             
@@ -63,6 +63,7 @@ namespace _project.Scripts.ECS.Features.EnergyProduction
                 var producedEnergy = generator.EnergyProductionAmount.Value;
                 producedTotal.ApplyChange(producedEnergy);
             }
+            
             var total = producedTotal.value;
             productionRate.SetValue(total / Time.timeSinceLevelLoad);
         }
@@ -70,17 +71,14 @@ namespace _project.Scripts.ECS.Features.EnergyProduction
         
         public override void OnUpdate(float deltaTime)
         {
-#if UNITY_EDITOR
             CalculateProduction();
-#endif
+            
             foreach (var entity in _generatorsFilter)
             {
                 ref var generator = ref entity.GetComponent<Generator>();
                 var producedEnergy = generator.EnergyProductionAmount.Value;
-
-#if UNITY_EDITOR
+                
                 energyProducedUpToMaximum += producedEnergy;
-#endif
                 
                 var nextValue = currentEnergy.value + producedEnergy;
                 currentEnergy.SetValue(!(nextValue > energyMaximum.value) ? nextValue : energyMaximum.value);
