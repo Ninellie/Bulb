@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
   m_Name: ShooterBlock
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 0}
+  m_DefaultSprite: {fileID: -7416631462528069661, guid: 0c4f3060282847349b353c7247203b75, type: 3}
   m_DefaultGameObject: {fileID: 6516446363662742930, guid: 63f158aa18fdbbf4e8adc409e667f7f9, type: 3}
   m_DefaultColliderType: 2
   m_TilingRules: []

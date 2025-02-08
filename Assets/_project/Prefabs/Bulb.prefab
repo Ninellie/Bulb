@@ -211,6 +211,9 @@ GameObject:
   - component: {fileID: -4196832420444156096}
   - component: {fileID: 4802905936536224273}
   - component: {fileID: -5371354644308914085}
+  - component: {fileID: 4435856913773457595}
+  - component: {fileID: -3137786642050935718}
+  - component: {fileID: -5491590048572505244}
   m_Layer: 7
   m_Name: Bulb
   m_TagString: Player
@@ -499,3 +502,43 @@ MonoBehaviour:
       useConstant: 1
       constantValue: 0.05
       variable: {fileID: 0}
+--- !u!114 &4435856913773457595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6747070217415875695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f509f149e1aa4d39a2c1b391d86e3569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3137786642050935718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6747070217415875695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d440ebfd00041fe98a98299c6bc7b3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5491590048572505244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6747070217415875695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dee7722dee6046e9ac3ae317d3b2a0b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    CurrentAmount: 0
+    MaximumAmount: 100
+    SatisfactionAmount: 100

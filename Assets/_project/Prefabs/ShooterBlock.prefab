@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3838100841394702756}
   - component: {fileID: -5397043360577990649}
   - component: {fileID: -8615760716917408040}
+  - component: {fileID: 1087951793324037505}
   m_Layer: 0
   m_Name: ShooterBlock
   m_TagString: Untagged
@@ -184,9 +185,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    <CurrentAmount>k__BackingField: 1
-    <MaximumAmount>k__BackingField: 5
-    <SatisfactionAmount>k__BackingField: 2
+    CurrentAmount: 0
+    MaximumAmount: 1
+    SatisfactionAmount: 1
 --- !u!114 &-8615760716917408040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,3 +202,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     <Light2D>k__BackingField: {fileID: -8616973659635065736}
+--- !u!114 &1087951793324037505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6516446363662742930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f509f149e1aa4d39a2c1b391d86e3569, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
