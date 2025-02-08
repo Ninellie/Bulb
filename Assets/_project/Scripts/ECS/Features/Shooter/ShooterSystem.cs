@@ -1,6 +1,7 @@
 ﻿using _project.Scripts.ECS.Features.Aiming;
 using _project.Scripts.ECS.Features.CooldownReduction;
 using _project.Scripts.ECS.Features.EnergyConsumption;
+using _project.Scripts.ECS.Features.EnergyReserving;
 using _project.Scripts.ECS.Features.Projectiles;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
@@ -33,7 +34,7 @@ namespace _project.Scripts.ECS.Features.Shooter
         {
             foreach (var entity in _readyToShootFilter)
             {
-                ref var energyReserve = ref entity.GetComponent<EnergyReserve>();
+                ref var energyReserve = ref entity.GetComponent<EnergyContainer>();
                 ref var shooter = ref entity.GetComponent<Shooter>();
                 ref var aimed = ref entity.GetComponent<Aimed>();
                 

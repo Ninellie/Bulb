@@ -1,7 +1,7 @@
 ﻿using System;
 using Scellecs.Morpeh;
 
-namespace _project.Scripts.ECS.Features.EnergyConsumption
+namespace _project.Scripts.ECS.Features.EnergyReserving
 {
     [Serializable]
     public struct EnergyEmpty : IComponent { }

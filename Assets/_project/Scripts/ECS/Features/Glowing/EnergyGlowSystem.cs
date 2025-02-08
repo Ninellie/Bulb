@@ -1,4 +1,5 @@
 ﻿using _project.Scripts.ECS.Features.EnergyConsumption;
+using _project.Scripts.ECS.Features.EnergyReserving;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
@@ -18,7 +19,7 @@ namespace _project.Scripts.ECS.Features.Glowing
         {
             _glowingEnergyContainersFilter = World.Filter
                 .With<Glowing>()
-                .With<EnergyReserve>()
+                .With<EnergyContainer>()
                 .Build();
         }
 
@@ -27,7 +28,7 @@ namespace _project.Scripts.ECS.Features.Glowing
             foreach (var entity in _glowingEnergyContainersFilter)
             {
                 ref var glowing = ref entity.GetComponent<Glowing>();
-                ref var energyReserve = ref entity.GetComponent<EnergyReserve>();
+                ref var energyReserve = ref entity.GetComponent<EnergyContainer>();
                 glowing.Light2D.pointLightOuterRadius = energyReserve.CurrentAmount * 35;
             }
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using _project.Scripts.Core.Variables;
+using _project.Scripts.ECS.Features.EnergyReserving;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
@@ -13,7 +14,7 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
         Equally,
         OneByOne
     }
-    
+
     /// <summary>
     /// Система потребления энергию распределяет общую энергию по потребителям.
     /// Но потребители сами как-то тратят энергию. Поэтому система также проверяет статус резерва потребителей.
@@ -49,23 +50,23 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
         public override void OnAwake()
         {
             _nonSatisfiedConsumersFilter = World.Filter
-                .With<EnergyReserve>()
+                .With<EnergyContainer>()
                 .Without<EnergySatisfied>()
                 .Build();
             
             _nonFullSatisfiedConsumersFilter = World.Filter
-                .With<EnergyReserve>()
+                .With<EnergyContainer>()
                 .With<EnergySatisfied>()
                 .Without<EnergyFull>()
                 .Build();
 
             _nonFullConsumersFilter = World.Filter
-                .With<EnergyReserve>()
+                .With<EnergyContainer>()
                 .Without<EnergyFull>()
                 .Build();
             
             _fullConsumersFilter = World.Filter
-                .With<EnergyReserve>()
+                .With<EnergyContainer>()
                 .With<EnergyFull>()
                 .Build();
         }
@@ -98,14 +99,14 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
         {
             foreach (var entity in _nonFullSatisfiedConsumersFilter)
             {
-                ref var energyReserve = ref entity.GetComponent<EnergyReserve>();
+                ref var energyReserve = ref entity.GetComponent<EnergyContainer>();
                 if (!(energyReserve.CurrentAmount < energyReserve.SatisfactionAmount)) continue;
                 entity.RemoveComponent<EnergySatisfied>();
             }
             
             foreach (var entity in _fullConsumersFilter)
             {
-                ref var energyReserve = ref entity.GetComponent<EnergyReserve>();
+                ref var energyReserve = ref entity.GetComponent<EnergyContainer>();
                 if (!(energyReserve.CurrentAmount < energyReserve.MaximumAmount)) continue;
                 entity.RemoveComponent<EnergyFull>();
             }
@@ -115,7 +116,7 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
         {
             foreach (var entity in _nonSatisfiedConsumersFilter)
             {
-                ref var reserve = ref entity.GetComponent<EnergyReserve>();
+                ref var reserve = ref entity.GetComponent<EnergyContainer>();
                 var needToSatisfy = reserve.SatisfactionAmount - reserve.CurrentAmount;
 
                 if (currentEnergy.value - needToSatisfy <= 0) continue;
@@ -133,7 +134,7 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
         {
             foreach (var entity in _nonFullSatisfiedConsumersFilter)
             {
-                ref var reserve = ref entity.GetComponent<EnergyReserve>();
+                ref var reserve = ref entity.GetComponent<EnergyContainer>();
                 var needToFill = reserve.MaximumAmount - reserve.CurrentAmount;
                 
                 if (currentEnergy.value - needToFill <= 0) continue;
@@ -149,37 +150,50 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
         
         private void FillConsumersEqually()
         {
-            var nonFullConsumers = 0;
+            var consumersCount = GetNonFullConsumersCount();
             
-            foreach (var entity in _nonFullConsumersFilter)
+            if (consumersCount <= 0)
             {
-                nonFullConsumers++; 
+                return;
             }
             
-            var energyPortion = currentEnergy.value / nonFullConsumers;
+            var share = currentEnergy.value / consumersCount;
             
             foreach (var entity in _nonFullConsumersFilter)
             {
-                ref var reserve = ref entity.GetComponent<EnergyReserve>();
-                var needToFill = reserve.MaximumAmount - reserve.CurrentAmount;
+                ref var container = ref entity.GetComponent<EnergyContainer>();
+                
+                var spaceAvailable = container.MaximumAmount - container.CurrentAmount;
                 
                 // Если порция больше чем нужно для заполнения (после этого действия энергия станет полной)
-                if (energyPortion > needToFill)
+                if (share > spaceAvailable)
                 {
                     entity.AddComponent<EnergyFull>();
-                    reserve.CurrentAmount = reserve.MaximumAmount;
-                    currentEnergy.ApplyChange(-needToFill);
-                    consumedTotal.ApplyChange(needToFill);
+                    container.CurrentAmount = container.MaximumAmount;
+                    currentEnergy.ApplyChange(-spaceAvailable);
+                    consumedTotal.ApplyChange(spaceAvailable);
                 }
                 else
                 {
-                    reserve.CurrentAmount += energyPortion;
-                    currentEnergy.ApplyChange(-energyPortion);
-                    consumedTotal.ApplyChange(energyPortion);
+                    container.CurrentAmount += share;
+                    currentEnergy.ApplyChange(-share);
+                    consumedTotal.ApplyChange(share);
                 }
                 
                 entity.RemoveComponent<EnergyEmpty>();
             }
+        }
+        
+        private int GetNonFullConsumersCount()
+        {
+            var count = 0;
+            
+            foreach (var entity in _nonFullConsumersFilter)
+            {
+                count++;
+            }
+
+            return count;
         }
     }
 
