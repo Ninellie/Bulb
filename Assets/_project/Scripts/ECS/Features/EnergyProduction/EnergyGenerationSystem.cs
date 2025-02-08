@@ -10,33 +10,33 @@ namespace _project.Scripts.ECS.Features.EnergyProduction
     [CreateAssetMenu(menuName = "ECS/Systems/Fixed/" + nameof(EnergyGenerationSystem))]
     public sealed class EnergyGenerationSystem : FixedUpdateSystem
     {
-        private Filter _generatorsFilter;
-        private Filter _nonFullConsumersFilter;
+        private Stash<Generator> _generatorsStash;
+        private Stash<EnergyGeneratedEvent> _energyGeneratedEventsStash;
         
         public override void OnAwake()
         {
-            _generatorsFilter = World.Filter.With<Generator>().Build();
+            _generatorsStash = World.GetStash<Generator>();
+            _energyGeneratedEventsStash = World.GetStash<EnergyGeneratedEvent>();
         }
 
         public override void OnUpdate(float deltaTime)
         {
-            var amount = GetEnergyProductionAmount();
-            
+            _energyGeneratedEventsStash.RemoveAll();
+            var amount = GetGeneratedEnergyAmount();
             if (amount > 0)
             {
                 var eventEntity = World.CreateEntity();
-                ref var generatedEvent = ref eventEntity.AddComponent<EnergyGeneratedEvent>();
+                ref var generatedEvent = ref _energyGeneratedEventsStash.Add(eventEntity);
                 generatedEvent.Amount = amount;
             }
         }
 
-        private float GetEnergyProductionAmount()
+        private float GetGeneratedEnergyAmount()
         {
             var amount = 0f;
             
-            foreach (var entity in _generatorsFilter)
+            foreach (ref var generator in _generatorsStash)
             {
-                ref var generator = ref entity.GetComponent<Generator>();
                 var productionAmount = generator.EnergyProductionAmount.Value;
                 var baseCooldown = generator.BaseCooldown.Value;
                 var productionRatePerSecond = productionAmount / baseCooldown;

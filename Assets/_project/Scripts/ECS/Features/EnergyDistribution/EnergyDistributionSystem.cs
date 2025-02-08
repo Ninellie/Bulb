@@ -4,10 +4,11 @@ using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using UnityEngine;
 
-namespace _project.Scripts.ECS.Features.EnergyConsumption
+namespace _project.Scripts.ECS.Features.EnergyDistribution
 {
     /// <summary>
-    /// Если есть потребность, равномерно извлекает энергию у аккумуляторов и равномерно распределяет её по потребителям 
+    /// Если есть потребность, равномерно извлекает энергию у аккумуляторов
+    /// и равномерно распределяет её по потребителям 
     /// </summary>
     [CreateAssetMenu(menuName = "ECS/Systems/Fixed/" + nameof(EnergyDistributionSystem))]
     public sealed class EnergyDistributionSystem : FixedUpdateSystem
@@ -38,6 +39,8 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
                 .Without<EnergyOutput>()
                 .Without<EnergyFull>()
                 .Build();
+
+            _energyGeneratedEventStash = World.GetStash<EnergyGeneratedEvent>();
         }
 
         public override void OnUpdate(float deltaTime)
@@ -55,7 +58,7 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
             var needed = GetNeededAmount();
             
             // Определить сколько есть всего
-            var contained = GetContainedAmount();
+            var contained = GetAvailableAmount();
             
             // Определить сколько снимать
             var toWithdraw = Mathf.Min(needed, contained);
@@ -194,8 +197,9 @@ namespace _project.Scripts.ECS.Features.EnergyConsumption
             return GetAmount(_nonFullConsumersFilter);
         }
 
-        private float GetContainedAmount()
+        private float GetAvailableAmount()
         {
+            // TODO Добавить EnergyInput компоненту скорость отдачи и учитывать его в этой функции
             return GetAmount(_nonEmptyDistributorFilter);
         }
 
