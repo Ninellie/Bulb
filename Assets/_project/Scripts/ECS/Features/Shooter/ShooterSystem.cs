@@ -1,6 +1,5 @@
 ﻿using _project.Scripts.ECS.Features.Aiming;
 using _project.Scripts.ECS.Features.CooldownReduction;
-using _project.Scripts.ECS.Features.EnergyConsumption;
 using _project.Scripts.ECS.Features.EnergyReserving;
 using _project.Scripts.ECS.Features.Projectiles;
 using Scellecs.Morpeh;
@@ -25,6 +24,8 @@ namespace _project.Scripts.ECS.Features.Shooter
             _readyToShootFilter = World.Filter
                 .With<Aimed>()
                 .With<Shooter>()
+                .With<EnergyContainer>()
+                .With<EnergySatisfied>()
                 .Without<Cooldown>()
                 .Without<EnergyEmpty>()
                 .Build();
@@ -42,8 +43,12 @@ namespace _project.Scripts.ECS.Features.Shooter
 
                 if (energyReserve.CurrentAmount - cost < 0)
                 {
-                    entity.AddComponent<Cooldown>().Current = shooter.PenaltyTime;
-                    entity.RemoveComponent<Aimed>();
+                    // Временно убрал, может быть потом изменить как-то.
+                    // Например, пушка может сломаться если несколько раз при выстреле у неё не будет на выстрел энергии
+                    // Или, шанс поломки может увеличиваться каждый раз при нехватке энергии на выстрел.
+                    //entity.AddComponent<Cooldown>().Current = shooter.PenaltyTime;
+                    //entity.AddComponent<Cooldown>().Current = shooter.Cooldown;
+                    //entity.RemoveComponent<Aimed>();
                     continue;
                 }
                 
