@@ -34,7 +34,6 @@ namespace _project.Scripts.ECS.Features.RectSelection
         {
             _selectEventStash.RemoveAll();
             
-            Debug.Log(_lineRenderer.bounds);
             if (_isSelecting)
             {
                 UpdateSelectingState();
