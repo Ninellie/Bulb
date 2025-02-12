@@ -33,18 +33,16 @@ namespace _project.Scripts.ECS.Features.EnergyProduction
 
         private float GetGeneratedEnergyAmount()
         {
-            var amount = 0f;
+            var productionRatePerSecond = 0f;
             
             foreach (ref var generator in _generatorsStash)
             {
                 var productionAmount = generator.EnergyProductionAmount.Value;
                 var baseCooldown = generator.BaseCooldown.Value;
-                var productionRatePerSecond = productionAmount / baseCooldown;
-                var producedEnergy = productionRatePerSecond * Time.fixedDeltaTime;
-                amount = producedEnergy;
+                productionRatePerSecond += productionAmount / baseCooldown;
             }
 
-            return amount;
+            return productionRatePerSecond * Time.fixedDeltaTime;
         }
     }
 }
