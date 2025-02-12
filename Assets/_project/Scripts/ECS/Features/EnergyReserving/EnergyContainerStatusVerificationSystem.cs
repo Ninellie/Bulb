@@ -8,6 +8,7 @@ namespace _project.Scripts.ECS.Features.EnergyReserving
     public sealed class EnergyContainerStatusVerificationSystem : FixedUpdateSystem
     {
         private Filter _containersFilter;
+        
         private Stash<EnergyEmpty> _emptyStash;
         private Stash<EnergyFull> _fullStash;
         private Stash<EnergySatisfied> _satisfiedStash;
@@ -15,6 +16,7 @@ namespace _project.Scripts.ECS.Features.EnergyReserving
         public override void OnAwake()
         {
             _containersFilter = World.Filter.With<EnergyContainer>().Build();
+            
             _emptyStash = World.GetStash<EnergyEmpty>();
             _fullStash = World.GetStash<EnergyFull>();
             _satisfiedStash = World.GetStash<EnergySatisfied>();
@@ -25,81 +27,69 @@ namespace _project.Scripts.ECS.Features.EnergyReserving
             foreach (var entity in _containersFilter)
             {
                 ref var container = ref entity.GetComponent<EnergyContainer>();
-                
-                bool full;
-                bool empty;
-                var satisfied = false;
-                
-                if (container.CurrentAmount >= container.MaximumAmount)
-                {
-                    container.CurrentAmount = container.MaximumAmount;
-                    full = true;
-                    empty = false;
-                }
-                else
-                {
-                    full = false;
-                }
 
-                if (container.CurrentAmount <= 0)
-                {
-                    container.CurrentAmount = 0;
-                    empty = true;
-                    full = false;
-                }
-                else
-                {
-                    empty = false;
-                }
+                var isFull = container.CurrentAmount >= container.MaximumAmount;
+                var isEmpty = container.CurrentAmount <= 0;
+                var isSatisfied = container.CurrentAmount >= container.SatisfactionAmount;
 
-                if (container.CurrentAmount >= container.SatisfactionAmount)
-                {
-                    satisfied = true;
-                }
+                SetFull(entity, isFull, ref container);
+                SetEmpty(entity, isEmpty, ref container);
+                SetSatisfied(entity, isSatisfied);
+            }
+        }
 
-                if (full)
+        private void SetFull(Entity entity, bool isFull, ref EnergyContainer container)
+        {
+            if (isFull)
+            {
+                container.CurrentAmount = container.MaximumAmount;
+                if (!_fullStash.Has(entity))
                 {
-                    if (!_fullStash.Has(entity))
-                    {
-                        _fullStash.Add(entity);
-                    }
+                    _fullStash.Add(entity);
                 }
-                else
+            }
+            else
+            {
+                if (_fullStash.Has(entity))
                 {
-                    if (_fullStash.Has(entity))
-                    {
-                        _fullStash.Remove(entity);
-                    }
+                    _fullStash.Remove(entity);
                 }
+            }
+        }
 
-                if (empty)
+        private void SetEmpty(Entity entity, bool isEmpty, ref EnergyContainer container)
+        {
+            if (isEmpty)
+            {
+                container.CurrentAmount = 0;
+                if (!_emptyStash.Has(entity))
                 {
-                    if (!_emptyStash.Has(entity))
-                    {
-                        _emptyStash.Add(entity);
-                    }
+                    _emptyStash.Add(entity);
                 }
-                else
+            }
+            else
+            {
+                if (_emptyStash.Has(entity))
                 {
-                    if (_emptyStash.Has(entity))
-                    {
-                        _emptyStash.Remove(entity);
-                    }
+                    _emptyStash.Remove(entity);
                 }
+            }
+        }
 
-                if (satisfied)
+        private void SetSatisfied(Entity entity, bool isSatisfied)
+        {
+            if (isSatisfied)
+            {
+                if (!_satisfiedStash.Has(entity))
                 {
-                    if (!_satisfiedStash.Has(entity))
-                    {
-                        _satisfiedStash.Add(entity);   
-                    }
+                    _satisfiedStash.Add(entity);   
                 }
-                else
+            }
+            else
+            {
+                if (_satisfiedStash.Has(entity))
                 {
-                    if (_satisfiedStash.Has(entity))
-                    {
-                        _satisfiedStash.Remove(entity);   
-                    }
+                    _satisfiedStash.Remove(entity);   
                 }
             }
         }
