@@ -22,7 +22,9 @@ namespace _project.Scripts.ECS.Features.EnergyProduction
         public override void OnUpdate(float deltaTime)
         {
             _energyGeneratedEventsStash.RemoveAll();
+            
             var amount = GetGeneratedEnergyAmount();
+            
             if (amount > 0)
             {
                 var eventEntity = World.CreateEntity();
