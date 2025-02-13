@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c304f500aa441784085a78f788de1afc, type: 3}
-  m_Name: Floor Generation System
+  m_Name: Bulb Generation System
   m_EditorClassIdentifier: 
   tilemapPrefab: {fileID: 877174743087326668, guid: c4c16507769bc1f46b2df705d0e4fb1e, type: 3}
-  tilemap: {fileID: 11400000, guid: 673c94fe112574744872b6d1aaf0b655, type: 2}
+  tilemap: {fileID: 11400000, guid: 9ea1ec8d411467d40a4417be99ff16bc, type: 2}
   rules:
-  - tile: {fileID: 11400000, guid: 2b4f47be6b4a4d04189d45275a71152d, type: 2}
-    generateFrom: {x: -200, y: -20}
-    notGenerateFrom: {x: 200, y: -10}
+  - tile: {fileID: 11400000, guid: 82009a82ecf48504ab7bd1ee8eac825a, type: 2}
+    generateFrom: {x: -100, y: -12}
+    notGenerateFrom: {x: 100, y: 0}
     priority: 1
   groundHeight: 5
