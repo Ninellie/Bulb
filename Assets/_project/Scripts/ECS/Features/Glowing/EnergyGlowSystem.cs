@@ -1,5 +1,4 @@
-﻿using _project.Scripts.ECS.Features.EnergyConsumption;
-using _project.Scripts.ECS.Features.EnergyReserving;
+﻿using _project.Scripts.ECS.Features.EnergyReserving;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
@@ -13,6 +12,8 @@ namespace _project.Scripts.ECS.Features.Glowing
     [CreateAssetMenu(menuName = "ECS/Systems/Update/" + nameof(EnergyGlowSystem))]
     public sealed class EnergyGlowSystem : UpdateSystem
     {
+        private const float GlowingMultiplier = 35f; 
+        
         private Filter _glowingEnergyContainersFilter;
         
         public override void OnAwake()
@@ -29,7 +30,7 @@ namespace _project.Scripts.ECS.Features.Glowing
             {
                 ref var glowing = ref entity.GetComponent<Glowing>();
                 ref var energyReserve = ref entity.GetComponent<EnergyContainer>();
-                glowing.Light2D.pointLightOuterRadius = energyReserve.CurrentAmount * 35;
+                glowing.Light2D.pointLightOuterRadius = energyReserve.CurrentAmount * GlowingMultiplier;
             }
         }
     }
