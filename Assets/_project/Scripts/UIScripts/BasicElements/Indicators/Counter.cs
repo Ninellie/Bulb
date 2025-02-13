@@ -20,7 +20,11 @@ namespace UIScripts.BasicElements.Indicators
         D,
         D1,
         D2,
-        D3
+        D3,
+        F,
+        F1,
+        F2,
+        F3
     }
 
     public enum PercentFormat
@@ -43,6 +47,7 @@ namespace UIScripts.BasicElements.Indicators
         [Header("Counter text settings")]
         [SerializeField] private CounterFormat _counterFormat;
         [SerializeField] private ValueFormat _valueFormat;
+        [SerializeField] private ValueFormat _maxValueFormat;
         [SerializeField] private bool _inPercent;
         [SerializeField] private PercentFormat _percentFormat;
         [Space]
@@ -123,14 +128,18 @@ namespace UIScripts.BasicElements.Indicators
                 return maxPercentValue;
             }
 
-            var intMaxValue = (int)_maximumValue.Value;
+            var value = _maximumValue.Value;
 
-            var maxValue = _valueFormat switch
+            var maxValue = _maxValueFormat switch
             {
-                ValueFormat.D => $"{intMaxValue:D}",
-                ValueFormat.D1 => $"{intMaxValue:D1}",
-                ValueFormat.D2 => $"{intMaxValue:D2}",
-                ValueFormat.D3 => $"{intMaxValue:D3}",
+                ValueFormat.D => $"{(int)value:D}",
+                ValueFormat.D1 => $"{(int)value:D1}",
+                ValueFormat.D2 => $"{(int)value:D2}",
+                ValueFormat.D3 => $"{(int)value:D3}",
+                ValueFormat.F => $"{value:F}",
+                ValueFormat.F1 => $"{value:F1}",
+                ValueFormat.F2 => $"{value:F2}",
+                ValueFormat.F3 => $"{value:F3}",
                 _ => throw new ArgumentOutOfRangeException()
             };
 
@@ -145,26 +154,30 @@ namespace UIScripts.BasicElements.Indicators
                 return "";
             }
 
-            var currentIntValue = 0;
+            var value = 0f;
 
             if (_value != null)
             {
                 if (_inPercent)
                 { 
-                    currentIntValue = GetPercentCurrentValue();
+                    value = GetPercentCurrentValue();
                 }
                 else
                 {
-                    currentIntValue = (int)_value.Value;
+                    value = _value.Value;
                 }
             }
-
+            
             var currentValue = _valueFormat switch
             {
-                ValueFormat.D => $"{currentIntValue:D}",
-                ValueFormat.D1 => $"{currentIntValue:D1}",
-                ValueFormat.D2 => $"{currentIntValue:D2}",
-                ValueFormat.D3 => $"{currentIntValue:D3}",
+                ValueFormat.D => $"{(int)value:D}",
+                ValueFormat.D1 => $"{(int)value:D1}",
+                ValueFormat.D2 => $"{(int)value:D2}",
+                ValueFormat.D3 => $"{(int)value:D3}",
+                ValueFormat.F => $"{value:F}",
+                ValueFormat.F1 => $"{value:F1}",
+                ValueFormat.F2 => $"{value:F2}",
+                ValueFormat.F3 => $"{value:F3}",
                 _ => throw new ArgumentOutOfRangeException()
             };
 
