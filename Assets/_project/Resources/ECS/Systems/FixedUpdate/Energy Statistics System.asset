@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1534cba24a4c4e5d9269475dd6dc4dd2, type: 3}
+  m_Name: Energy Statistics System
+  m_EditorClassIdentifier: 
+  currentEnergy: {fileID: 11400000, guid: d446ffff4ebaa2f43bcc8b23a929db84, type: 2}
+  maximumEnergy: {fileID: 11400000, guid: 47708cc09da868348aa6966d82e66ce1, type: 2}
+  generationRate: {fileID: 11400000, guid: 14f02471f3156e44a99a53302403d41f, type: 2}
