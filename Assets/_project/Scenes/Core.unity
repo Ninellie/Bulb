@@ -319,7 +319,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Rate 29,71
+  m_text: Rate 1,60
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4d82ff11f76643844817fcf84947f23b, type: 2}
   m_sharedMaterial: {fileID: -2415359308227069418, guid: 4d82ff11f76643844817fcf84947f23b, type: 2}
@@ -410,8 +410,8 @@ MonoBehaviour:
     constantValue: 100000
     variable: {fileID: 11400000, guid: 47708cc09da868348aa6966d82e66ce1, type: 2}
   _counterFormat: 2
-  _valueFormat: 0
-  _afterPointer: 0
+  _valueFormat: 6
+  _maxValueFormat: 0
   _inPercent: 0
   _percentFormat: 1
   _text: {fileID: 385956363}
@@ -850,7 +850,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Chitin 10,00
+  m_text: Chitin 7
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4d82ff11f76643844817fcf84947f23b, type: 2}
   m_sharedMaterial: {fileID: -2415359308227069418, guid: 4d82ff11f76643844817fcf84947f23b, type: 2}
@@ -942,7 +942,7 @@ MonoBehaviour:
     variable: {fileID: 0}
   _counterFormat: 2
   _valueFormat: 0
-  _afterPointer: 0
+  _maxValueFormat: 0
   _inPercent: 0
   _percentFormat: 0
   _text: {fileID: 1378125719}
@@ -1054,7 +1054,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Health 10,00
+  m_text: Health 9
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4d82ff11f76643844817fcf84947f23b, type: 2}
   m_sharedMaterial: {fileID: -2415359308227069418, guid: 4d82ff11f76643844817fcf84947f23b, type: 2}
@@ -1146,7 +1146,7 @@ MonoBehaviour:
     variable: {fileID: 0}
   _counterFormat: 2
   _valueFormat: 0
-  _afterPointer: 0
+  _maxValueFormat: 0
   _inPercent: 0
   _percentFormat: 0
   _text: {fileID: 1689313322}
@@ -1268,8 +1268,8 @@ MonoBehaviour:
     constantValue: 0
     variable: {fileID: 11400000, guid: 47708cc09da868348aa6966d82e66ce1, type: 2}
   _counterFormat: 0
-  _valueFormat: 0
-  _afterPointer: 0
+  _valueFormat: 6
+  _maxValueFormat: 0
   _inPercent: 0
   _percentFormat: 0
   _text: {fileID: 1941800431}
@@ -1293,7 +1293,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Energy 12,00/100
+  m_text: Energy 37,30/110
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4d82ff11f76643844817fcf84947f23b, type: 2}
   m_sharedMaterial: {fileID: -2415359308227069418, guid: 4d82ff11f76643844817fcf84947f23b, type: 2}
