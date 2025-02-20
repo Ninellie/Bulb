@@ -1,12 +1,12 @@
 ﻿using System;
 using _project.Scripts.Core.Variables;
-using _project.Scripts.ECS.Features.EnergyReserving;
+using _project.Scripts.ECS.Features.EnergyFeature.EnergyReserving;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
-namespace _project.Scripts.ECS.Features.EnergyConsumption
+namespace _project.Scripts.ECS.Features.EnergyFeature.EnergyConsumption
 {
     [Serializable]
     public enum EnergyDistributionMode

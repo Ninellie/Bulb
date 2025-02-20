@@ -2,7 +2,7 @@
 using Scellecs.Morpeh.Systems;
 using UnityEngine;
 
-namespace _project.Scripts.ECS.Features.EnergyReserving
+namespace _project.Scripts.ECS.Features.EnergyFeature.EnergyReserving
 {
     [CreateAssetMenu(menuName = "ECS/Systems/Fixed/" + nameof(EnergyContainerStatusVerificationSystem))]
     public sealed class EnergyContainerStatusVerificationSystem : FixedUpdateSystem

@@ -2,7 +2,7 @@
 using Scellecs.Morpeh.Systems;
 using UnityEngine;
 
-namespace _project.Scripts.ECS.Features.EnergyProduction
+namespace _project.Scripts.ECS.Features.EnergyFeature.EnergyProduction
 {
     /// <summary>
     /// Извлекает энергию из генераторов и создаёт событие

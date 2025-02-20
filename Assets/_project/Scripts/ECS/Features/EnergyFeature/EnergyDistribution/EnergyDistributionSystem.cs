@@ -1,10 +1,10 @@
-﻿using _project.Scripts.ECS.Features.EnergyProduction;
-using _project.Scripts.ECS.Features.EnergyReserving;
+﻿using _project.Scripts.ECS.Features.EnergyFeature.EnergyProduction;
+using _project.Scripts.ECS.Features.EnergyFeature.EnergyReserving;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using UnityEngine;
 
-namespace _project.Scripts.ECS.Features.EnergyDistribution
+namespace _project.Scripts.ECS.Features.EnergyFeature.EnergyDistribution
 {
     /// <summary>
     /// Если есть потребность, равномерно извлекает энергию у аккумуляторов
@@ -15,10 +15,10 @@ namespace _project.Scripts.ECS.Features.EnergyDistribution
     {
         private Filter _nonEmptyDistributorFilter;
         private Filter _nonFullReceiversFilter;
-        
         private Filter _nonFullConsumersFilter;
         
         private Stash<EnergyGeneratedEvent> _energyGeneratedEventStash;
+        
         public override void OnAwake()
         {
             _nonEmptyDistributorFilter = World.Filter // Любой непустой отдающий контейнер

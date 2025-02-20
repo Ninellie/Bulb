@@ -1,11 +1,11 @@
 ﻿using _project.Scripts.Core.Variables;
-using _project.Scripts.ECS.Features.EnergyProduction;
-using _project.Scripts.ECS.Features.EnergyReserving;
+using _project.Scripts.ECS.Features.EnergyFeature.EnergyProduction;
+using _project.Scripts.ECS.Features.EnergyFeature.EnergyReserving;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using UnityEngine;
 
-namespace _project.Scripts.ECS.Features.EnergyStatistics
+namespace _project.Scripts.ECS.Features.EnergyFeature.EnergyStatistics
 {
     [CreateAssetMenu(menuName = "ECS/Systems/Fixed/" + nameof(EnergyStatisticsSystem))]
     public sealed class EnergyStatisticsSystem : FixedUpdateSystem

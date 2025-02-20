@@ -1,6 +1,6 @@
 ﻿using Scellecs.Morpeh;
 
-namespace _project.Scripts.ECS.Features.EnergyProduction
+namespace _project.Scripts.ECS.Features.EnergyFeature.EnergyProduction
 {
     public struct EnergyGeneratedEvent : IComponent
     {

@@ -1,6 +1,6 @@
 ﻿using _project.Scripts.ECS.Features.Aiming;
 using _project.Scripts.ECS.Features.CooldownReduction;
-using _project.Scripts.ECS.Features.EnergyReserving;
+using _project.Scripts.ECS.Features.EnergyFeature.EnergyReserving;
 using _project.Scripts.ECS.Features.Projectiles;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;

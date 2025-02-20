@@ -1,4 +1,4 @@
-﻿using _project.Scripts.ECS.Features.EnergyReserving;
+﻿using _project.Scripts.ECS.Features.EnergyFeature.EnergyReserving;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
