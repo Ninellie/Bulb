@@ -2,7 +2,7 @@
 
 namespace _project.Scripts.ECS.Features.EntitySelect
 {
-    public struct Selected : IComponent
+    public struct SelfDeselectRequest : IComponent
     {
     }
 }

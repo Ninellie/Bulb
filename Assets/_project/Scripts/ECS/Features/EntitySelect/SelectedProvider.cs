@@ -4,20 +4,16 @@ using UnityEngine.EventSystems;
 
 namespace _project.Scripts.ECS.Features.EntitySelect
 {
-    public class SelectedProvider : MonoProvider<Selected>, IPointerEnterHandler, IPointerExitHandler
+    public class SelectedProvider : MonoProvider<Selectable>, IPointerEnterHandler, IPointerExitHandler
     {
         public void OnPointerEnter(PointerEventData eventData)
         {
-            var entity = World.Default.CreateEntity();
-            ref var onSelect = ref entity.AddComponent<SelectRequest>();
-            onSelect.SelectedEntity = Entity;
+            Entity.AddComponent<SelfSelectRequest>();
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            var entity = World.Default.CreateEntity();
-            ref var onSelect = ref entity.AddComponent<DeselectRequest>();
-            onSelect.DeselectedEntity = Entity;
+            Entity.AddComponent<SelfDeselectRequest>();
         }
     }
 }

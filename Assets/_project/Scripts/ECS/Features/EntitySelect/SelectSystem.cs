@@ -9,44 +9,45 @@ namespace _project.Scripts.ECS.Features.EntitySelect
     /// </summary>
     public class SelectSystem : UpdateSystem
     {
-        private Stash<SelectRequest> _selectRequestStash;
-        private Stash<DeselectRequest> _deselectRequestStash;
+        private Filter _selfSelectRequestFilter;
+        private Filter _selfDeselectRequestFilter;
         
-        private Stash<OnSelectEvent> _onSelectStash;
-        private Stash<OnDeselectEvent> _onDeselectStash;
+        private Stash<SelfSelectRequest> _selfSelectRequestStash;
+        private Stash<SelfDeselectRequest> _selfDeselectRequestStash;
+        
+        private Stash<OnSelfSelectEvent> _onSelfSelectStash;
+        private Stash<OnSelfDeselectEvent> _onSelfDeselectStash;
         
         public override void OnAwake()
         {
-            _selectRequestStash = World.GetStash<SelectRequest>();
-            _deselectRequestStash = World.GetStash<DeselectRequest>();
+            _selfSelectRequestFilter = World.Filter.With<SelfSelectRequest>().Build();
+            _selfDeselectRequestFilter = World.Filter.With<SelfDeselectRequest>().Build();
             
-            _onSelectStash = World.GetStash<OnSelectEvent>();
-            _onDeselectStash = World.GetStash<OnDeselectEvent>();
+            _selfSelectRequestStash = World.GetStash<SelfSelectRequest>();
+            _selfDeselectRequestStash = World.GetStash<SelfDeselectRequest>();
+            
+            _onSelfSelectStash = World.GetStash<OnSelfSelectEvent>();
+            _onSelfDeselectStash = World.GetStash<OnSelfDeselectEvent>();
         }
 
         public override void OnUpdate(float deltaTime)
         {
-            _onSelectStash.RemoveAll();
-            _onDeselectStash.RemoveAll();
+            _onSelfSelectStash.RemoveAll();
+            _onSelfDeselectStash.RemoveAll();
             
-            foreach (ref var request in _selectRequestStash)
+            foreach (var entity in _selfSelectRequestFilter)
             {
-                var entity = World.CreateEntity();
-                
-                ref var onSelectEvent = ref _onSelectStash.Add(entity);
-                onSelectEvent.SelectedEntity = request.SelectedEntity;
+                _onSelfSelectStash.Add(entity);
             }
             
-            _selectRequestStash.RemoveAll();
+            _selfSelectRequestStash.RemoveAll();
             
-            foreach (ref var request in _deselectRequestStash)
-            {
-                var entity = World.CreateEntity();
-                ref var onDeselectEvent = ref _onDeselectStash.Add(entity);
-                onDeselectEvent.DeselectedEntity = request.DeselectedEntity;
+            foreach (var entity in _selfDeselectRequestFilter)
+            { 
+                _onSelfDeselectStash.Add(entity);
             }
             
-            _deselectRequestStash.RemoveAll();
+            _selfDeselectRequestStash.RemoveAll();
         }
     }
 }
