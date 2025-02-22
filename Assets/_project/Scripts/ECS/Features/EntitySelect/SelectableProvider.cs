@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace _project.Scripts.ECS.Features.EntitySelect
 {
-    public class SelectedProvider : MonoProvider<Selectable>, IPointerEnterHandler, IPointerExitHandler
+    public class SelectableProvider : MonoProvider<Selectable>, IPointerEnterHandler, IPointerExitHandler
     {
         public void OnPointerEnter(PointerEventData eventData)
         {

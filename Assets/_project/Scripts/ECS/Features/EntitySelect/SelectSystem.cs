@@ -1,5 +1,6 @@
 ﻿using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
+using UnityEngine;
 
 namespace _project.Scripts.ECS.Features.EntitySelect
 {
@@ -7,6 +8,7 @@ namespace _project.Scripts.ECS.Features.EntitySelect
     ///  Обрабатывает Select и Deselect запросы и создаёт соответствующие события.
     ///  Время жизни событий - 1 кадр.
     /// </summary>
+    [CreateAssetMenu(menuName = "ECS/Systems/Update/" + nameof(SelectSystem))]
     public class SelectSystem : UpdateSystem
     {
         private Filter _selfSelectRequestFilter;
