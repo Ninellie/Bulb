@@ -1,22 +1,17 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using _project.Scripts.ECS.Features.Visability;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
-using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
 namespace _project.Scripts.ECS.Features.CameraBoundsDetection
 {
-    [Il2CppSetOption(Option.NullChecks, false)]
-    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     [CreateAssetMenu(menuName = "ECS/Systems/Update/" + nameof(CamBoundsDetectionSystem))]
     public sealed class CamBoundsDetectionSystem : UpdateSystem
     {
-        private Stash<Rendered> _rendered;
-        
         private Camera _mainCamera;
+        
+        private Stash<Rendered> _rendered;
 
         private Filter _inCamBounds;
         private Filter _outCamBounds;
@@ -74,7 +69,6 @@ namespace _project.Scripts.ECS.Features.CameraBoundsDetection
             return renderer.enabled;
         }
         
-
         private bool IsVisibleFromCamera(Renderer renderer)
         {
             // Получаем границы объекта (Bounds)
