@@ -4,14 +4,10 @@ using _project.Scripts.ECS.Features.EnergyFeature.EnergyReserving;
 using _project.Scripts.ECS.Features.Projectiles;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
-using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 
 namespace _project.Scripts.ECS.Features.Shooter
 {
-    [Il2CppSetOption(Option.NullChecks, false)]
-    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(ShooterSystem))]
     public sealed class ShooterSystem : FixedUpdateSystem
     {
