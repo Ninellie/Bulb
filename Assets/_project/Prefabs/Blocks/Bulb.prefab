@@ -278,8 +278,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc8516546080425ba6ec4f26e6ff923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializedData:
-    <DamageMatrix>k__BackingField: {fileID: 0}
 --- !u!114 &-4196832420444156096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,7 +291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    <Amount>k__BackingField: 100
+    Amount: 100
 --- !u!114 &4802905936536224273
 MonoBehaviour:
   m_ObjectHideFlags: 0

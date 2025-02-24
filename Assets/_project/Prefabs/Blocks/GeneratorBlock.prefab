@@ -156,7 +156,7 @@ MonoBehaviour:
   serializedData:
     <EnergyProductionAmount>k__BackingField:
       useConstant: 1
-      constantValue: 0.01
+      constantValue: 0.1
       variable: {fileID: 0}
     <BaseCooldown>k__BackingField:
       useConstant: 1
@@ -213,7 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    Cost: 1
+    Cost: 10
 --- !u!61 &4814903283196787356
 BoxCollider2D:
   m_ObjectHideFlags: 0
