@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using Scellecs.Morpeh;
+using Scellecs.Morpeh.Providers;
 using Scellecs.Morpeh.Systems;
 using UnityEngine;
 
 namespace _project.Scripts.ECS.Features.Stats.TemplateStat
 {
+    public class MovementSpeedStatProvider : MonoProvider<TemplateStat>
+    {
+    }
+    
     /// <summary>
     /// Создаётся при изменении значения стата Template или его компонентов
     /// </summary>
@@ -51,7 +56,7 @@ namespace _project.Scripts.ECS.Features.Stats.TemplateStat
     /// Отвечает за изменение и пересчёт значения стата TemplateStat
     /// </summary>
     [CreateAssetMenu(menuName = "ECS/Systems/Fixed/" + nameof(TemplateStatCalculatingSystem))]
-    public class TemplateStatCalculatingSystem : FixedUpdateSystem
+    public sealed class TemplateStatCalculatingSystem : FixedUpdateSystem
     {
         private Stash<TemplateStat> _stats;
         private Stash<SelfTemplateStatChangeEvent> _statChangeEvents;
@@ -104,7 +109,11 @@ namespace _project.Scripts.ECS.Features.Stats.TemplateStat
             var flat = stat.Base + flatModsValue;
             var percentage = (percentageModsValue / 100) + 1;
             var value = flat * percentage;
+            var prevStatValue = stat.Current;
             stat.Current = Mathf.Clamp(value, stat.Min, stat.Max);
+            if (prevStatValue == stat.Current) return;
+            var eventEntity = World.CreateEntity();
+            _statChangeEvents.Add(eventEntity, new SelfTemplateStatChangeEvent { Value = stat.Current });
         }
     }
 }
