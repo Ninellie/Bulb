@@ -4,14 +4,12 @@ using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace _project.Scripts.ECS.Features.BlocksToolbarPanel
 {
-    [Il2CppSetOption(Option.NullChecks, false)]
-    [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
-    [Il2CppSetOption(Option.DivideByZeroChecks, false)]
     [CreateAssetMenu(menuName = "ECS/Systems/Update/" + nameof(BlocksToolBarPanelSystem))]
-    public class BlocksToolBarPanelSystem : UpdateSystem
+    public sealed class BlocksToolBarPanelSystem : UpdateSystem
     {
         [SerializeField] private BlockDataPreset blockDataPreset;
         [SerializeField] private GameObject toolBarPanelPrefab;
@@ -28,13 +26,13 @@ namespace _project.Scripts.ECS.Features.BlocksToolbarPanel
                 .Build();
 
             _blockButtonClickedEventStash = World.GetStash<BlockButtonClickEvent>();
-
             
             var toolBarPanelLayout = Instantiate(toolBarPanelPrefab).GetComponentInChildren<VerticalLayoutGroup>();
             
             foreach (var blockData in blockDataPreset.GetBlockData())
             {
                 var blockName = blockData.Name;
+                var blockCost = blockData.Cost;
                 var blockPicture = blockData.Picture;
 
                 var button = Instantiate(buttonPrefab, toolBarPanelLayout.transform, false);
@@ -42,6 +40,7 @@ namespace _project.Scripts.ECS.Features.BlocksToolbarPanel
                 ref var blockButton = ref button.Entity.GetComponent<BlockButton>();
                 blockButton.BlockTileName = blockName;
                 button.gameObject.GetComponent<Image>().sprite = blockPicture;
+                button.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = blockCost.ToString();
             }
         }
 

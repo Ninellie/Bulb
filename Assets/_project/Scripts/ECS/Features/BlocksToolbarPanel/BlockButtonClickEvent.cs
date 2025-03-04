@@ -9,6 +9,6 @@ namespace _project.Scripts.ECS.Features.BlocksToolbarPanel
     /// </summary>
     public struct BlockButtonClickEvent : IComponent
     {
-        [field: SerializeField] public string BlockTileName { get; set; }
+        public string BlockTileName;
     }
 }
