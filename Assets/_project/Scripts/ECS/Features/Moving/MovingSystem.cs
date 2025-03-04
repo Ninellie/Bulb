@@ -1,11 +1,12 @@
-﻿using Scellecs.Morpeh;
+﻿using _project.Scripts.ECS.Features.Stats.MovementSpeed;
+using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using UnityEngine;
 
-namespace _project.Scripts.ECS.Features.Movement
+namespace _project.Scripts.ECS.Features.Moving
 {
-    [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(MovementSystem))]
-    public sealed class MovementSystem : FixedUpdateSystem
+    [CreateAssetMenu(menuName = "ECS/Systems/Fixed" + nameof(MovingSystem))]
+    public sealed class MovingSystem : FixedUpdateSystem
     {
         private Filter _movableFilter;
         private Filter _movableTargetedFilter;
@@ -13,7 +14,10 @@ namespace _project.Scripts.ECS.Features.Movement
 
         public override void OnAwake()
         {
-            _movableFilter = World.Filter.With<Movable>().Build();
+            _movableFilter = World.Filter
+                .With<Movable>()
+                .With<MovementSpeedStat>()
+                .Build();
             
             _movableTargetedFilter = World.Filter
                 .With<Movable>()
@@ -57,16 +61,18 @@ namespace _project.Scripts.ECS.Features.Movement
             
             var movableTransform = movable.Transform;
             var direction = movable.Direction;
-            var speed = movable.Speed.Value;
-            var speedScale = movable.SpeedScale;
 
+            var movementSpeed = entity.GetComponent<MovementSpeedStat>().Current;
+            var speedScale = movable.SpeedScale;
+            
             var movablePosition = (Vector2)movableTransform.position;
             
             direction.Normalize();
             
-            direction *= speed * deltaTime * speedScale;
-
-            var nextPos = movablePosition + direction;
+            var velocity = direction * (movementSpeed * deltaTime * speedScale);
+            
+            var nextPos = movablePosition + velocity;
+            
             movablePosition = nextPos;
             movableTransform.position = movablePosition;
         }

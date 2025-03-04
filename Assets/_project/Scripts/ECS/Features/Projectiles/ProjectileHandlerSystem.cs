@@ -1,6 +1,6 @@
 ﻿using _project.Scripts.ECS.Features.CameraBoundsDetection;
 using _project.Scripts.ECS.Features.HealthChanging;
-using _project.Scripts.ECS.Features.Movement;
+using _project.Scripts.ECS.Features.Moving;
 using _project.Scripts.ECS.Pool;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;

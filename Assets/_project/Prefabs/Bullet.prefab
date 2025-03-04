@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 1885109462598596245}
   - component: {fileID: -4152696441594980485}
   - component: {fileID: 8502935113798033003}
+  - component: {fileID: 3642838675804438416}
   m_Layer: 8
   m_Name: Bullet
   m_TagString: Bullet
@@ -320,3 +321,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     <Renderer>k__BackingField: {fileID: 5345840929291442590}
+--- !u!114 &3642838675804438416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3904607079798715221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 446d1a5d45b94cbe8530e72f7d3e2e02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    Base: 50
+    Current: 0
+    Min: 0
+    Max: 1000
+    Mods: []

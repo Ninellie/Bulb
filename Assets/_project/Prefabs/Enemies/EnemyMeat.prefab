@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 1885109462598596245}
   - component: {fileID: 2453876458483786243}
   - component: {fileID: 6706851983307212625}
+  - component: {fileID: 2480739297910671517}
   m_Layer: 6
   m_Name: EnemyMeat
   m_TagString: Enemy
@@ -288,3 +289,21 @@ MonoBehaviour:
       useConstant: 0
       constantValue: {x: 0, y: 0}
       variable: {fileID: 11400000, guid: db1da9e3e213f364eb9d5d3b9a58c94c, type: 2}
+--- !u!114 &2480739297910671517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3904607079798715221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 446d1a5d45b94cbe8530e72f7d3e2e02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    Base: 15
+    Current: 0
+    Min: 0
+    Max: 100
+    Mods: []

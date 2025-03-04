@@ -55,7 +55,7 @@ namespace _project.Scripts.ECS.Features.Stats.TemplateStat
     /// <summary>
     /// Отвечает за изменение и пересчёт значения стата TemplateStat
     /// </summary>
-    [CreateAssetMenu(menuName = "ECS/Systems/Fixed/" + nameof(TemplateStatCalculatingSystem))]
+    [CreateAssetMenu(menuName = "ECS/Systems/Fixed/Stats" + nameof(TemplateStatCalculatingSystem))]
     public sealed class TemplateStatCalculatingSystem : FixedUpdateSystem
     {
         private Stash<TemplateStat> _stats;

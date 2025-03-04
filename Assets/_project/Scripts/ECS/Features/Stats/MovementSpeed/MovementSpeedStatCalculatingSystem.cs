@@ -50,7 +50,7 @@ namespace _project.Scripts.ECS.Features.Stats.MovementSpeed
     /// <summary>
     /// Отвечает за изменение и пересчёт значения стата MovementSpeedStat
     /// </summary>
-    [CreateAssetMenu(menuName = "ECS/Systems/Fixed/" + nameof(MovementSpeedStatCalculatingSystem))]
+    [CreateAssetMenu(menuName = "ECS/Systems/Fixed/Stats" + nameof(MovementSpeedStatCalculatingSystem))]
     public sealed class MovementSpeedStatCalculatingSystem : FixedUpdateSystem
     {
         private Stash<MovementSpeedStat> _stats;

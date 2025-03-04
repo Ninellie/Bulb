@@ -1,5 +1,5 @@
 ﻿using System;
-using _project.Scripts.ECS.Features.Movement;
+using _project.Scripts.ECS.Features.Moving;
 using Scellecs.Morpeh;
 using UnityEngine;
 
