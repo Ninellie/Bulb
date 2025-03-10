@@ -225,10 +225,6 @@ MonoBehaviour:
   serializedData:
     <Transform>k__BackingField: {fileID: 8951136872698286780}
     <Direction>k__BackingField: {x: 0, y: 0}
-    <Speed>k__BackingField:
-      useConstant: 1
-      constantValue: 15
-      variable: {fileID: 0}
     <SpeedScale>k__BackingField: 1
     <SpeedScaleChangePerSecond>k__BackingField: 0
 --- !u!114 &-4571130024793711880
@@ -303,7 +299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     Base: 15
-    Current: 0
+    Current: 15
     Min: 0
     Max: 100
     Mods: []
