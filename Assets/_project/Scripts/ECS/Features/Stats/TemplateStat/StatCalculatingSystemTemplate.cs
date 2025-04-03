@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace _project.Scripts.ECS.Features.Stats.TemplateStat
 {
-    public class MovementSpeedStatProvider : MonoProvider<TemplateStat>
+    public class TemplateStatProvider : MonoProvider<TemplateStat>
     {
     }
     
