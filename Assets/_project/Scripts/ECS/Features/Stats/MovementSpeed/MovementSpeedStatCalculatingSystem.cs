@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
@@ -8,49 +7,9 @@ using UnityEngine;
 namespace _project.Scripts.ECS.Features.Stats.MovementSpeed
 {
     /// <summary>
-    /// Создаётся при изменении значения стата MovementSpeed или его компонентов
-    /// </summary>
-    public struct SelfMovementSpeedStatChangeEvent : IComponent
-    {
-        public float Value;
-    }
-    
-    /// <summary>
-    /// Создаётся для добавления модификатора
-    /// </summary>
-    public struct MovementSpeedStatAddModRequest : IComponent
-    {
-        public Entity Target;
-        public StatMod StatMod;
-    }
-    
-    /// <summary>
-    /// Создаётся для удаления модификатора
-    /// </summary>
-    public struct MovementSpeedStatRemoveModRequest : IComponent
-    {
-        public Entity Target;
-        public StatMod StatMod;
-    }
-
-    /// <summary>
-    /// Изменяется только внутри системы MovementSpeedStatCalculatingSystem.
-    /// Для изменения извне, другие системы могут вызывать MovementSpeedStatAddModRequest и MovementSpeedStatRemoveModRequest
-    /// </summary>
-    [Serializable]
-    public struct MovementSpeedStat : IComponent
-    {
-        public float Base;
-        public float Current;
-        public float Min;
-        public float Max;
-        public List<StatMod> Mods;
-    }
-    
-    /// <summary>
     /// Отвечает за изменение и пересчёт значения стата MovementSpeedStat
     /// </summary>
-    [CreateAssetMenu(menuName = "ECS/Systems/Fixed/Stats" + nameof(MovementSpeedStatCalculatingSystem))]
+    [CreateAssetMenu(menuName = "ECS/Systems/Fixed/Stats/" + nameof(MovementSpeedStatCalculatingSystem))]
     public sealed class MovementSpeedStatCalculatingSystem : FixedUpdateSystem
     {
         private Stash<MovementSpeedStat> _stats;
