@@ -2,8 +2,8 @@
 using _project.Scripts.ECS.Features.Aiming;
 using _project.Scripts.ECS.Features.Blocks;
 using _project.Scripts.ECS.Features.Damage;
-using _project.Scripts.ECS.Features.EnergyFeature.EnergyProduction;
 using _project.Scripts.ECS.Features.EnergyFeature.EnergyReserving;
+using _project.Scripts.ECS.Features.Stats.EnergyGenRate;
 using Scellecs.Morpeh;
 
 namespace _project.Scripts.ECS.Features.BlockInfoDisplay
@@ -50,9 +50,9 @@ namespace _project.Scripts.ECS.Features.BlockInfoDisplay
 
         private static Dictionary<string, string> GetGenerationRate(Entity entity, Dictionary<string, string> stats)
         {
-            ref var generator = ref entity.GetComponent<Generator>(out var exist);
+            ref var stat = ref entity.GetComponent<EnergyGenRateStat>(out var exist);
             if (!exist) return stats;
-            var generationRate = generator.EnergyProductionAmount.Value / generator.BaseCooldown.Value;
+            var generationRate = stat.Current;
             stats.Add("Generation rate", $"{generationRate:F2}");
             return stats;
         }
