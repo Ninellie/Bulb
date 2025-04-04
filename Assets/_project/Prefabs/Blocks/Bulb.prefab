@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: -5491590048572505244}
   - component: {fileID: 5598998900161864158}
   - component: {fileID: 4512658106902302871}
+  - component: {fileID: 7379308943326592453}
   m_Layer: 7
   m_Name: Bulb
   m_TagString: Player
@@ -137,7 +138,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 889932149
-  m_SortingLayer: 1
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_Sprite: {fileID: 6484453255654136233, guid: 64bfdfa22bc58964fb972e8922e2f80f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -316,15 +317,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 061e281be9344841a48ba5655d3e188b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializedData:
-    <EnergyProductionAmount>k__BackingField:
-      useConstant: 1
-      constantValue: 0.05
-      variable: {fileID: 0}
-    <BaseCooldown>k__BackingField:
-      useConstant: 1
-      constantValue: 0.05
-      variable: {fileID: 0}
 --- !u!114 &4435856913773457595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,3 +383,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     Name: Bulb
+--- !u!114 &7379308943326592453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6747070217415875695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da977836a87e4108afff01056de5e321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    Base: 10
+    Current: 10
+    Min: 0
+    Max: 1000
+    Mods: []
