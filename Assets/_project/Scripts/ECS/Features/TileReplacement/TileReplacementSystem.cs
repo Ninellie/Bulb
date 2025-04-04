@@ -1,21 +1,18 @@
 ﻿using System.Collections.Generic;
 using _project.Scripts.Core.Variables;
+using _project.Scripts.ECS.Features.Blocks;
 using _project.Scripts.ECS.Features.BlocksToolbarPanel;
 using _project.Scripts.ECS.Features.ChitinPayment;
 using _project.Scripts.ECS.Features.MultipleTileSelection;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using Unity.IL2CPP.CompilerServices;
+
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 namespace _project.Scripts.ECS.Features.TileReplacement
 {
-    public struct TilesChangeRequest : IComponent
-    {
-        public List<TileChangeData> TileChangeData;
-    }
-    
     [Il2CppSetOption(Option.NullChecks, false)]
     [Il2CppSetOption(Option.ArrayBoundsChecks, false)]
     [Il2CppSetOption(Option.DivideByZeroChecks, false)]
@@ -31,9 +28,9 @@ namespace _project.Scripts.ECS.Features.TileReplacement
         private Stash<SelectTilesEvent> _selectTilesEventStash;
         private Stash<TilesChangeRequest> _tilesChangeRequestStash;
         private Stash<PaymentRequest> _paymentRequestStash;
+        private Stash<BlockChangeEvent> _blockChangeEventStash;
         
         private Filter _paidTileChangeRequestFilter;
-        
         
         public override void OnAwake()
         {
@@ -43,6 +40,7 @@ namespace _project.Scripts.ECS.Features.TileReplacement
             _selectTilesEventStash = World.GetStash<SelectTilesEvent>();
             _tilesChangeRequestStash = World.GetStash<TilesChangeRequest>();
             _paymentRequestStash = World.GetStash<PaymentRequest>();
+            _blockChangeEventStash = World.GetStash<BlockChangeEvent>();
             
             _paidTileChangeRequestFilter = World.Filter
                 .With<TilesChangeRequest>()
@@ -52,10 +50,15 @@ namespace _project.Scripts.ECS.Features.TileReplacement
 
         public override void OnUpdate(float deltaTime)
         {
+            // Удалить все события о смене блока
+            _blockChangeEventStash.RemoveAll();
+            
+            // Обновить позиции выделенных блоков
             UpdateSelectedPositions();
             
-            // Обработать оплаченные запросы и удалить все запросы
+            // Обработать оплаченные запросы на изменение и удалить все запросы
             HandleSuccessfullyPayedRequests();
+            _tilesChangeRequestStash.RemoveAll();
             
             // Создать новые запросы
             CreateTileChangeRequests();
@@ -122,8 +125,6 @@ namespace _project.Scripts.ECS.Features.TileReplacement
                 
                 ChangeTiles(tilesChangeRequest.TileChangeData);
             }
-            
-            _tilesChangeRequestStash.RemoveAll();
         }
 
         private void ChangeTiles(List<TileChangeData> tileChangeDataList)
@@ -136,7 +137,23 @@ namespace _project.Scripts.ECS.Features.TileReplacement
             foreach (var tileChangeData in tileChangeDataList)
             {
                 tilemap.value.SetTile(tileChangeData, true);
+                CreateChangeEvent(tileChangeData);
             }
+        }
+
+        private void CreateChangeEvent(TileChangeData tileChangeData)
+        {
+            var oldTile = tilemap.value.GetTile(tileChangeData.position);
+            var eventEntity = World.CreateEntity();
+            ref var changeEvent = ref eventEntity.AddComponent<BlockChangeEvent>();
+            changeEvent.Position = tileChangeData.position;
+            changeEvent.NewBlockData = blockDataPreset.GetBlockDataByTile(tileChangeData.tile);
+            changeEvent.OldBlockData = blockDataPreset.GetBlockDataByTile(oldTile);
+
+            var tileGameObject = tilemap.value.GetInstantiatedObject(tileChangeData.position);
+            var blockNameProvider = tileGameObject.GetComponent<BlockNameProvider>(); 
+            var entity = blockNameProvider.Entity;
+            changeEvent.NewEntity = entity;
         }
     }
 }

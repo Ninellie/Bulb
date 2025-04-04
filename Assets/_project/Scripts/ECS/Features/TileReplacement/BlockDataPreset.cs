@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TriInspector;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace _project.Scripts.ECS.Features.TileReplacement
 {
@@ -26,6 +26,11 @@ namespace _project.Scripts.ECS.Features.TileReplacement
         public List<BlockData> GetBlockData()
         {
             return blockDataList;
+        }
+
+        public BlockData GetBlockDataByTile(TileBase tileBase)
+        {
+            return blockDataList.FirstOrDefault(blockData => blockData.TileBasePrefab == tileBase);
         }
     }
 }
