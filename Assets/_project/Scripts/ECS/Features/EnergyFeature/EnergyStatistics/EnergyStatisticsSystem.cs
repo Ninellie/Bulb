@@ -1,6 +1,7 @@
 ﻿using _project.Scripts.Core.Variables;
 using _project.Scripts.ECS.Features.EnergyFeature.EnergyProduction;
 using _project.Scripts.ECS.Features.EnergyFeature.EnergyReserving;
+using _project.Scripts.ECS.Features.Stats.EnergyGenRate;
 using Scellecs.Morpeh;
 using Scellecs.Morpeh.Systems;
 using UnityEngine;
@@ -15,18 +16,20 @@ namespace _project.Scripts.ECS.Features.EnergyFeature.EnergyStatistics
         [SerializeField] private FloatVariable generationRate;
 
         private Filter _accumulatorFilter;
-        
-        private Stash<Generator> _generatorsStash;
+        private Filter _generators;
         
         public override void OnAwake()
         {
+            _generators = World.Filter
+                .With<Generator>()
+                .With<EnergyGenRateStat>()
+                .Build();
+            
             _accumulatorFilter = World.Filter
                 .With<EnergyContainer>()
                 .With<EnergyOutput>()
                 .With<EnergyInput>()
                 .Build();
-            
-            _generatorsStash = World.GetStash<Generator>();
         }
 
         public override void OnUpdate(float deltaTime)
@@ -44,22 +47,18 @@ namespace _project.Scripts.ECS.Features.EnergyFeature.EnergyStatistics
             currentEnergy.SetValue(energyCurrent);
             maximumEnergy.SetValue(energyMax);
 
-            var genRate = GetGenerationRate();
+            var genRate = GetEnergyGenerationAmountPerSecond();
             generationRate.SetValue(genRate);
         }
         
-        private float GetGenerationRate()
+        private float GetEnergyGenerationAmountPerSecond()
         {
-            var generationRatePerSecond = 0f;
-            
-            foreach (ref var generator in _generatorsStash)
+            var productionRatePerSecond = 0f;
+            foreach (var generator in _generators)
             {
-                var productionAmount = generator.EnergyProductionAmount.Value;
-                var baseCooldown = generator.BaseCooldown.Value;
-                generationRatePerSecond += productionAmount / baseCooldown;
+                productionRatePerSecond += generator.GetComponent<EnergyGenRateStat>().Current;
             }
-
-            return generationRatePerSecond;
+            return productionRatePerSecond;
         }
     }
 }
