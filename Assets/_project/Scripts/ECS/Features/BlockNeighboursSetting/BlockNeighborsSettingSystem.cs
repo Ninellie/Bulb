@@ -9,7 +9,8 @@ using UnityEngine;
 namespace _project.Scripts.ECS.Features.BlockNeighboursSetting
 {
     /// <summary>
-    /// Реагирует на события о смене блока и устанавливает соседей для него
+    /// Реагирует на события о смене блока и устанавливает соседей для него,
+    /// а также обновляет для его соседей этот блок.
     /// </summary>
     [CreateAssetMenu(menuName = "ECS/Systems/Fixed/Blocks" + nameof(BlockNeighborsSettingSystem))]
     public sealed class BlockNeighborsSettingSystem : FixedUpdateSystem
@@ -31,28 +32,38 @@ namespace _project.Scripts.ECS.Features.BlockNeighboursSetting
             {
                 // Получили событие о смене блока (уже поменялся)
                 var position = changeEvent.Position;
-                var entity = changeEvent.NewEntity;
+                var newBlockEntity = changeEvent.NewEntity;
 
                 // Получение соседей блока который поменялся
                 var neighbors = GetNeighbors(position);
-                ref var neighbouring = ref _neighboring.Add(entity);
+                
+                ref var neighbouring = ref _neighboring.Get(newBlockEntity);
                 neighbouring.Neighbors = neighbors;
                 
                 // Для каждого соседа
                 foreach (var neighbor in neighbors)
                 {
-                    // Получить соседей соседа
+                    // Получить соседа
                     ref var neighbouringNeighbour = ref _neighboring.Get(neighbor.Entity);
-                    var neighboursNeighbours = neighbouringNeighbour.Neighbors;
 
+                    if (neighbouringNeighbour.Neighbors == null)
+                    {
+                        Debug.LogError("No neighbouring neighbours found!");
+                        return;
+                    }
+                    
+                    var neighboursNeighbours = neighbouringNeighbour.Neighbors;
+                    
+                    
                     // Узнать его относительную позицию к блоку который поменялся
                     var changedBlockRelativePositionToNeighbour = neighbor.RelativePosition * -1;
                     
-                    foreach (var neighboursNeighbour in neighboursNeighbours.Where(neighboursNeighbour => neighboursNeighbour.RelativePosition == changedBlockRelativePositionToNeighbour))
+                    foreach (var neighboursNeighbour in neighboursNeighbours.Where(neighboursNeighbour => 
+                                     neighboursNeighbour.RelativePosition == changedBlockRelativePositionToNeighbour))
                     {
                         // Найти нужного соседа.
                         // Заменить сущность соседа по данному направлению у этого соседа
-                        neighboursNeighbour.Entity = entity;
+                        neighboursNeighbour.Entity = newBlockEntity;
                     }
                 }
             }

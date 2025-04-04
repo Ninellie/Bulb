@@ -23,7 +23,8 @@ namespace _project.Scripts.ECS.Features.BlockNeighboursSetting
         {
             var dirVector = GetDirection(direction);
             var go = tilemap.GetInstantiatedObject(position + dirVector);
-            var entity = go.GetComponent<BlockNameProvider>().Entity; 
+            var provider = go.GetComponent<BlockNameProvider>(); 
+            var entity = provider.Entity; 
             var neighbour = new Neighbor
             {
                 RelativePosition = dirVector,
